@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding content-container">
+  <div class="form-wrapper">
+    <ion-card class="login-card">
+      <ion-card-header>
+        <ion-card-title class="card-title">Iniciar sesión</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form (ngSubmit)="login()" #loginForm="ngForm">
+          <ion-item>
+            <ion-label position="floating">Nombre de usuario</ion-label>
+            <ion-input type="text" [(ngModel)]="username" name="username" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+          </ion-item>
+
+          <ion-button expand="full" type="submit" class="submit-button" [disabled]="!loginForm.form.valid">
+            Iniciar sesión
+          </ion-button>
+
+          <ion-item lines="none" class="forgot-password">
+            <ion-label>
+              <a href="#">¿Olvidaste tu contraseña?</a>
+            </ion-label>
+          </ion-item>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
