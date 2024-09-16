@@ -35,7 +35,7 @@
         <ion-button expand="block">Eventos <ion-icon slot="end" name="reader-outline"></ion-icon></ion-button>
       </ion-col>
       <ion-col size="6">
-        <ion-button expand="block">Anuncios <ion-icon slot="end" name="notifications-outline"></ion-icon></ion-button>
+        <ion-button routerLink="/anuncios" expand="block">Anuncios <ion-icon slot="end" name="notifications-outline"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -43,10 +43,12 @@
   <ion-grid>
     <ion-row>
       <ion-col size="6" >
-        <ion-button expand="block">Email <ion-icon slot="end" name="mail-outline"></ion-icon></ion-button>
+        <a href="https://mail.google.com/mail/u/0/#inbox"> 
+          <ion-button  expand="block"> Gmail<ion-icon slot="end" name="mail-outline"></ion-icon></ion-button>
+        </a>
       </ion-col>
       <ion-col size="6">
-        <ion-button expand="block">Encuestas <ion-icon slot="end" name="stats-chart-outline"></ion-icon></ion-button>
+        <ion-button routerLink="/encuestas" expand="block">Encuestas <ion-icon slot="end" name="stats-chart-outline"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
