@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'anuncios',
     loadChildren: () => import('./pages/anuncios/anuncios.module').then( m => m.AnunciosPageModule)
   },
+  {
+    path: 'encuestas',
+    loadChildren: () => import('./pages/encuestas/encuestas.module').then( m => m.EncuestasPageModule)
+  },
 
 ];
 
