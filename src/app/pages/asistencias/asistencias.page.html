@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
     <ion-title>Asistencias</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -19,6 +22,9 @@
               <ion-label>Programación de Aplicaciones Moviles</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">Clase 1</div>
+            <div class="ion-padding" slot="content">Clase 2</div>
+            <div class="ion-padding" slot="content">Clase 3</div>
+            <div class="ion-padding" slot="content">Clase 4</div>
           </ion-accordion>
         </ion-accordion-group>
       </ion-label>
@@ -30,7 +36,13 @@
             <ion-item slot="header" color="light">
               <ion-label>Arquitectura</ion-label>
             </ion-item>
-            <div class="ion-padding" slot="content">Clase 1</div>
+            <div class="ion-padding" slot="content">
+              <div>
+                <ion-label slot="start">Clase 1</ion-label>
+              </div>
+            </div> 
+            <div class="ion-padding" slot="content">Clase 2</div>
+            <div class="ion-padding" slot="content">Clase 3</div>
           </ion-accordion>
         </ion-accordion-group>
       </ion-label>
