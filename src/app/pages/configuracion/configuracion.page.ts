@@ -12,4 +12,14 @@ export class ConfiguracionPage implements OnInit {
   ngOnInit() {
   }
 
+  public alertButtons = ['OK'];
+  public alertInputs = [
+    {
+      type: 'textarea',
+      placeholder: 'Describe el error detectado      ',
+
+    },
+
+  ];
+
 }
