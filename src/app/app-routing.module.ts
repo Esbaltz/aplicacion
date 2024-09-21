@@ -30,6 +30,22 @@ const routes: Routes = [
     path: 'configuracion',
     loadChildren: () => import('./pages/configuracion/configuracion.module').then( m => m.ConfiguracionPageModule)
   },
+  {
+    path: 'cursos',
+    loadChildren: () => import('./pages/cursos/cursos.module').then( m => m.CursosPageModule)
+  },
+  {
+    path: 'asistencias',
+    loadChildren: () => import('./pages/asistencias/asistencias.module').then( m => m.AsistenciasPageModule)
+  },
+  {
+    path: 'credencial',
+    loadChildren: () => import('./pages/credencial/credencial.module').then( m => m.CredencialPageModule)
+  },
+  {
+    path: 'certificados',
+    loadChildren: () => import('./pages/certificados/certificados.module').then( m => m.CertificadosPageModule)
+  },
 
 ];
 
