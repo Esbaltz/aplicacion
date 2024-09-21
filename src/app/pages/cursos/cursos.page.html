@@ -6,11 +6,11 @@
     <ion-title>cursos</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment value="all">
-      <ion-segment-button value="all">
+    <ion-segment [(ngModel)]="selectedSegment">
+      <ion-segment-button value="inscritos">
         <ion-label>Inscritos</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="favorites">
+      <ion-segment-button value="historial">
         <ion-label>Historial</ion-label>
       </ion-segment-button>
     </ion-segment>
@@ -26,10 +26,43 @@
 
   <ion-list>
     <ion-item>
-      <ion-select label="Carrera" placeholder="Ingeniería en Informática">
+      <ion-select label="Carrera" placeholder="Todos">
         <ion-select-option value="apple">Ingeniería en Informática</ion-select-option>
         <ion-select-option value="banana">Ingeniería en Sonido</ion-select-option>
       </ion-select>
     </ion-item>
+  </ion-list>
+
+  <ion-list [inset]="true">
+    <ng-container *ngIf="selectedSegment === 'inscritos'">
+      <ion-item>
+        <ion-label>2024-2 Arquitectura (Inscrito)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>2024-2 Programación de Aplicaciones Móviles (Inscrito)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>2024-2 Proceso de portafolio (Inscrito)</ion-label>
+      </ion-item>
+    </ng-container>
+
+    <ng-container *ngIf="selectedSegment === 'historial'">
+      <ion-item>
+        <ion-label>2024-1 Programación Web (Aprobado)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>2024-1 Programación de Bases de Datos (Aprobado)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>2024-1 Inglés (Aprobado)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>2024-1 Ingeniería de Software (Aprobado)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>2024-1 Proceso de Portafolio (Aprobado)</ion-label>
+      </ion-item>
+      
+    </ng-container>
   </ion-list>
 </ion-content>
