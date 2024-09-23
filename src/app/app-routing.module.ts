@@ -66,6 +66,10 @@ const routes: Routes = [
     path: 'codigo',
     loadChildren: () => import('./pages/codigo/codigo.module').then( m => m.CodigoPageModule)
   },
+  {
+    path: 'lista',
+    loadChildren: () => import('./pages/lista/lista.module').then( m => m.ListaPageModule)
+  },
 
 ];
 
