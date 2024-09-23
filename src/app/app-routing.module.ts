@@ -54,6 +54,18 @@ const routes: Routes = [
     path: 'ayuda',
     loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
   },
+  {
+    path: 'vista-temporal',
+    loadChildren: () => import('./pages/vista-temporal/vista-temporal.module').then( m => m.VistaTemporalPageModule)
+  },
+  {
+    path: 'asistencia-prof',
+    loadChildren: () => import('./pages/asistencia-prof/asistencia-prof.module').then( m => m.AsistenciaProfPageModule)
+  },
+  {
+    path: 'codigo',
+    loadChildren: () => import('./pages/codigo/codigo.module').then( m => m.CodigoPageModule)
+  },
 
 ];
 

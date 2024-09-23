@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color ="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title mode="md" class="ion-text-center">Vistas</ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+<br>
+<ion-content class="ion-padding">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" >
+        <ion-button routerLink="../asistencia-prof" expand="block">Profesor <ion-icon slot="end" name="book-outline"></ion-icon></ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button routerLink="../asistencias" expand="block">Alumno <ion-icon slot="end" name="calendar-outline"></ion-icon></ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+
+  </ion-toolbar>
+</ion-footer>
