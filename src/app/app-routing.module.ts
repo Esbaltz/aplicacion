@@ -20,24 +20,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'encuestas',
-    loadChildren: () => import('./pages/encuestas/encuestas.module').then( m => m.EncuestasPageModule)
-  },
-  {
     path: 'cursos',
     loadChildren: () => import('./pages/cursos/cursos.module').then( m => m.CursosPageModule)
   },
   {
     path: 'asistencias',
     loadChildren: () => import('./pages/asistencias/asistencias.module').then( m => m.AsistenciasPageModule)
-  },
-  {
-    path: 'certificados',
-    loadChildren: () => import('./pages/certificados/certificados.module').then( m => m.CertificadosPageModule)
-  },
-  {
-    path: 'eventos',
-    loadChildren: () => import('./pages/eventos/eventos.module').then( m => m.EventosPageModule)
   },
   {
     path: 'ayuda',
@@ -66,6 +54,10 @@ const routes: Routes = [
   {
     path: 'cambiar-ps',
     loadChildren: () => import('./pages/cambiar-ps/cambiar-ps.module').then( m => m.CambiarPsPageModule)
+  },
+  {
+    path: 'camera',
+    loadChildren: () => import('./pages/camera/camera.module').then( m => m.CameraPageModule)
   },
 
 ];
