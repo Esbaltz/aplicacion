@@ -70,6 +70,14 @@ const routes: Routes = [
     path: 'lista',
     loadChildren: () => import('./pages/lista/lista.module').then( m => m.ListaPageModule)
   },
+  {
+    path: 'recuperar-psw',
+    loadChildren: () => import('./pages/recuperar-psw/recuperar-psw.module').then( m => m.RecuperarPswPageModule)
+  },
+  {
+    path: 'cambiar-ps',
+    loadChildren: () => import('./pages/cambiar-ps/cambiar-ps.module').then( m => m.CambiarPsPageModule)
+  },
 
 ];
 
