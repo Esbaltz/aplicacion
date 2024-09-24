@@ -8,27 +8,20 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-  },  {
+  },
+  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'anuncios',
-    loadChildren: () => import('./pages/anuncios/anuncios.module').then( m => m.AnunciosPageModule)
-  },
-  {
     path: 'encuestas',
     loadChildren: () => import('./pages/encuestas/encuestas.module').then( m => m.EncuestasPageModule)
-  },
-  {
-    path: 'configuracion',
-    loadChildren: () => import('./pages/configuracion/configuracion.module').then( m => m.ConfiguracionPageModule)
   },
   {
     path: 'cursos',
@@ -37,10 +30,6 @@ const routes: Routes = [
   {
     path: 'asistencias',
     loadChildren: () => import('./pages/asistencias/asistencias.module').then( m => m.AsistenciasPageModule)
-  },
-  {
-    path: 'credencial',
-    loadChildren: () => import('./pages/credencial/credencial.module').then( m => m.CredencialPageModule)
   },
   {
     path: 'certificados',
