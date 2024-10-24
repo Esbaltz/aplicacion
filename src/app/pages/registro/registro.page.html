@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+
+  <div class="form-wrapper">
+    <ion-card class="login-card">
+
+      <ion-card-header>
+        <ion-card-title class="card-title">Registrarse</ion-card-title>
+      </ion-card-header>
+
+      <form #registroForm="ngForm" (ngSubmit)="registrar()">
+        <ion-item>
+          <ion-input required labelPlacement="floating" label="Usuario" name="text" type="text" [(ngModel)]="usr.username" ></ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-input required labelPlacement="floating" label="Contraseña" name="password" type="password" [(ngModel)]="usr.password" >
+            <!-- <ion-input-password-toggle slot="end"></ion-input-password-toggle> -->
+          </ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-input required labelPlacement="floating" label="Nombre" name="password" type="text" [(ngModel)]="usr.nombre" >
+          </ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-input required labelPlacement="floating" label="Apellido" name="apellido" type="text" [(ngModel)]="usr.apellido" >
+          </ion-input>
+        </ion-item>
+      
+        <ion-button expand="full" color="primary" type="submit" [disabled]="registroForm.invalid" class="ion-padding">
+          <ion-text color="light">
+            Registrarse
+          </ion-text>
+        </ion-button>
+
+        <ion-label class="ion-padding ">
+          <ion-text routerLink="/login"> ¿Ya tienes una Cuenta? Inicia Sesion aqui!</ion-text>
+        </ion-label>
+        <br>
+        <br>
+      </form>
+    
+
+    </ion-card>
+  </div>
+
+</ion-content>

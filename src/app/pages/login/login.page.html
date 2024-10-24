@@ -12,15 +12,15 @@
       </ion-card-header>
 
       <ion-card-content>
-        <form (ngSubmit)="login()" #loginForm="ngForm">
+        <form #loginForm="ngForm" (ngSubmit)="logear()">
           <ion-item>
             <ion-label position="floating">Nombre de usuario</ion-label>
-            <ion-input type="text" [(ngModel)]="username" name="username" required></ion-input>
+            <ion-input type="text" [(ngModel)]="usr.username" name="username" required></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+            <ion-input type="password" [(ngModel)]="usr.password" name="password" required></ion-input>
           </ion-item>
 
           <ion-button expand="full" type="submit" class="submit-button" [disabled]="!loginForm.form.valid">
@@ -28,12 +28,16 @@
           </ion-button>
 
           <ion-item lines="none" class="forgot-password">
-            <ion-label routerLink="/recuperar-psw">
-              <a href="#">¿Olvidaste tu contraseña?</a>
+            <ion-label>
+              <ion-text routerLink="/registro">!Registrarse!</ion-text>
+              <br>
+              <ion-text routerLink="/recuperar-psw">¿Olvidaste tu contraseña?</ion-text>
             </ion-label>
           </ion-item>
         </form>
       </ion-card-content>
+
+
     </ion-card>
   </div>
 </ion-content>
