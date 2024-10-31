@@ -1,0 +1,24 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-title>prueba</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-list>
+    @for (user of users; track $index) {
+        <ion-item>
+          <ion-label>Usuario : {{ user.username }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label> Nombre completo : {{ user.nombre }} {{ user.apellido}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label> Contraseña : {{ user.password }}</ion-label>
+        </ion-item>
+        <br>
+        <br>
+    }
+  </ion-list>
+
+</ion-content>
