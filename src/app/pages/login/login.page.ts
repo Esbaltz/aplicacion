@@ -12,10 +12,11 @@ import { LocaldbService } from 'src/app/services/localdb.service';
 export class LoginPage implements OnInit {
 
   usr: Usuario = {
-    username: '',
+    correo: '',
     password: '',
     nombre: '',
-    apellido: ''
+    apellido: '',
+    rol : 'alumno'
   }
   constructor(private db:LocaldbService, private router:Router, private toastController:ToastController) { }
 
@@ -34,12 +35,12 @@ export class LoginPage implements OnInit {
     await toast.present();
   }
   logear(){
-    let buscado = this.db.obtener(this.usr.username)
+    let buscado = this.db.obtener(this.usr.correo)
    
     buscado.then(datos => {
       if (datos !== null) {
         //clg(datos.username)
-       if(datos.username===this.usr.username && datos.password===this.usr.password){
+       if(datos.correo===this.usr.correo && datos.password===this.usr.password){
         this.router.navigate(['/home'])
        }
 

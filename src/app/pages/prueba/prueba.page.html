@@ -6,9 +6,10 @@
 
 <ion-content >
   <ion-list>
+    <h4 class="ion-padding"> Usuarios</h4>
     @for (user of users; track $index) {
         <ion-item>
-          <ion-label>Usuario : {{ user.username }}</ion-label>
+          <ion-label> Correo : {{ user.correo }}</ion-label>
         </ion-item>
         <ion-item>
           <ion-label> Nombre completo : {{ user.nombre }} {{ user.apellido}}</ion-label>
@@ -16,9 +17,60 @@
         <ion-item>
           <ion-label> Contraseña : {{ user.password }}</ion-label>
         </ion-item>
-        <br>
+        <ion-item>
+          <ion-label> Rol : {{ user.rol }}</ion-label>
+        </ion-item>
         <br>
     }
+    <br>
+    <h4 class="ion-padding"> Clases</h4>
+    @for (clase of clase; track $index) {
+      <ion-item>
+        <ion-label> Clase : {{ clase.nomb_clase }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Semestre : {{ clase.semestre}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Estado: {{ clase.estado }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> docente : {{ clase.id_docente }}</ion-label>
+      </ion-item>
+      <br>
+  }
+  <br>
+  <H4 class="ion-padding"> Sesiones</H4>
+    @for ( sesion of sesion ; track $index) {
+      <ion-item>
+        <ion-label> Fecha y hora : {{ sesion.fecha_hora }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Clase : {{ sesion.id_clase }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Qr : {{ sesion.qr_code }}</ion-label>
+      </ion-item>
+      <br>
+  }
+  <br>
+  <H4 class="ion-padding"> Asistencia</H4>
+    @for ( asistencia of asistencia ; track $index) {
+      <ion-item>
+        <ion-label> Fecha y hora : {{ asistencia.fecha_hora }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Alumno : {{ asistencia.id_alumno }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Sesion : {{ asistencia.id_sesion }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Estado : {{ asistencia.estado }}</ion-label>
+      </ion-item>
+      <br>
+  }
+    
   </ion-list>
 
 </ion-content>
