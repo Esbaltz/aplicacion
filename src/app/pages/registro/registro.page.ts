@@ -12,10 +12,11 @@ import { LocaldbService } from 'src/app/services/localdb.service';
 export class RegistroPage implements OnInit {
 
   usr: Usuario = {
-    username: '',
+    correo: '',
     password: '',
     nombre: '',
-    apellido: ''
+    apellido: '',
+    rol: 'alumno'
   }
   constructor(private db: LocaldbService,
     private toastController: ToastController,
@@ -39,11 +40,11 @@ export class RegistroPage implements OnInit {
   }
 
   registrar() {
-    let buscado = this.db.obtener(this.usr.username)
+    let buscado = this.db.obtener(this.usr.correo)
    
     buscado.then(datos => {
       if (datos === null) {
-        this.db.guardar(this.usr.username, this.usr);
+        this.db.guardar(this.usr.correo, this.usr);
         //this.router.navigate(['/login'])
         this.presentAlert();
       } else {
