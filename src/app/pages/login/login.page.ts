@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
     buscado.then(datos => {
       if (datos !== null) {
         //clg(datos.username)
-       if(datos.username===this.usr.correo && datos.password===this.usr.password){
+       if(datos.correo===this.usr.correo && datos.password===this.usr.password){
         this.router.navigate(['/home'])
        }
 

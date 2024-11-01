@@ -24,5 +24,6 @@ export interface Asistencia{
     fecha_hora : Date
     id_alumno : Usuario[]
     id_sesion : Sesiones[]
+    estado : string
 
 }
