@@ -1,8 +1,8 @@
 export interface Usuario{
-    correo:string,
-    password:string,
-    nombre:string,
-    apellido:string,
+    correo:string
+    password:string
+    nombre:string
+    apellido:string
     rol : string
 }
 

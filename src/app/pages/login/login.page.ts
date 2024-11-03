@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
     password: '',
     nombre: '',
     apellido: '',
-    rol : 'alumno'
+    rol : ''
   }
   constructor(private db:LocaldbService, private router:Router, private toastController:ToastController) { }
 

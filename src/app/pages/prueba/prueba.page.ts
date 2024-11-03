@@ -33,6 +33,7 @@ export class PruebaPage implements OnInit {
       }
     })
   }
+
   loadclases(){
     this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
       console.log(data);

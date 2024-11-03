@@ -1,5 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { Firestore, collection, collectionData } from "@angular/fire/firestore";
+import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from "@angular/fire/firestore";
 
 import { Observable } from "rxjs";
 
@@ -13,9 +13,60 @@ export class FireStoreService {
 
     constructor() {}
     
-    getCollectionChanges<tipo>(path: string) {
+      // Para leer una coleccion o tabla de la base de datos
+      getCollectionChanges<tipo>(path: string) {
         const itemCollection = collection(this.firestore, path);
         return collectionData(itemCollection) as Observable<tipo[]>;
-    }
+      }
+
+      getDocument<tipo>(enlace: string) {
+        const document = doc(this.firestore, enlace) as DocumentReference<tipo, any>;
+        return getDoc<tipo, any>(document)
+      }
     
+      getDocumentChanges<tipo>(enlace: string) {
+        console.log('getDocumentChanges -> ', enlace);
+        const document = doc(this.firestore, enlace);
+        return docData(document) as Observable<tipo>;
+      }
+      
+      createDocument(data: any, enlace: string , ) {
+        const document = doc(this.firestore, enlace);
+        return setDoc(document, data);
+      }
+      
+      // Para crear un documento con id Personalizado
+      createDocumentID(data: any, enlace: string, idDoc: string) {
+        const document = doc(this.firestore, `${enlace}/${idDoc}`);
+        return setDoc(document, data);
+      }
+      
+      async updateDocumentID(data: any, enlace: string, idDoc: string) {
+        const document = doc(this.firestore, `${enlace}/${idDoc}`);
+        return updateDoc(document, data)
+      }
+    
+      async updateDocument(data: any, enlace: string) {
+        const document = doc(this.firestore, enlace);
+        return updateDoc(document, data)
+      }
+    
+      deleteDocumentID(enlace: string, idDoc: string) {
+        const document = doc(this.firestore, `${enlace}/${idDoc}`);
+        return deleteDoc(document);
+      }
+    
+      deleteDocFromRef(ref: any) {
+        return deleteDoc(ref)
+      }
+      
+      // Crea un Id para el documento
+      createIdDoc() {
+        return uuidv4()
+      }
+    
+}
+
+function uuidv4() {
+    throw new Error("Function not implemented.");
 }
