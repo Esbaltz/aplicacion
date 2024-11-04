@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from "@angular/fire/firestore";
-
+import {v4 as uuidv4} from 'uuid';
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -62,11 +62,9 @@ export class FireStoreService {
       
       // Crea un Id para el documento
       createIdDoc() {
-        return uuidv4()
+        let uuidv = uuidv4();
+        return uuidv
       }
     
 }
 
-function uuidv4() {
-    throw new Error("Function not implemented.");
-}
