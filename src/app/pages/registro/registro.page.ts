@@ -18,7 +18,8 @@ export class RegistroPage implements OnInit {
     password: '',
     nombre: '',
     apellido: '',
-    rol: ''
+    rol: '',
+    id_usuario: this.firestoreService.createIdDoc()
   }
   
   cargando : boolean = false
@@ -75,6 +76,7 @@ export class RegistroPage implements OnInit {
       if (datos === null) {
         this.db.guardar(this.usr.correo, this.usr);
         //this.router.navigate(['/login'])
+        this.firestoreService.createDocumentID(this.usr , 'Usuarios' , this.usr.id_usuario)
         this.presentAlert();
       } else {
         this.presentToast('top');
