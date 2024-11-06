@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FireStoreService } from 'src/app/services/firestore.service';
+import { sesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+  constructor( private firestoreService : FireStoreService , private sesion : sesionService) {
+  }
 
   ngOnInit() {
   }
