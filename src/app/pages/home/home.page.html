@@ -1,3 +1,4 @@
+
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title mode="md" class="ion-text-center">Home</ion-title>
@@ -6,7 +7,21 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2 class="welcome-text"><strong>Bienvenido! Usuario Uno</strong></h2>
+  <ng-container *ngIf="userRole === 'Alumno'">
+    <div *ngIf="userName">
+      <h2 class="welcome-text">Bienvenido alumno! <br><strong>{{userName}}</strong></h2>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="userRole === 'Docente'">
+    <div *ngIf="userName">
+      <h2 class="welcome-text">Bienvenido docente! <br><strong>{{userName}}</strong></h2>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!userRole">
+    <p>No se pudo determinar el rol del usuario.</p>
+  </ng-container>
 
   <ion-card routerLink="/cursos"> 
     <ion-card-header>
@@ -19,7 +34,8 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card routerLink="/vista-temporal">
+  <ng-container *ngIf="userRole === 'Alumno'">
+  <ion-card routerLink="/asistencias">
     <ion-card-header>
       <ion-card-title>Asistencias</ion-card-title>
       <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
@@ -29,6 +45,20 @@
       Aqui esta tu los porcentajes de asistencias de los cursos inscritos
     </ion-card-content>
   </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="userRole === 'Docente'">
+    <ion-card routerLink="/asistencia-prof">
+      <ion-card-header>
+        <ion-card-title>Asistencias</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Aqui podrás manejar la asistencia de tus clases
+      </ion-card-content>
+    </ion-card>
+    </ng-container>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>
