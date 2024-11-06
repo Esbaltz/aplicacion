@@ -6,7 +6,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2 class="welcome-text"><strong>Bienvenido! Usuario Uno</strong></h2>
+  <div *ngIf="userName">
+    <h2 class="welcome-text">Bienvenido! <strong>{{userName}}</strong></h2>
+  </div>
 
   <ion-card routerLink="/cursos"> 
     <ion-card-header>
