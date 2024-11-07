@@ -8,14 +8,14 @@
 
 <ion-content class="ion-padding">
   <ng-container *ngIf="rol === 'Alumno'">
-    <div *ngIf="userName">
-      <h2 class="welcome-text">Bienvenido alumno! <br><strong>{{userName}}</strong></h2>
+    <div *ngIf="nombre">
+      <h2 class="welcome-text">Bienvenido alumno! <br><strong>{{nombre}}</strong></h2>
     </div>
   </ng-container>
 
   <ng-container *ngIf="rol === 'Docente'">
-    <div *ngIf="userName">
-      <h2 class="welcome-text">Bienvenido docente! <br><strong>{{userName}}</strong></h2>
+    <div *ngIf="nombre">
+      <h2 class="welcome-text">Bienvenido docente! <br><strong>{{nombre}}</strong></h2>
     </div>
   </ng-container>
 

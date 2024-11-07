@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
   
   // Esta funcion entreg alos datos del usuario logeado
   rol = this.sesion.getUser()?.rol;
+  nombre = this.sesion.getUser()?.nombre;
 
   constructor( private firestoreService : FireStoreService , private sesion : sesionService , private userService: UserService, private router: Router) {
   }
