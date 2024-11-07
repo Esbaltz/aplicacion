@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CodigoPage implements OnInit {
 
+  qrText = 'que pasa';
+
   constructor() { }
 
   ngOnInit() {

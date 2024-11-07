@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { QrCodeModule } from 'ng-qrcode';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,7 +14,8 @@ import { CodigoPage } from './codigo.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    CodigoPageRoutingModule
+    CodigoPageRoutingModule,
+    QrCodeModule,
   ],
   declarations: [CodigoPage]
 })
