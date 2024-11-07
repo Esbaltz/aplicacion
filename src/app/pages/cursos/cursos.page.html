@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-    <ion-title>cursos</ion-title>
+    <ion-title>cursos </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -30,18 +30,24 @@
   </ion-list>
 
   <ion-list [inset]="true">
-    <ng-container *ngIf="selectedSegment === 'inscritos'">
-      <ion-item>
-        <ion-label>2024-2 Arquitectura (Inscrito)</ion-label>
-      </ion-item>
-    </ng-container>
-
-    <ng-container *ngIf="selectedSegment === 'historial'">
-      <ion-item>
-        <ion-label>2024-1 Programación Web (Aprobado)</ion-label>
-      </ion-item>
+    @for (curso of curso; track $index) {
+        <ng-container *ngIf="selectedSegment === 'inscritos'" >
+          <ion-item>
+            <ion-label>2024-{{curso.semestre}} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
+          </ion-item>
+        </ng-container>
+      }
     
-    </ng-container>
+
+    @for (curso of curso; track $index) {
+
+      <ng-container *ngIf="selectedSegment === 'historial'">
+        <ion-item>
+          <ion-label>2024-{{curso.semestre}} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
+        </ion-item>
+      </ng-container>
+      }
+    
   </ion-list>
 </ion-content>
 

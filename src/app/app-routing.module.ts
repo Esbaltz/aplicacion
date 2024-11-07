@@ -31,10 +31,7 @@ const routes: Routes = [
     path: 'ayuda',
     loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
   },
-  {
-    path: 'vista-temporal',
-    loadChildren: () => import('./pages/vista-temporal/vista-temporal.module').then( m => m.VistaTemporalPageModule)
-  },
+
   {
     path: 'asistencia-prof',
     loadChildren: () => import('./pages/asistencia-prof/asistencia-prof.module').then( m => m.AsistenciaProfPageModule)
@@ -58,7 +55,8 @@ const routes: Routes = [
   {
     path: 'camera',
     loadChildren: () => import('./pages/camera/camera.module').then( m => m.CameraPageModule)
-  },  {
+  },
+  {
     path: 'registro',
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
   },

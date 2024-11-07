@@ -10,23 +10,25 @@ import { sesionService } from 'src/app/services/sesion.service';
 })
 export class CursosPage implements OnInit {
   selectedSegment: string = 'inscritos';
-  curso! : Clases;
-  UsuarioId =  this.sesion.getUser()?.id_usuario;
+  curso : Clases[] = [];
+  id = this.sesion.getUser()?.id_usuario;
 
-  constructor( private sesion : sesionService , private firestoreService : FireStoreService) { }
+  constructor( private sesion : sesionService , private firestoreService : FireStoreService) { 
+
+    this.CargarCursos();
+  }
 
   ngOnInit() {
   }
 
-  CargarCursos ( id : string) {
-
-    this.firestoreService.getDocument<Clases>('Clases', id ).subscribe( cursos => {
-      if (cursos) {
-        this.curso = cursos
-      } else {
-        console.error('No se encontraron las clases.');
-      
-      }});
-
+  CargarCursos(){
+    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
+      console.log(data);
+      if (data) {
+        this.curso = data
+      }
+    })
   }
+  
+
 }
