@@ -13,13 +13,15 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
   userName: string | null = null;
   userRole: string | null = null;
+  
+  // Esta funcion entreg alos datos del usuario logeado
+  rol = this.sesion.getUser()?.rol;
 
-  constructor( private firestoreService : FireStoreService , private sesion : sesionService) {
+  constructor( private firestoreService : FireStoreService , private sesion : sesionService , private userService: UserService, private router: Router) {
   }
-  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.userRole = localStorage.getItem('userRole');
+    this.userRole = localStorage.getItem('rol');
     this.userName = localStorage.getItem('userName');
   }
 
