@@ -7,19 +7,19 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ng-container *ngIf="userRole === 'Alumno'">
+  <ng-container *ngIf="rol === 'Alumno'">
     <div *ngIf="userName">
       <h2 class="welcome-text">Bienvenido alumno! <br><strong>{{userName}}</strong></h2>
     </div>
   </ng-container>
 
-  <ng-container *ngIf="userRole === 'Docente'">
+  <ng-container *ngIf="rol === 'Docente'">
     <div *ngIf="userName">
       <h2 class="welcome-text">Bienvenido docente! <br><strong>{{userName}}</strong></h2>
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!userRole">
+  <ng-container *ngIf="!rol">
     <p>No se pudo determinar el rol del usuario.</p>
   </ng-container>
 
@@ -34,7 +34,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ng-container *ngIf="userRole === 'Alumno'">
+  <ng-container *ngIf="rol === 'Alumno'">
   <ion-card routerLink="/asistencias">
     <ion-card-header>
       <ion-card-title>Asistencias</ion-card-title>
@@ -47,7 +47,7 @@
   </ion-card>
   </ng-container>
 
-  <ng-container *ngIf="userRole === 'Docente'">
+  <ng-container *ngIf="rol === 'Docente'">
     <ion-card routerLink="/asistencia-prof">
       <ion-card-header>
         <ion-card-title>Asistencias</ion-card-title>
