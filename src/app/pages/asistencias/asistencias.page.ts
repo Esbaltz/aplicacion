@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./asistencias.page.scss'],
 })
 export class AsistenciasPage implements OnInit {
+  
 
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

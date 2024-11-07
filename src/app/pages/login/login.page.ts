@@ -55,6 +55,12 @@ export class LoginPage implements OnInit {
       if (datos !== null) {
         //clg(datos.username)
        if(datos.correo===this.usr.correo && datos.password===this.usr.password){
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
+        
+        // Guardar los datos del nuevo usuario
+        localStorage.setItem('userRole', datos.rol);
+        localStorage.setItem('userName', datos.nombre);
         this.router.navigate(['/home'])
        }
 

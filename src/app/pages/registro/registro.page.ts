@@ -58,32 +58,31 @@ export class RegistroPage implements OnInit {
   }
 
   registrar() {
-
     const rol = this.obtenerRolPorCorreo(this.usr.correo);
-    
+  
     // Verifica si el correo es el institucional
     if (rol === null) {
-        this.CorreoInvalido('top');
-        return;
+      this.CorreoInvalido('top');
+      return;
     }
-    this.usr.rol = rol;
-   
-    // Busca el correo
-    let buscado = this.db.obtener(this.usr.correo)
-    
+  
+    this.usr.rol = rol;  // Asigna el rol al usuario
+  
+    // Busca el correo en la base de datos
+    let buscado = this.db.obtener(this.usr.correo);
+  
     buscado.then(async datos => {
-      
       if (datos === null) {
         this.db.guardar(this.usr.correo, this.usr);
-        //this.router.navigate(['/login'])
-        this.firestoreService.createDocumentID(this.usr , 'Usuarios' , this.usr.id_usuario)
+        this.firestoreService.createDocumentID(this.usr, 'Usuarios', this.usr.id_usuario);
+  
+        // Guarda el rol en LocalStorage después de asignarlo al usuario
+        localStorage.setItem('userRole', this.usr.rol);
         this.presentAlert();
       } else {
         this.presentToast('top');
-
       }
     });
-   
   }
 
   // Alerta cuando se crea un usuario
