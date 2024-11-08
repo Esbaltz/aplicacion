@@ -19,7 +19,7 @@ export class AsistenciaProfPage implements OnInit {
   ngOnInit() {
     this.CargarCursos1()
   }
-
+ 
   CargarCursos(){
     this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
       console.log(data);
