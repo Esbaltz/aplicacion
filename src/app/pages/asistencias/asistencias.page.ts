@@ -32,12 +32,12 @@ export class AsistenciasPage implements OnInit {
   }
 
   CargarCursos1() {
-    this.firestoreService.getCollectionChanges<{ id_docente: string, id_clase: string }>('Clases')
+    this.firestoreService.getCollectionChanges<{ id_alumno: string, id_clase: string }>('Clases')
       .subscribe(ClasesIns => {
         if (ClasesIns) {
           console.log('ClasesIns =>',ClasesIns)
 
-          const ClasesUsuario = ClasesIns.filter(c => c.id_docente === this.userId);
+          const ClasesUsuario = ClasesIns.filter(c => c.id_alumno === this.userId);
           console.log('ClasesUsuario', ClasesUsuario)
 
           const ClasesIds = ClasesUsuario.map(c => c.id_clase);

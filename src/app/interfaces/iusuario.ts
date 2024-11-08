@@ -13,6 +13,7 @@ export interface Clases{
     estado : string,
     id_docente : any
     id_clase : string
+    id_alumno : any
 }
 
 export interface Sesiones {

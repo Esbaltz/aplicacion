@@ -29,17 +29,15 @@
     </ion-item>
   </ion-list>
 
-  <ion-list [inset]="true">
-    <div *ngIf="cursos && cursos.length > 0; else sinCursos">
-      <div *ngFor="let curso of cursos; let i = index">
-
-            <ion-item>
+  <div *ngIf="cursos && cursos.length > 0; else sinCursos">
+    <div *ngFor="let curso of cursos; let i = index">
+      <ion-list [inset]="true">
+          <ion-item>
               <ion-label>2024-{{ curso.semestre }} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
-            </ion-item>
-        </div>
+          </ion-item>  
+      </ion-list>
     </div>
-     
-  </ion-list>
+  </div>
 </ion-content>
 
 <ng-template #sinCursos>
