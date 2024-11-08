@@ -18,7 +18,7 @@ export class FireStoreService {
         const itemCollection = collection(this.firestore, path);
         return collectionData(itemCollection) as Observable<tipo[]>;
       }
-
+      
       getDocument<tipo>(collectionName: string, id: string): Observable<tipo | undefined> {
         const documentReference = doc(this.firestore, `${collectionName}/${id}`);
         return docData(documentReference, { idField: 'id' }) as Observable<tipo | undefined>;

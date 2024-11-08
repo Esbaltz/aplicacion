@@ -11,13 +11,13 @@ export interface Clases{
     nomb_clase : string,
     semestre : number,
     estado : string,
-    id_docente : Usuario[];
+    id_docente : any
     id_clase : string
 }
 
 export interface Sesiones {
     fecha_hora : Date
-    id_clase : Clases[],
+    id_clase : any
     qr_code : string
     id_sesion : string
 
@@ -25,8 +25,8 @@ export interface Sesiones {
 
 export interface Asistencia{
     fecha_hora : Date
-    id_alumno : Usuario[]
-    id_sesion : Sesiones[]
+    id_alumno : any
+    id_sesion : any
     estado : string
     id_asistencia : string
 }

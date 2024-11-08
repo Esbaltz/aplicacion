@@ -19,26 +19,32 @@
   </ion-list>
 
   <ion-list lines="full">
-  @for (curso of curso; track $index) {
-    <ion-item>
-      <ion-label>
-        <ion-accordion-group>
-          <ion-accordion value="first">
-            <ion-item slot="header" color="light">
-              <ion-label>{{ curso.nomb_clase}}</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-              <ion-button routerLink="../codigo" expand="block">Generar código QR <ion-icon slot="end" name="qr-code-outline"></ion-icon></ion-button> 
-              <ion-button routerLink="../lista" expand="block">Ver asistencia <ion-icon slot="end" name="people"></ion-icon></ion-button>
-            </div>
-          </ion-accordion>
-        </ion-accordion-group>
-      </ion-label>
-    </ion-item>
-  }
+    <div *ngIf="cursos && cursos.length > 0; else sinCursos">
+      <div *ngFor="let curso of cursos; let i = index">
+        <ion-item>
+          <ion-label>
+            <ion-accordion-group>
+              <ion-accordion value="first">
+                <ion-item slot="header" color="light">
+                  <ion-label>{{ curso.nomb_clase}}</ion-label>
+                </ion-item>
+                <div class="ion-padding" slot="content">
+                  <ion-button routerLink="../codigo" expand="block">Generar código QR <ion-icon slot="end" name="qr-code-outline"></ion-icon></ion-button> 
+                  <ion-button routerLink="../lista" expand="block">Ver asistencia <ion-icon slot="end" name="people"></ion-icon></ion-button>
+                </div>
+              </ion-accordion>
+            </ion-accordion-group>
+          </ion-label>
+        </ion-item>
+      </div>
+    </div>
     
   </ion-list>
 </ion-content>
+
+<ng-template #sinCursos>
+  <ion-text class="ion-padding"> No tienes cursos registrados aun </ion-text>
+</ng-template>
 
 <ion-footer>
   <ion-toolbar color="primary">

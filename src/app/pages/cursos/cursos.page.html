@@ -30,26 +30,21 @@
   </ion-list>
 
   <ion-list [inset]="true">
-    @for (curso of curso; track $index) {
-        <ng-container *ngIf="selectedSegment === 'inscritos'" >
-          <ion-item>
-            <ion-label>2024-{{curso.semestre}} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
-          </ion-item>
-        </ng-container>
-      }
-    
+    <div *ngIf="cursos && cursos.length > 0; else sinCursos">
+      <div *ngFor="let curso of cursos; let i = index">
 
-    @for (curso of curso; track $index) {
-
-      <ng-container *ngIf="selectedSegment === 'historial'">
-        <ion-item>
-          <ion-label>2024-{{curso.semestre}} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
-        </ion-item>
-      </ng-container>
-      }
-    
+            <ion-item>
+              <ion-label>2024-{{ curso.semestre }} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
+            </ion-item>
+        </div>
+    </div>
+     
   </ion-list>
 </ion-content>
+
+<ng-template #sinCursos>
+  <ion-text class="ion-padding"> No hay cursos </ion-text>
+</ng-template>
 
 <ion-footer>
   <ion-toolbar color="primary">
