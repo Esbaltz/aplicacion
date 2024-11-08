@@ -9,17 +9,21 @@
   <ng-container *ngIf="sesion.isLoggedIn(); else loginForm">
     <ion-list class="ion-padding">
       <ion-item>
-        <ion-label>Nombre de usuario</ion-label>
-        <ion-text>{{ sesion.getUser()?.nombre }}</ion-text>
-      </ion-item>
-      <ion-item>
         <ion-label>Correo</ion-label>
-        <ion-text>{{ sesion.getUser()?.correo }}</ion-text>
+
+        <ion-text color="secondary">{{ sesion.getUser()?.correo}}</ion-text>
       </ion-item>
-      <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/inicio'])">
+      <br>
+      <ion-item>
+        <ion-label>Contraseña</ion-label>
+
+        <ion-text color="secondary">{{ sesion.getUser()?.password }}</ion-text>
+      </ion-item>
+      <br>
+      <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login'])">
         Cerrar sesión
       </ion-button>
-    </ion-list>
+    </ion-list> 
   </ng-container>
 
   <div class="form-wrapper">
