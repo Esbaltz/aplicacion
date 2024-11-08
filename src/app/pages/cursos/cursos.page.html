@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-    <ion-title>cursos</ion-title>
+    <ion-title>cursos </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -30,38 +30,21 @@
   </ion-list>
 
   <ion-list [inset]="true">
-    <ng-container *ngIf="selectedSegment === 'inscritos'">
-      <ion-item>
-        <ion-label>2024-2 Arquitectura (Inscrito)</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>2024-2 Programación de Aplicaciones Móviles (Inscrito)</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>2024-2 Proceso de portafolio (Inscrito)</ion-label>
-      </ion-item>
-    </ng-container>
+    <div *ngIf="cursos && cursos.length > 0; else sinCursos">
+      <div *ngFor="let curso of cursos; let i = index">
 
-    <ng-container *ngIf="selectedSegment === 'historial'">
-      <ion-item>
-        <ion-label>2024-1 Programación Web (Aprobado)</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>2024-1 Programación de Bases de Datos (Aprobado)</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>2024-1 Inglés (Aprobado)</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>2024-1 Ingeniería de Software (Aprobado)</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>2024-1 Proceso de Portafolio (Aprobado)</ion-label>
-      </ion-item>
-      
-    </ng-container>
+            <ion-item>
+              <ion-label>2024-{{ curso.semestre }} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
+            </ion-item>
+        </div>
+    </div>
+     
   </ion-list>
 </ion-content>
+
+<ng-template #sinCursos>
+  <ion-text class="ion-padding"> No hay cursos </ion-text>
+</ng-template>
 
 <ion-footer>
   <ion-toolbar color="primary">
