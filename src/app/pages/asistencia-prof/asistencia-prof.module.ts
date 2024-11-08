@@ -8,12 +8,13 @@ import { AsistenciaProfPageRoutingModule } from './asistencia-prof-routing.modul
 
 import { AsistenciaProfPage } from './asistencia-prof.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AsistenciaProfPageRoutingModule
+    AsistenciaProfPageRoutingModule,
   ],
   declarations: [AsistenciaProfPage]
 })
