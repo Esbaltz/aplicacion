@@ -1,124 +1,56 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="asistencia-prof"></ion-back-button>
     </ion-buttons>
-    <ion-title>lista</ion-title>
+    <ion-title>{{ CursoCargado.nomb_clase}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
   <ion-list lines="full">
-    <ion-item>
-      <ion-label>
-        <ion-accordion-group>
-          <ion-accordion value="first">
-            <ion-item slot="header" color="light">
-              <ion-label>Clase: 06/08/24</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 1</ion-label>
-                <span>Presente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 2</ion-label>
-                <span>Ausente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 3</ion-label>
-                <span>Ausente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 4</ion-label>
-                <span>Presente</span>
-              </div>
-            </div>
-          </ion-accordion>
-        </ion-accordion-group>
-      </ion-label>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label>
-        <ion-accordion-group>
-          <ion-accordion value="first">
-            <ion-item slot="header" color="light">
-              <ion-label>Clase: 10/08/24</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 1</ion-label>
-                <span>Ausente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 2</ion-label>
-                <span>Ausente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 3</ion-label>
-                <span>Presente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 4</ion-label>
-                <span>Ausente</span>
-              </div>
-            </div>
-          </ion-accordion>
-        </ion-accordion-group>
-      </ion-label>
-    </ion-item>
+    <div *ngIf="sesiones && sesiones.length > 0; else sinSesiones">
+      <div *ngFor="let sesion of sesiones; let i = index">
+          <ion-item>
+            <ion-label>
+              <ion-accordion-group>
+                <ion-accordion value="first">
+                  <ion-item slot="header" color="light">
+                    <ion-label>Clase: {{sesion.id_clase}}</ion-label>
+                  </ion-item>
+                  <div class="ion-padding" slot="content">
+                    <div style="display: flex; justify-content: space-between;">
+                      <ion-label>Alumno 1</ion-label>
+                      <span>Presente</span>
+                    </div>
+                  </div>
+                  <div class="ion-padding" slot="content">
+                    <div style="display: flex; justify-content: space-between;">
+                      <ion-label>Alumno 2</ion-label>
+                      <span>Ausente</span>
+                    </div>
+                  </div>
+                  <div class="ion-padding" slot="content">
+                    <div style="display: flex; justify-content: space-between;">
+                      <ion-label>Alumno 3</ion-label>
+                      <span>Ausente</span>
+                    </div>
+                  </div>
+                </ion-accordion>
+              </ion-accordion-group>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+    </ion-list>
 
-    <ion-item>
-      <ion-label>
-        <ion-accordion-group>
-          <ion-accordion value="first">
-            <ion-item slot="header" color="light">
-              <ion-label>Clase: 16/08/24</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 1</ion-label>
-                <span>Presente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 2</ion-label>
-                <span>Ausente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 3</ion-label>
-                <span>Presente</span>
-              </div>
-            </div>
-            <div class="ion-padding" slot="content">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-label>Alumno 4</ion-label>
-                <span>Presente</span>
-              </div>
-            </div>
-          </ion-accordion>
-        </ion-accordion-group>
-      </ion-label>
-    </ion-item>
-  </ion-list>
 </ion-content>
+
+<ng-template #sinSesiones>
+  <br>
+  <ion-text class="ion-padding"> No tienes clases registrados aun </ion-text>
+</ng-template>
 
 <ion-footer>
   <ion-toolbar color="primary">

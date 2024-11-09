@@ -21,6 +21,7 @@ export interface Sesiones {
     id_clase : any
     qr_code : string
     id_sesion : string
+    id_docente : any
 
 }
 
