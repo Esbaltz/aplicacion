@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
+import { LocaldbService } from 'src/app/services/localdb.service';
 import { sesionService } from 'src/app/services/sesion.service';
 
 @Component({
@@ -11,7 +13,7 @@ import { sesionService } from 'src/app/services/sesion.service';
 export class AsistenciaProfPage implements OnInit {
   cursos: Clases[] = [];
   userId : any
-  constructor( private sesion : sesionService , private firestoreService : FireStoreService) { 
+  constructor( private sesion : sesionService , private firestoreService : FireStoreService, private router: Router, private db: LocaldbService ) { 
 
     this.userId = this.sesion.getUser()?.id_usuario;
   }
@@ -20,15 +22,6 @@ export class AsistenciaProfPage implements OnInit {
     this.CargarCursos1()
   }
  
-  CargarCursos(){
-    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
-      console.log(data);
-      if (data) {
-        this.cursos = data
-      }
-    })
-  }
-
   CargarCursos1() {
     this.firestoreService.getCollectionChanges<{ id_docente: string, id_clase: string }>('Clases')
       .subscribe(ClasesIns => {
@@ -51,4 +44,14 @@ export class AsistenciaProfPage implements OnInit {
         }
       });
   }
+
+
+  ListaSesionXclase( clases : Clases){
+    console.log('CURSO =>', clases)
+    this.router.navigate(['/lista',clases.id_clase] );
+    this.db.guardar(clases.id_clase , clases.id_docente)
+    console.log('Se a guardado el curso con el ID =',clases.id_clase)
+
+  }
+
 }

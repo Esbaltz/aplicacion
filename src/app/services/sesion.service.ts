@@ -7,18 +7,15 @@ import { Clases, Usuario } from '../interfaces/iusuario';
 export class sesionService {
   private isAuthenticated = false;
   private currentUser: Usuario | null = null;
-  private currentClase: Clases | null = null;
+  private currentClase : Clases | null = null;
 
   constructor() {
     const user = localStorage.getItem('user');
-    const clase = localStorage.getItem('clases')
     if (user) {
       this.currentUser = JSON.parse(user);
       this.isAuthenticated = true;
     }
-    if (clase) {
-      this.currentClase = JSON.parse(clase);
-    }
+
   }
 
   login(user: Usuario) {
@@ -37,10 +34,6 @@ export class sesionService {
     return this.currentUser;
   }
   
-  getClase() {
-    return this.currentClase
-  }
-
   isLoggedIn() {
     return this.isAuthenticated;
   }
