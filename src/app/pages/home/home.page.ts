@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 
 // imports para el scanner
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController  } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-home',
@@ -15,18 +16,20 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  
   userName: string | null = null;
   userRole: string | null = null;
 
   // Variables para el scanner
   isSupported = false;
   barcodes: Barcode[] = [];
+  scanHistory: { date: string, data: string }[] = [];
   
   // Esta funcion entreg alos datos del usuario logeado
   rol = this.sesion.getUser()?.rol;
   nombre = this.sesion.getUser()?.nombre;
 
-  constructor( private firestoreService : FireStoreService , private sesion : sesionService , private userService: UserService, private router: Router, private alertController: AlertController) {
+  constructor( private toastController: ToastController, private firestoreService : FireStoreService , private sesion : sesionService , private userService: UserService, private router: Router, private alertController: AlertController) {
   }
 
   ngOnInit() {
@@ -44,8 +47,18 @@ export class HomePage implements OnInit {
       this.presentAlert();
       return;
     }
+  
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
+  
+    // Almacenar el escaneo con la fecha actual
+    const today = new Date().toISOString().slice(0, 10); // Formato 'YYYY-MM-DD'
+    for (const barcode of barcodes) {
+      this.scanHistory.push({ date: today, data: barcode.displayValue || '' });
+    }
+  
+    // Guardar en localStorage o enviar a Firestore según prefieras
+    localStorage.setItem('scanHistory', JSON.stringify(this.scanHistory));
   }
 
   async requestPermissions(): Promise<boolean> {
