@@ -10,11 +10,11 @@
 <ion-content [fullscreen]="true">
 
   <ion-list>
-    <ion-item >
-      <ion-select label="Carrera" placeholder="Ingeniería en Informática">
-        <ion-select-option value="apple">Ingeniería en Informática</ion-select-option>
-        <ion-select-option value="banana">Ingeniería en Sonido</ion-select-option>
-      </ion-select>
+    <ion-item *ngFor="let scan of scanHistory">
+      <ion-label>
+        <h2>{{ scan.date }}</h2>
+        <p>{{ scan.data }}</p>
+      </ion-label>
     </ion-item>
   </ion-list>
 

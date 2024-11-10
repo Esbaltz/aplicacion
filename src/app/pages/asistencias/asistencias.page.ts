@@ -10,46 +10,42 @@ import { sesionService } from 'src/app/services/sesion.service';
 })
 export class AsistenciasPage implements OnInit {
   cursos: Clases[] = [];
-  userId : any
+  userId: any;
+  scanHistory: { date: string, data: string }[] = [];  // Definir scanHistory aquí
 
-  constructor(private sesion : sesionService , private firestoreService : FireStoreService) { 
-
+  constructor(
+    private sesion: sesionService,
+    private firestoreService: FireStoreService
+  ) {
     this.userId = this.sesion.getUser()?.id_usuario;
   }
 
-  ngOnInit(
-  ) {
-    this.CargarCursos1()
+  ngOnInit() {
+    this.CargarCursos1();
+    const storedHistory = localStorage.getItem('scanHistory');
+    this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
   }
 
-  CargarCursos(){
-    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
-      console.log(data);
+  CargarCursos() {
+    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe((data) => {
       if (data) {
-        this.cursos = data
+        this.cursos = data;
       }
-    })
+    });
   }
 
   CargarCursos1() {
-    this.firestoreService.getCollectionChanges<{ id_alumno: string, id_clase: string }>('Clases')
-      .subscribe(ClasesIns => {
+    this.firestoreService.getCollectionChanges<{ id_alumno: string; id_clase: string }>('Clases')
+      .subscribe((ClasesIns) => {
         if (ClasesIns) {
-          console.log('ClasesIns =>',ClasesIns)
+          const ClasesUsuario = ClasesIns.filter((c) => c.id_alumno === this.userId);
+          const ClasesIds = ClasesUsuario.map((c) => c.id_clase);
 
-          const ClasesUsuario = ClasesIns.filter(c => c.id_alumno === this.userId);
-          console.log('ClasesUsuario', ClasesUsuario)
-
-          const ClasesIds = ClasesUsuario.map(c => c.id_clase);
-          console.log('ClasesIds =>',ClasesIds)
-
-          this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
+          this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe((data) => {
             if (data) {
-              console.log(data)
-              this.cursos = data.filter(curso => ClasesIds.includes(curso.id_clase));
-              console.log(this.cursos)
+              this.cursos = data.filter((curso) => ClasesIds.includes(curso.id_clase));
             }
-          })
+          });
         }
       });
   }

@@ -8,14 +8,25 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <ion-card>
-    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <div class="qr-container">
+      <qr-code [value]="qrText" size="190" errorCorrectionLevel="M" />
+    </div>
+  
     <ion-card-header>
-      <ion-card-title>Código QR</ion-card-title>
+      <ion-card-title>Código de la clase</ion-card-title>
     </ion-card-header>
-
+  
+    <ion-card-content>
+      <ion-textarea
+        label='Escribe el código de la clase aquí'
+        labelPlacement="stacked"
+        fill="outline"
+        [(ngModel)]="qrText"
+      ></ion-textarea>
+    </ion-card-content>
   </ion-card>
+  
 
 </ion-content>
 
