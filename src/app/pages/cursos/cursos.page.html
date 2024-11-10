@@ -20,15 +20,6 @@
     </ion-segment>
   </ion-toolbar>
 
-  <ion-list>
-    <ion-item>
-      <ion-select label="Carrera" placeholder="Todos">
-        <ion-select-option value="apple">Ingeniería en Informática</ion-select-option>
-        <ion-select-option value="banana">Ingeniería en Sonido</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
-
   <div *ngIf="cursos && cursos.length > 0; else sinCursos">
     <div *ngFor="let curso of cursos; let i = index">
       <ion-list [inset]="true">
