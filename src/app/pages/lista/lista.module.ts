@@ -8,11 +8,14 @@ import { ListaPageRoutingModule } from './lista-routing.module';
 
 import { ListaPage } from './lista.page';
 
+import { DatePipe } from '@angular/common';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    DatePipe,
     ListaPageRoutingModule
   ],
   declarations: [ListaPage]
