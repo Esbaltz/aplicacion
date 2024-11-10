@@ -9,15 +9,6 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-list>
-    <ion-item >
-      <ion-select label="Carrera" placeholder="Ingeniería en Informática">
-        <ion-select-option value="apple">Ingeniería en Informática</ion-select-option>
-        <ion-select-option value="banana">Ingeniería en Sonido</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
-
   <ion-list lines="full">
     <div *ngIf="cursos && cursos.length > 0; else sinCursos">
       <div *ngFor="let curso of cursos; let i = index">
@@ -42,6 +33,7 @@
 </ion-content>
 
 <ng-template #sinCursos>
+  <br>
   <ion-text class="ion-padding"> No tienes cursos registrados aun </ion-text>
 </ng-template>
 

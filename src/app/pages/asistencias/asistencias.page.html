@@ -9,15 +9,6 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-list>
-    <ion-item >
-      <ion-select label="Carrera" placeholder="Ingeniería en Informática">
-        <ion-select-option value="apple">Ingeniería en Informática</ion-select-option>
-        <ion-select-option value="banana">Ingeniería en Sonido</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
-
   <ion-list lines="full">
     <div *ngIf="cursos && cursos.length > 0; else sinCursos">
       <div *ngFor="let curso of cursos; let i = index">
@@ -29,28 +20,15 @@
                 <ion-item slot="header" color="light">
                     <ion-label>{{ curso.nomb_clase}}</ion-label>
                   </ion-item>
+
                     <div class="ion-padding" slot="content">
-                      <div style="display: flex; justify-content: space-between;">
-                        <ion-label>Clase 1</ion-label>
-                        <span>Presente</span>
-                      </div>
-                    </div>
-                    <div class="ion-padding" slot="content">
-                      <div style="display: flex; justify-content: space-between;">
-                        <ion-label>Clase 2</ion-label>
-                        <span>Ausente</span>
-                      </div>
-                    </div>
-                    <div class="ion-padding" slot="content">
-                      <div style="display: flex; justify-content: space-between;">
-                        <ion-label>Clase 3</ion-label>
-                        <span>Presente</span>
-                      </div>
-                    </div>
-                    <div class="ion-padding" slot="content">
-                      <div style="display: flex; justify-content: space-between;">
-                        <ion-label>Clase 4</ion-label>
-                        <span>Presente</span>
+                      <div *ngFor="let asistencia of asistencias; let i = index">
+                        <div *ngIf="asistencia.id_alumno === userId && asistencia.id_clase === curso.id_clase">
+                          <div style="display: flex; justify-content: space-between;">
+                            <ion-label>Fecha : </ion-label>
+                            <span>{{asistencia.estado}}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                 
@@ -66,6 +44,7 @@
 </ion-content>
 
 <ng-template #sinCursos>
+  <br>
   <ion-text class="ion-padding"> No tienes cursos registrados aun </ion-text>
 </ng-template>
 

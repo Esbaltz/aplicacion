@@ -30,6 +30,7 @@ export interface Asistencia{
     fecha_hora : Date
     id_alumno : any
     id_sesion : any
+    id_clase : any
     estado : string
     id_asistencia : string
 }

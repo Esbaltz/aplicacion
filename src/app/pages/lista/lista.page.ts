@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Clases, Sesiones } from 'src/app/interfaces/iusuario';
+import { Asistencia, Clases, Sesiones, Usuario } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
 import { user } from '@angular/fire/auth';
@@ -14,6 +14,26 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./lista.page.scss'],
 })
 export class ListaPage implements OnInit {
+
+  asistencias : Asistencia[] = [];
+  usuarios :Usuario[] = [];
+  alumnos : Usuario = {
+    id_usuario : '',
+    nombre : '',
+    apellido :'',
+    correo :'',
+    password : '',
+    rol : ''
+  };
+
+  Listasistencia : Asistencia = {
+    id_clase : '',
+    id_alumno : '',
+    id_sesion : '',
+    id_asistencia : '',
+    estado : '',
+    fecha_hora : new Date('2024-11-09T20:00:00')
+  }
 
   cursos : Clases[] = [];
   CursoCargado: Clases = {
@@ -43,7 +63,7 @@ export class ListaPage implements OnInit {
       text: 'Cancelar',
       role: 'cancel',
       handler: () => {
-        console.log('Sesión no iniciada');
+        console.log('Clase cancelada');
       }
     },
     {
@@ -88,9 +108,12 @@ export class ListaPage implements OnInit {
                private sesion : sesionService , private route: ActivatedRoute , 
                private db: LocaldbService , private alertController: AlertController) {
     this.userId = this.sesion.getUser()?.id_usuario; 
+    this.Usuarios();
+    this.loadasistencia();
   }
 
   ngOnInit( ) {
+    this.cargarUsuarios();
     this.CargarCursos();
     const ClaseId = this.route.snapshot.paramMap.get('id');
     if (ClaseId) {
@@ -99,6 +122,25 @@ export class ListaPage implements OnInit {
     this.CargarSesiones()
   }
 
+  loadasistencia(){
+    this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe( data => {
+      console.log(data);
+      if (data) {
+        this.asistencias = data
+        console.log('Todas las asistencias => ',this.asistencias)
+      }
+    })
+  }
+
+  cargarUsuarios(){
+    this.firestoreService.getCollectionChanges<Usuario>('Usuarios').subscribe(data =>{
+      console.log(data)
+      if(data){
+        console.log('Todos los usuarios =>',this.usuarios)
+        this.usuarios = data
+      }
+    })
+  }
   cargarCurso(id_clase: string) {
     this.firestoreService.getDocument<Clases>('Clases', id_clase).subscribe(curso => {
       if (curso) {
@@ -165,14 +207,40 @@ export class ListaPage implements OnInit {
       this.NuevaClase.id_clase = this.IdClase 
       console.log('Nueva sesion Creada: ', this.NuevaClase);
 
-      // Aqui lo almcaceno en la firebase
+      // Aqui lo almaceno en la firebase
       localStorage.setItem('sesion_' + this.NuevaClase.id_sesion, JSON.stringify(this.NuevaClase));
       this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
 
-      //Aqui colococo a los alumnos
+      //Aqui guardo a los alumnos que se registraran en la asistencia
+      this.usuarios.forEach(usuario => {
+        if (usuario.rol === 'Alumno') {
+          // Crear una nueva instancia para cada alumno
+          const idUnico = this.firestoreService.createIdDoc();
+          const nuevaAsistencia = {
+            id_alumno: usuario.id_usuario,
+            fecha_hora: new Date(`${year}-${month}-${day}T${hour}:${minute}:00`),
+            id_sesion: this.NuevaClase.id_sesion,
+            estado: 'Ausente',
+            id_asistencia: idUnico,
+            id_clase : this.IdClase
+          };
+      
+          // Guardar en localStorage y en Firebase
+          localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
+          console.log('Lista de Asistencia :', nuevaAsistencia);
+          this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
+        } else {
+          console.log('No se pudo realizar la asistencia');
+        }
+      });
     } else {
       console.error('Fecha o hora no válidas');
     }
   }
 
+  Usuarios() {
+    this.usuarios.forEach(usuario => {
+      console.log('Id-User :',usuario.id_usuario)
+    })
+  }
 }

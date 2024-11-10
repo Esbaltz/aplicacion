@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Clases } from 'src/app/interfaces/iusuario';
+import { Asistencia, Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
 
@@ -11,6 +11,7 @@ import { sesionService } from 'src/app/services/sesion.service';
 export class AsistenciasPage implements OnInit {
   cursos: Clases[] = [];
   userId : any
+  asistencias : Asistencia[] = [];
 
   constructor(private sesion : sesionService , private firestoreService : FireStoreService) { 
 
@@ -20,6 +21,8 @@ export class AsistenciasPage implements OnInit {
   ngOnInit(
   ) {
     this.CargarCursos1()
+    console.log('USUARIO ID =>',this.userId)
+    this.loadasistencia()
   }
 
   CargarCursos(){
@@ -27,6 +30,16 @@ export class AsistenciasPage implements OnInit {
       console.log(data);
       if (data) {
         this.cursos = data
+      }
+    })
+  }
+
+  loadasistencia(){
+    this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe( data => {
+      console.log(data);
+      if (data) {
+        this.asistencias = data
+
       }
     })
   }
