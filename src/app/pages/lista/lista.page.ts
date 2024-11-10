@@ -38,7 +38,6 @@ export class ListaPage implements OnInit {
     descripcion: ''
   };
 
-  // Botones de la alerta
   public alertButtons = [
     {
       text: 'Cancelar',
@@ -50,23 +49,21 @@ export class ListaPage implements OnInit {
     {
       text: 'Iniciar',
       handler: (data: any) => {
-        // Guardar los datos de la clase al presionar "Iniciar"
         this.iniciarSesion(data);
       }
     }
   ];
 
-  // Inputs de la alerta, asegurándonos de que 'type' esté tipado correctamente
   public alertInputs = [
     {
       placeholder: 'Qr',
       name: 'qr_code',
-      type: 'text' as 'text',  // Aquí lo especificamos como tipo 'text'
+      type: 'text' as 'text',  
     },
     {
       placeholder: 'Fecha: (ejemplo: 12/08/2024)',
       name: 'fecha',
-      type: 'text' as 'text',  // Tipo 'text' explícitamente
+      type: 'text' as 'text',  
       attributes: {
         maxlength: 10,
       },
@@ -74,13 +71,13 @@ export class ListaPage implements OnInit {
     {
       placeholder: 'Hora: (ejemplo: 22:12)',
       name: 'hora',
-      type: 'text' as 'text',  // Tipo 'text' explícitamente
+      type: 'text' as 'text',  
       attributes: {
         maxlength: 5,
       },
     },
     {
-      type: 'textarea' as 'textarea',  // Aquí especificamos que es un textarea
+      type: 'textarea' as 'textarea',  
       placeholder: 'Una descripción de la clase',
       name: 'descripcion',
     },
@@ -156,13 +153,11 @@ export class ListaPage implements OnInit {
     await alert.present();
   }
 
-  // Método para iniciar la sesión
   iniciarSesion(data: any) {
-    // Validar y formatear la fecha y hora
+
     const [day, month, year] = data.fecha.split('/');
     const [hour, minute] = data.hora.split(':');
 
-    // Asegurarse de que la fecha y hora tengan un formato válido
     if (year && month && day && hour && minute) {
       this.NuevaClase.qr_code = data.qr_code;
       this.NuevaClase.fecha_hora = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
@@ -170,9 +165,11 @@ export class ListaPage implements OnInit {
       this.NuevaClase.id_clase = this.IdClase 
       console.log('Nueva sesion Creada: ', this.NuevaClase);
 
-      // Almacenar en localStorage (o donde desees)
+      // Aqui lo almcaceno en la firebase
       localStorage.setItem('sesion_' + this.NuevaClase.id_sesion, JSON.stringify(this.NuevaClase));
       this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
+
+      //Aqui colococo a los alumnos
     } else {
       console.error('Fecha o hora no válidas');
     }
