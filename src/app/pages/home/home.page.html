@@ -67,7 +67,7 @@
       <ion-icon name="person-circle-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button routerLink="../camera">
+      <ion-fab-button (click)="scan()" [disabled]="!isSupported">
         <ion-icon name="qr-code-outline"></ion-icon>
       </ion-fab-button>
       <ion-fab-button routerLink="/login">
