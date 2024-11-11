@@ -74,15 +74,8 @@ export class ListaPage implements OnInit {
     }
   ];
 
-  public qrText: string = '';
   public getAlertInputs(): AlertInput[] {
     return [
-      {
-        placeholder: 'QR',
-        name: 'qr_code',
-        type: 'text',  // Debe coincidir con los valores aceptados por `AlertInput`
-        value: this.qrText,
-      },
       {
         placeholder: 'Fecha: (ejemplo: 12/08/2024)',
         name: 'fecha',
@@ -105,6 +98,13 @@ export class ListaPage implements OnInit {
         name: 'descripcion',
       },
     ];
+  }
+
+  isAlertOpen = false;
+  alertButtoons = ['Action'];
+
+  setOpen(isOpen: boolean) {
+    this.isAlertOpen = isOpen;
   }
 
 
@@ -206,7 +206,7 @@ export class ListaPage implements OnInit {
     const [hour, minute] = data.hora.split(':');
 
     if (year && month && day && hour && minute) {
-      this.NuevaClase.qr_code = data.qr_code;
+      this.NuevaClase.qr_code = this.IdClase;
       this.NuevaClase.fecha_hora = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
       this.NuevaClase.descripcion = data.descripcion;
       this.NuevaClase.id_clase = this.IdClase 
