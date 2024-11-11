@@ -18,17 +18,10 @@
                 <ion-accordion value="first">
                   <ion-item slot="header" color="light">
                     <ion-label>Clase: Numero Clase 
-                      <ion-button  (click)="setOpen(true)" ><ion-icon name="qr-code-outline"></ion-icon></ion-button>
+                      
+                      <ion-button (click)="QrXsesion(sesion)"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
+
                     </ion-label>
-                    <div>
-                      <ion-alert
-                        [isOpen]="isAlertOpen"
-                        header="A Short Title Is Best"
-                        [buttons]="alertButtons"
-                        (didDismiss)="setOpen(false)"
-                        
-                      > <qr-code [value]="NuevaClase.qr_code" size="190" errorCorrectionLevel="M" /></ion-alert>
-                    </div>
                   </ion-item>
 
                     <div class="ion-padding" slot="content">

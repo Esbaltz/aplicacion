@@ -37,7 +37,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/asistencia-prof/asistencia-prof.module').then( m => m.AsistenciaProfPageModule)
   },
   {
-    path: 'codigo',
+    path: 'codigo/:id',
     loadChildren: () => import('./pages/codigo/codigo.module').then( m => m.CodigoPageModule)
   },
   {

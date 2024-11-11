@@ -1,30 +1,22 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="lista"></ion-back-button>
     </ion-buttons>
     <ion-title>codigo</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> 
 
 <ion-content [fullscreen]="true">
+
+  <ion-card-header>
+    <ion-card-title class="ion-text-center">CODIGO PARA SCANNER LA CLASE </ion-card-title>
+  </ion-card-header>
+  <br>
   <ion-card>
     <div class="qr-container">
-      <qr-code [value]="qrText" size="190" errorCorrectionLevel="M" />
+      <qr-code [value]="this.QrSesion" size="260" errorCorrectionLevel="M" />
     </div>
-  
-    <ion-card-header>
-      <ion-card-title>Código de la clase</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-textarea
-        label='Escribe el código de la clase aquí'
-        labelPlacement="stacked"
-        fill="outline"
-        [(ngModel)]="qrText"
-      ></ion-textarea>
-    </ion-card-content>
   </ion-card>
   
 

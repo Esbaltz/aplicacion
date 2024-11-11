@@ -12,7 +12,7 @@ export class AsistenciasPage implements OnInit {
   cursos: Clases[] = [];
   userId : any
   asistencias : Asistencia[] = [];
-
+ 
   constructor(private sesion : sesionService , private firestoreService : FireStoreService) { 
 
     this.userId = this.sesion.getUser()?.id_usuario;

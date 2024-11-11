@@ -19,7 +19,7 @@ import { QrCodeModule } from 'ng-qrcode';
     IonicModule,
     DatePipe,
     ListaPageRoutingModule,
-    QrCodeModule
+    QrCodeModule 
   ],
   declarations: [ListaPage]
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Asistencia, Clases, Sesiones, Usuario } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
@@ -79,7 +79,7 @@ export class ListaPage implements OnInit {
       {
         placeholder: 'Fecha: (ejemplo: 12/08/2024)',
         name: 'fecha',
-        type: 'text',  // Compatible con el tipo `AlertInput`
+        type: 'text',  
         attributes: {
           maxlength: 10,
         },
@@ -87,30 +87,27 @@ export class ListaPage implements OnInit {
       {
         placeholder: 'Hora: (ejemplo: 22:12)',
         name: 'hora',
-        type: 'text',  // Compatible con el tipo `AlertInput`
+        type: 'text',  
         attributes: {
           maxlength: 5,
         },
       },
       {
-        type: 'textarea',  // Compatible con `AlertInput` y sin otros atributos innecesarios
+        type: 'textarea',  
         placeholder: 'Una descripción de la clase',
         name: 'descripcion',
       },
     ];
   }
-
-  isAlertOpen = false;
-  alertButtoons = ['Action'];
-
-  setOpen(isOpen: boolean) {
-    this.isAlertOpen = isOpen;
-  }
+ 
+  isModalOpen = false;
+  qrValue = '';
 
 
   constructor( private firestoreService : FireStoreService , 
                private sesion : sesionService , private route: ActivatedRoute , 
-               private db: LocaldbService , private alertController: AlertController) {
+               private db: LocaldbService , private alertController: AlertController,
+               private router: Router) {
     this.userId = this.sesion.getUser()?.id_usuario; 
     this.Usuarios();
     this.loadasistencia();
@@ -247,6 +244,13 @@ export class ListaPage implements OnInit {
     this.usuarios.forEach(usuario => {
       console.log('Id-User :',usuario.id_usuario)
     })
+  }
+
+  QrXsesion( sesion : Sesiones){
+    console.log('Sesion=>', sesion)
+    this.router.navigate(['/codigo',sesion.id_sesion] );
+    console.log('Se a guardado la sesion con el ID =',sesion.id_sesion , 'y el QR =',sesion.qr_code)
+
   }
 }
 

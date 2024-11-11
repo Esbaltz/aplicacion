@@ -1,0 +1,18 @@
+.qr-modal-content {
+    height: 100%; 
+    width:  50%;// Asegura que el contenido ocupe toda la altura disponible
+    color: aqua;
+  }
+  
+  .qr-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; // Ocupa el 80% de la altura para dejar espacio para el botón de cierre
+  }
+  
+  .close-button-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
