@@ -5,7 +5,7 @@ import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
 import { user } from '@angular/fire/auth';
 import { LocaldbService } from 'src/app/services/localdb.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, AlertInput } from '@ionic/angular';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./lista.page.scss'],
 })
 export class ListaPage implements OnInit {
-
+ 
   asistencias : Asistencia[] = [];
   usuarios :Usuario[] = [];
   alumnos : Usuario = {
@@ -74,34 +74,38 @@ export class ListaPage implements OnInit {
     }
   ];
 
-  public alertInputs = [
-    {
-      placeholder: 'Qr',
-      name: 'qr_code',
-      type: 'text' as 'text',  
-    },
-    {
-      placeholder: 'Fecha: (ejemplo: 12/08/2024)',
-      name: 'fecha',
-      type: 'text' as 'text',  
-      attributes: {
-        maxlength: 10,
+  public qrText: string = '';
+  public getAlertInputs(): AlertInput[] {
+    return [
+      {
+        placeholder: 'QR',
+        name: 'qr_code',
+        type: 'text',  // Debe coincidir con los valores aceptados por `AlertInput`
+        value: this.qrText,
       },
-    },
-    {
-      placeholder: 'Hora: (ejemplo: 22:12)',
-      name: 'hora',
-      type: 'text' as 'text',  
-      attributes: {
-        maxlength: 5,
+      {
+        placeholder: 'Fecha: (ejemplo: 12/08/2024)',
+        name: 'fecha',
+        type: 'text',  // Compatible con el tipo `AlertInput`
+        attributes: {
+          maxlength: 10,
+        },
       },
-    },
-    {
-      type: 'textarea' as 'textarea',  
-      placeholder: 'Una descripción de la clase',
-      name: 'descripcion',
-    },
-  ];
+      {
+        placeholder: 'Hora: (ejemplo: 22:12)',
+        name: 'hora',
+        type: 'text',  // Compatible con el tipo `AlertInput`
+        attributes: {
+          maxlength: 5,
+        },
+      },
+      {
+        type: 'textarea',  // Compatible con `AlertInput` y sin otros atributos innecesarios
+        placeholder: 'Una descripción de la clase',
+        name: 'descripcion',
+      },
+    ];
+  }
 
 
   constructor( private firestoreService : FireStoreService , 
@@ -120,6 +124,7 @@ export class ListaPage implements OnInit {
       this.cargarCurso(ClaseId);
     }
     this.CargarSesiones()
+
   }
 
   loadasistencia(){
@@ -188,10 +193,10 @@ export class ListaPage implements OnInit {
   async mostrarAlerta() {
     const alert = await this.alertController.create({
       header: 'Nueva Clase',
-      inputs: this.alertInputs, 
+      inputs: this.getAlertInputs(),  
       buttons: this.alertButtons
     });
-
+  
     await alert.present();
   }
 
@@ -209,7 +214,7 @@ export class ListaPage implements OnInit {
 
       // Aqui lo almaceno en la firebase
       localStorage.setItem('sesion_' + this.NuevaClase.id_sesion, JSON.stringify(this.NuevaClase));
-      this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
+      //this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
 
       //Aqui guardo a los alumnos que se registraran en la asistencia
       this.usuarios.forEach(usuario => {
@@ -228,7 +233,7 @@ export class ListaPage implements OnInit {
           // Guardar en localStorage y en Firebase
           localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
           console.log('Lista de Asistencia :', nuevaAsistencia);
-          this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
+          //this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
         } else {
           console.log('No se pudo realizar la asistencia');
         }
@@ -244,3 +249,5 @@ export class ListaPage implements OnInit {
     })
   }
 }
+
+
