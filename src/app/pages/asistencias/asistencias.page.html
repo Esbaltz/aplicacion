@@ -41,6 +41,17 @@
     </div>
      
   </ion-list>
+
+  <ion-list>
+    <ion-item *ngFor="let scan of scanHistory">
+      <ion-label>
+        <h2>{{ scan.date }}</h2>
+        <p>{{ scan.SesionScaneda }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+ 
+
 </ion-content>
 
 <ng-template #sinCursos>

@@ -38,7 +38,7 @@ export class AsistenciasPage implements OnInit {
     this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
   }
 
-  ScaneoQr () {
+  ScaneoQr ( id_sesion : string , fecha : Date) {
                   // Logica Italo
     //const FechaXhoraNueva = this.scanHistory[0]?.date[0];
     //this.asistencias.forEach( asistencia => {
@@ -51,18 +51,18 @@ export class AsistenciasPage implements OnInit {
     //}
     //});
   
-  const FechaXhoraNueva = this.scanHistory[0]?.date[0];
-  const userId = this.sesion.getUser()?.id_usuario;
+   fecha = this.scanHistory[0]?.date[0];
+   const userId = this.sesion.getUser()?.id_usuario;
+   id_sesion = this.scanHistory[0]?.SesionScaneda[0]
 
-  this.asistencias.forEach(asistencia => {
-    const sesionEscaneada = this.scanHistory.some(c => c.SesionScaneda === asistencia.id_sesion);
+   this.asistencias.forEach(asistencia => {
 
-    if (sesionEscaneada && asistencia.id_alumno === userId) {
-      this.firestoreService.updateAsistenciaAlumno('Asistencia', asistencia.id_asistencia, this.EstadoNuevo, FechaXhoraNueva);
-      console.log(`${asistencia.id_asistencia} ==> Esta Asistencia ha sido actualizada`);
-    } else {
-      console.log("Alumno sin scanear el QR todavía");
-    }
+      if (id_sesion === asistencia.id_sesion && asistencia.id_alumno === userId) {
+        this.firestoreService.updateAsistenciaAlumno('Asistencia', asistencia.id_asistencia, this.EstadoNuevo, fecha);
+        console.log(`${asistencia.id_asistencia} ==> Esta Asistencia ha sido actualizada`);
+      } else {
+        console.log("Alumno sin scanear el QR todavía");
+      }
 });
 
   }
