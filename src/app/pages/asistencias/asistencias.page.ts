@@ -12,8 +12,18 @@ export class AsistenciasPage implements OnInit {
   cursos: Clases[] = [];
   userId : any
   asistencias : Asistencia[] = [];
- 
-  constructor(private sesion : sesionService , private firestoreService : FireStoreService) { 
+  Asistencia_Actualizada : Asistencia = {
+    id_alumno : this.sesion.getUser()?.id_usuario,
+    id_clase : '',
+    id_sesion: '',
+    id_asistencia :'',
+    estado : '',
+    fecha_hora : new Date()
+  }
+
+  scanHistory: { date : Date , SesionScaneda: string }[] = []; 
+  
+  constructor(private sesion : sesionService , private firestoreService : FireStoreService ,) { 
 
     this.userId = this.sesion.getUser()?.id_usuario;
   }
@@ -23,6 +33,19 @@ export class AsistenciasPage implements OnInit {
     this.CargarCursos1()
     console.log('USUARIO ID =>',this.userId)
     this.loadasistencia()
+    const storedHistory = localStorage.getItem('scanHistory');
+    this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
+  }
+
+  ScaneoQr () {
+    if ( this.scanHistory.find( c => c.SesionScaneda === this.Asistencia_Actualizada.id_clase))
+
+      { this.Asistencia_Actualizada.estado = 'Presente'
+        //this.firestoreService.updateDocumentID(this.Asistencia_Actualizada.estado, 'Asistencia', this.Asistencia_Actualizada.id_asistencia)
+      }
+    else { console.log('Asistencia no actulizada , datos erroneos')}
+    ;
+
   }
 
   CargarCursos(){
