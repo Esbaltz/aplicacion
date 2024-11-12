@@ -203,7 +203,7 @@ export class ListaPage implements OnInit {
     const [hour, minute] = data.hora.split(':');
 
     if (year && month && day && hour && minute) {
-      this.NuevaClase.qr_code = this.IdClase;
+      this.NuevaClase.qr_code = this.NuevaClase.id_sesion;
       this.NuevaClase.fecha_hora = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
       this.NuevaClase.descripcion = data.descripcion;
       this.NuevaClase.id_clase = this.IdClase 
@@ -211,7 +211,7 @@ export class ListaPage implements OnInit {
 
       // Aqui lo almaceno en la firebase
       localStorage.setItem('sesion_' + this.NuevaClase.id_sesion, JSON.stringify(this.NuevaClase));
-      //this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
+      this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
 
       //Aqui guardo a los alumnos que se registraran en la asistencia
       this.usuarios.forEach(usuario => {
@@ -230,7 +230,7 @@ export class ListaPage implements OnInit {
           // Guardar en localStorage y en Firebase
           localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
           console.log('Lista de Asistencia :', nuevaAsistencia);
-          //this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
+          this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
         } else {
           console.log('No se pudo realizar la asistencia');
         }

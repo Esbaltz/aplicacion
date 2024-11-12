@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Asistencia, Clases } from 'src/app/interfaces/iusuario';
+import { Asistencia, Clases, Sesiones } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
 
@@ -12,6 +12,7 @@ export class AsistenciasPage implements OnInit {
   cursos: Clases[] = [];
   userId : any
   asistencias : Asistencia[] = [];
+  sesiones : Sesiones[] = [];
   Asistencia_Actualizada : Asistencia = {
     id_alumno : this.sesion.getUser()?.id_usuario,
     id_clase : '',
@@ -21,8 +22,8 @@ export class AsistenciasPage implements OnInit {
     fecha_hora : new Date()
   }
 
-  scanHistory: { date : Date , SesionScaneda: string }[] = []; 
-  
+  scanHistory: { date : Date[] , SesionScaneda: string }[] = []; 
+  EstadoNuevo = 'Presente'
   constructor(private sesion : sesionService , private firestoreService : FireStoreService ,) { 
 
     this.userId = this.sesion.getUser()?.id_usuario;
@@ -38,13 +39,31 @@ export class AsistenciasPage implements OnInit {
   }
 
   ScaneoQr () {
-    if ( this.scanHistory.find( c => c.SesionScaneda === this.Asistencia_Actualizada.id_clase))
+                  // Logica Italo
+    //const FechaXhoraNueva = this.scanHistory[0]?.date[0];
+    //this.asistencias.forEach( asistencia => {
+    //  if ( asistencia.id_sesion === this.scanHistory.filter( c => c.SesionScaneda) || asistencia.id_alumno === this.sesion.getUser()?.id_usuario){
+    //    
+    //    this.firestoreService.updateAsistenciaAlumno('Asistencia',asistencia.id_asistencia , this.EstadoNuevo , FechaXhoraNueva);
+    //    console.log(asistencia.id_asistencia , '==> Esta Asistencia a sido actualizada')
+    //  } else {
+    //  console.log("Alumno sin scanear el QR todavia")
+    //}
+    //});
+  
+  const FechaXhoraNueva = this.scanHistory[0]?.date[0];
+  const userId = this.sesion.getUser()?.id_usuario;
 
-      { this.Asistencia_Actualizada.estado = 'Presente'
-        //this.firestoreService.updateDocumentID(this.Asistencia_Actualizada.estado, 'Asistencia', this.Asistencia_Actualizada.id_asistencia)
-      }
-    else { console.log('Asistencia no actulizada , datos erroneos')}
-    ;
+  this.asistencias.forEach(asistencia => {
+    const sesionEscaneada = this.scanHistory.some(c => c.SesionScaneda === asistencia.id_sesion);
+
+    if (sesionEscaneada && asistencia.id_alumno === userId) {
+      this.firestoreService.updateAsistenciaAlumno('Asistencia', asistencia.id_asistencia, this.EstadoNuevo, FechaXhoraNueva);
+      console.log(`${asistencia.id_asistencia} ==> Esta Asistencia ha sido actualizada`);
+    } else {
+      console.log("Alumno sin scanear el QR todavía");
+    }
+});
 
   }
 
@@ -62,6 +81,16 @@ export class AsistenciasPage implements OnInit {
       console.log(data);
       if (data) {
         this.asistencias = data
+
+      }
+    })
+  }
+
+  loadsesiones(){
+    this.firestoreService.getCollectionChanges<Sesiones>('Sesiones').subscribe( data => {
+      console.log(data);
+      if (data) {
+        this.sesiones = data
 
       }
     })

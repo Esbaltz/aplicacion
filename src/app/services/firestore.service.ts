@@ -50,6 +50,11 @@ export class FireStoreService {
         const document = doc(this.firestore, enlace);
         return updateDoc(document, data)
       }
+      //Actualiza la asistencia del alumno
+      async updateAsistenciaAlumno(enlace: string, idDoc: string, NuevoEstado: string , FechaNueva : Date) {
+        const document = doc(this.firestore, `${enlace}/${idDoc}`);
+        return updateDoc(document, { estado: NuevoEstado, fecha_hora : FechaNueva });
+      }
     
       deleteDocumentID(enlace: string, idDoc: string) {
         const document = doc(this.firestore, `${enlace}/${idDoc}`);
