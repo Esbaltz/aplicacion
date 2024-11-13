@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Asistencia, Clases, Sesiones } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
@@ -22,7 +23,7 @@ export class AsistenciasPage implements OnInit {
     fecha_hora : new Date()
   }
 
-  scanHistory: { date : Date[] , SesionScaneda: string }[] = []; 
+  scanHistory: { date: string, data: string }[] = [];
   EstadoNuevo = 'Presente'
   constructor(private sesion : sesionService , private firestoreService : FireStoreService ,) { 
 
@@ -34,9 +35,7 @@ export class AsistenciasPage implements OnInit {
     this.CargarCursos1()
     console.log('USUARIO ID =>',this.userId)
     this.loadasistencia()
-    const storedHistory = localStorage.getItem('scanHistory');
-    this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
-    this.ScaneoQr( this.scanHistory[0]?.SesionScaneda[0] , this.scanHistory[0]?.date[0] )
+
   }
 
   ScaneoQr ( id_sesion : string , fecha : Date) {
@@ -63,6 +62,37 @@ export class AsistenciasPage implements OnInit {
 });
 
   }
+
+  capturarDatosQR(data: string) {
+    // Obtener la fecha actual
+    const fechaActual = new Date();
+
+    // Añadir el nuevo escaneo al historial
+    const nuevoEscaneo = { date: fechaActual.toISOString(), data: data };
+    this.scanHistory.push(nuevoEscaneo);
+
+    // Actualizar el localStorage para persistir el historial
+    localStorage.setItem('scanHistory', JSON.stringify(this.scanHistory));
+
+    // Aquí vamos a actualizar la asistencia si coincide con id_sesion y userId
+    const id_sesion = data; // Asumimos que el id_sesion viene en los datos escaneados (QR)
+
+    this.asistencias.forEach(asistencia => {
+      if (id_sesion === asistencia.id_sesion && asistencia.id_alumno === this.userId) {
+        // Llamar al servicio para actualizar la asistencia
+        this.firestoreService.updateAsistenciaAlumno(
+          'Asistencia',
+          asistencia.id_asistencia,
+          this.EstadoNuevo, // Asumimos que EstadoNuevo contiene el nuevo estado
+          fechaActual       // Usamos la fecha actual para la actualización
+        );
+        console.log(`${asistencia.id_asistencia} ==> Esta Asistencia ha sido actualizada`);
+      } else {
+        console.log("Alumno sin scanear el QR todavía");
+      }
+    });
+  }
+
 
   CargarCursos(){
     this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
