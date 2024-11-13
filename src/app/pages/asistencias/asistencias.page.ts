@@ -36,6 +36,7 @@ export class AsistenciasPage implements OnInit {
     this.loadasistencia()
     const storedHistory = localStorage.getItem('scanHistory');
     this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
+    this.ScaneoQr( this.scanHistory[0]?.SesionScaneda[0] , this.scanHistory[0]?.date[0] )
   }
 
   ScaneoQr ( id_sesion : string , fecha : Date) {
@@ -50,11 +51,7 @@ export class AsistenciasPage implements OnInit {
     //  console.log("Alumno sin scanear el QR todavia")
     //}
     //});
-  
-   fecha = this.scanHistory[0]?.date[0];
    const userId = this.sesion.getUser()?.id_usuario;
-   id_sesion = this.scanHistory[0]?.SesionScaneda[0]
-
    this.asistencias.forEach(asistencia => {
 
       if (id_sesion === asistencia.id_sesion && asistencia.id_alumno === userId) {
