@@ -230,7 +230,7 @@ export class ListaPage implements OnInit {
           // Guardar en localStorage y en Firebase
           localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
           console.log('Lista de Asistencia :', nuevaAsistencia);
-          //this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
+          this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
         } else {
           console.log('No se pudo realizar la asistencia');
         }

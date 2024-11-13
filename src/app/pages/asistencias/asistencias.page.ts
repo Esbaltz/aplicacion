@@ -37,7 +37,6 @@ export class AsistenciasPage implements OnInit {
     this.loadasistencia()
     const storedHistory = localStorage.getItem('scanHistory');
     this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
-    this.ScaneoQr3();
   }
 
   ScaneoQr() {
@@ -68,59 +67,6 @@ export class AsistenciasPage implements OnInit {
             console.log('Alumno no a escaneado el qr todavia')
           }
         })})
-  }
-
-  ScaneoQr2 () {
-    this.scanHistory.forEach( scan => {
-        const now = new Date();
-        // Extrae cada componente de la fecha actual
-        const year: number = now.getFullYear();
-        const month: string = (now.getMonth() + 1).toString().padStart(2, '0'); // Mes (0-11), por eso sumamos 1
-        const day: string = now.getDate().toString().padStart(2, '0'); // Día del mes
-        const hour: string = now.getHours().toString().padStart(2, '0'); // Hora en formato 24h
-        const minute: string = now.getMinutes().toString().padStart(2, '0'); // Minuto
-
-        this.asistencias.forEach( asistencia => { 
-          
-          if ( scan.data === asistencia.id_sesion && asistencia.id_alumno === this.usuarioId){
-            const AsistenciaNueva = {
-              id_alumno: this.usuarioId,
-              fecha_hora: new Date(`${year}-${month}-${day}T${hour}:${minute}:00`),
-              id_sesion: scan.data,
-              estado: this.EstadoNuevo,
-              id_asistencia: asistencia.id_asistencia,
-              id_clase : asistencia.id_clase
-            };
-
-            this.firestoreService.createDocumentID(AsistenciaNueva, 'Asistencia', AsistenciaNueva.id_asistencia)
-
-          }
-
-        }        
-    )
-    });
-  }
-
-  ScaneoQr3 ( ) {
-    const dataValues = this.scanHistory.map((item) => {
-      console.log('QR a procesar =>', dataValues)
-      const now = new Date();
-      // Extrae cada componente de la fecha actual
-      const year: number = now.getFullYear();
-      const month: string = (now.getMonth() + 1).toString().padStart(2, '0'); // Mes (0-11), por eso sumamos 1
-      const day: string = now.getDate().toString().padStart(2, '0'); // Día del mes
-      const hour: string = now.getHours().toString().padStart(2, '0'); // Hora en formato 24h
-      const minute: string = now.getMinutes().toString().padStart(2, '0'); // Minuto
-      this.firestoreService.getCollectionChanges<{ id_sesion : string, id_alumno: string , id_asistencia: string , fecha : Date}>('Asistencia')
-      .subscribe(AsistenciasIns => { 
-
-        const AsistenciaPORcambiar = AsistenciasIns.filter( a => a.id_sesion === item.data && a.id_alumno === this.usuarioId );
-        const AsistenciaId = AsistenciaPORcambiar.map( s => s.id_sesion)
-     
-      })       
-     }
-    ) 
-    
   }
 
   CargarCursos(){

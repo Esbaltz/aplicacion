@@ -62,6 +62,15 @@
     </ion-card>
     </ng-container>
 
+    <ion-list>
+      <ion-item *ngFor="let scan of scanHistory">
+        <ion-label>
+          <h2>{{ scan.data }}</h2>
+          <h2>{{ scan.date}}</h2>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>
       <ion-icon name="person-circle-outline"></ion-icon>

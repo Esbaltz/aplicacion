@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
-import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from "@angular/fire/firestore";
+import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDoc, query, setDoc, updateDoc, where } from "@angular/fire/firestore";
 import {v4 as uuidv4} from 'uuid';
-import { Observable } from "rxjs";
+import { Observable, map } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -70,6 +70,27 @@ export class FireStoreService {
         let uuidv = uuidv4();
         return uuidv
       }
+
+      // Para scanear
+      getAttendanceRecord(id_clase: string, id_sesion: string, id_alumno: string) {
+        const attendanceCollection = collection(this.firestore, 'Asistencia');
+        const q = query(
+          attendanceCollection,
+          where('id_clase', '==', id_clase),
+          where('id_sesion', '==', id_sesion),
+          where('id_alumno', '==', id_alumno)
+        );
+        return collectionData(q, { idField: 'id' }).pipe(
+          map(records => records.length > 0 ? records[0] : null)
+        ).toPromise();
+      }
+      
+
+      guardarAsistencia(asistenciaData: any): Promise<void> {
+        const asistenciaId = asistenciaData.id_asistencia || this.createIdDoc();
+        const documentRef = doc(this.firestore, `Asistencia/${asistenciaId}`);
+        return setDoc(documentRef, asistenciaData);
+    }
     
 }
 
