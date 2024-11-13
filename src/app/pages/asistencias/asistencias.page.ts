@@ -64,27 +64,30 @@ export class AsistenciasPage implements OnInit {
   }
 
   capturarDatosQR(data: string) {
+    console.log('Datos escaneados:', data);  // Verificar que los datos lleguen aquí
+    
     // Obtener la fecha actual
     const fechaActual = new Date();
-
+  
     // Añadir el nuevo escaneo al historial
     const nuevoEscaneo = { date: fechaActual.toISOString(), data: data };
     this.scanHistory.push(nuevoEscaneo);
-
+  
     // Actualizar el localStorage para persistir el historial
     localStorage.setItem('scanHistory', JSON.stringify(this.scanHistory));
-
-    // Aquí vamos a actualizar la asistencia si coincide con id_sesion y userId
-    const id_sesion = data; // Asumimos que el id_sesion viene en los datos escaneados (QR)
-
+  
+    // Extraer el id_sesion del QR escaneado
+    const id_sesion = data; // Asegúrate de que data contenga el id_sesion esperado
+    console.log('ID de Sesión:', id_sesion);  // Verifica que `id_sesion` sea el esperado
+  
+    // Actualizar la asistencia si coincide id_sesion y userId
     this.asistencias.forEach(asistencia => {
       if (id_sesion === asistencia.id_sesion && asistencia.id_alumno === this.userId) {
-        // Llamar al servicio para actualizar la asistencia
         this.firestoreService.updateAsistenciaAlumno(
           'Asistencia',
           asistencia.id_asistencia,
-          this.EstadoNuevo, // Asumimos que EstadoNuevo contiene el nuevo estado
-          fechaActual       // Usamos la fecha actual para la actualización
+          this.EstadoNuevo,
+          fechaActual
         );
         console.log(`${asistencia.id_asistencia} ==> Esta Asistencia ha sido actualizada`);
       } else {
@@ -93,6 +96,13 @@ export class AsistenciasPage implements OnInit {
     });
   }
 
+  onCodeResult(data: string) {
+    // Aquí puedes hacer un log para verificar que los datos se están capturando
+    console.log('QR Data:', data);
+  
+    // Llamar al método para capturar los datos
+    this.capturarDatosQR(data);
+  }
 
   CargarCursos(){
     this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {

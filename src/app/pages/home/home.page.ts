@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 // imports para el scanner
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController, ToastController  } from '@ionic/angular';
+import { LocaldbService } from 'src/app/services/localdb.service';
 
 
 @Component({
@@ -29,7 +30,12 @@ export class HomePage implements OnInit {
   rol = this.sesion.getUser()?.rol;
   nombre = this.sesion.getUser()?.nombre;
 
-  constructor( private toastController: ToastController, private firestoreService : FireStoreService , private sesion : sesionService , private userService: UserService, private router: Router, private alertController: AlertController) {
+  constructor( private toastController: ToastController, 
+               private firestoreService : FireStoreService , 
+               private sesion : sesionService , 
+               private userService: UserService, 
+               private router: Router, private alertController: AlertController ,
+               private db:LocaldbService) {
   }
 
   ngOnInit() {
@@ -59,6 +65,8 @@ export class HomePage implements OnInit {
   
     // Guardar en localStorage o enviar a Firestore según prefieras
     localStorage.setItem('scanHistory', JSON.stringify(this.scanHistory));
+    this.db.guardar(this.scanHistory[0].data, this.scanHistory)
+    this.router.navigate(['/asistencia'])
   }
 
   async requestPermissions(): Promise<boolean> {
