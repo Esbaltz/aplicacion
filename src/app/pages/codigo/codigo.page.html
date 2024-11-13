@@ -14,9 +14,12 @@
   </ion-card-header>
   <br>
   <ion-card>
-    <div class="qr-container">
-      <qr-code [value]="this.QrSesion" size="260" errorCorrectionLevel="M" />
-    </div>
+    <!-- generate-qr.component.html -->
+<div *ngIf="qrCodeDataUrl">
+  <img [src]="qrCodeDataUrl" alt="Código QR para escanear">
+</div>
+<button (click)="generateQrCode('ID_DE_LA_CLASE', 'ID_DE_LA_SESION')">Generar QR</button>
+
   </ion-card>
   
 

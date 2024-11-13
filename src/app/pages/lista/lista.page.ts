@@ -14,6 +14,8 @@ import { AlertController, AlertInput } from '@ionic/angular';
   styleUrls: ['./lista.page.scss'],
 })
 export class ListaPage implements OnInit {
+  attendanceList: any[] = [];
+  attendanceWithNames: any[] = [];
  
   asistencias : Asistencia[] = [];
   usuarios :Usuario[] = [];
@@ -121,6 +123,16 @@ export class ListaPage implements OnInit {
       this.cargarCurso(ClaseId);
     }
     this.CargarSesiones()
+     // Suponiendo que ya tienes el id_clase y id_sesion disponibles
+     const id_clase = 'ID_DE_LA_CLASE';
+     const id_sesion = 'ID_DE_LA_SESION';
+     const id_alumno = 'ID_DEL_ALUMNO';
+     
+     // Obtener la lista de asistencia
+     this.firestoreService.getAttendanceList(id_clase, id_sesion).subscribe(records => {
+       this.attendanceList = records;
+       this.getStudentNames(records);
+     });
 
   }
 
@@ -251,6 +263,20 @@ export class ListaPage implements OnInit {
     this.router.navigate(['/codigo',sesion.id_sesion] );
     console.log('Se a guardado la sesion con el ID =',sesion.id_sesion , 'y el QR =',sesion.qr_code)
 
+  }
+  getStudentNames(records: any[]) {
+    this.attendanceWithNames = [];
+    
+    records.forEach(record => {
+      this.firestoreService.getUserById(record.id_alumno).subscribe(user => {
+        if (user) {
+          this.attendanceWithNames.push({
+            alumno: user.nombre,
+            estado: record.estado
+          });
+        }
+      });
+    });
   }
 }
 

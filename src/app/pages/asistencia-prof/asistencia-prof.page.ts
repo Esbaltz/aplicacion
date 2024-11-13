@@ -11,6 +11,7 @@ import { sesionService } from 'src/app/services/sesion.service';
   styleUrls: ['./asistencia-prof.page.scss'],
 })
 export class AsistenciaProfPage implements OnInit {
+  attendanceList: any[] = [];
   cursos: Clases[] = [];
   userId : any
   constructor( private sesion : sesionService , private firestoreService : FireStoreService, private router: Router, private db: LocaldbService ) { 
@@ -20,6 +21,10 @@ export class AsistenciaProfPage implements OnInit {
 
   ngOnInit() {
     this.CargarCursos1()
+    this.firestoreService.getAttendanceList('ID_DE_LA_CLASE', 'ID_DE_LA_SESION')
+      .subscribe((data) => {
+        this.attendanceList = data;
+      });
   }
  
   CargarCursos1() {

@@ -1,75 +1,98 @@
 import { Injectable, inject } from "@angular/core";
-import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDoc, setDoc, updateDoc } from "@angular/fire/firestore";
-import {v4 as uuidv4} from 'uuid';
-import { Observable } from "rxjs";
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, setDoc, updateDoc, query, where, } from "@angular/fire/firestore";
+import { v4 as uuidv4 } from 'uuid';
+import { Observable, map } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class FireStoreService {
 
-    private firestore : Firestore = inject(Firestore);
+    private firestore: Firestore = inject(Firestore);
 
     constructor() {}
     
-      // Para leer una coleccion o tabla de la base de datos
-      getCollectionChanges<tipo>(path: string) {
+    getCollectionChanges<tipo>(path: string): Observable<tipo[]> {
         const itemCollection = collection(this.firestore, path);
         return collectionData(itemCollection) as Observable<tipo[]>;
-      }
-      
-      getDocument<tipo>(collectionName: string, id: string): Observable<tipo | undefined> {
+    }
+
+    getDocument<tipo>(collectionName: string, id: string): Observable<tipo | undefined> {
         const documentReference = doc(this.firestore, `${collectionName}/${id}`);
         return docData(documentReference, { idField: 'id' }) as Observable<tipo | undefined>;
-      }
-    
-      getDocumentChanges<tipo>(enlace: string) {
-        console.log('getDocumentChanges -> ', enlace);
-        const document = doc(this.firestore, enlace);
-        return docData(document) as Observable<tipo>;
-      }
-      
-      createDocument(data: any, enlace: string , ) {
+    }
+
+    createDocument(data: any, enlace: string): Promise<void> {
         const document = doc(this.firestore, enlace);
         return setDoc(document, data);
-      }
-      
-      // Para crear un documento con id Personalizado
-      createDocumentID(data: any, enlace: string, idDoc: string) {
+    }
+
+    createDocumentID(data: any, enlace: string, idDoc: string): Promise<void> {
         const document = doc(this.firestore, `${enlace}/${idDoc}`);
         return setDoc(document, data);
-      }
-      
-      async updateDocumentID(data: any, enlace: string, idDoc: string) {
+    }
+
+    async updateDocumentID(data: any, enlace: string, idDoc: string): Promise<void> {
         const document = doc(this.firestore, `${enlace}/${idDoc}`);
-        return updateDoc(document, data)
-      }
-    
-      async updateDocument(data: any, enlace: string) {
-        const document = doc(this.firestore, enlace);
-        return updateDoc(document, data)
-      }
-      //Actualiza la asistencia del alumno
-      async updateAsistenciaAlumno(enlace: string, idDoc: string, NuevoEstado: string , FechaNueva : Date) {
+        return updateDoc(document, data);
+    }
+
+    async updateAsistenciaAlumno(enlace: string, idDoc: string, nuevoEstado: string, fechaNueva: Date): Promise<void> {
         const document = doc(this.firestore, `${enlace}/${idDoc}`);
-        return updateDoc(document, { estado: NuevoEstado, fecha_hora : FechaNueva });
-      }
-    
-      deleteDocumentID(enlace: string, idDoc: string) {
+        return updateDoc(document, { estado: nuevoEstado, fecha_hora: fechaNueva });
+    }
+
+    deleteDocumentID(enlace: string, idDoc: string): Promise<void> {
         const document = doc(this.firestore, `${enlace}/${idDoc}`);
         return deleteDoc(document);
-      }
-    
-      deleteDocFromRef(ref: any) {
-        return deleteDoc(ref)
-      }
-      
-      // Crea un Id para el documento
-      createIdDoc() {
+    }
+
+    // Genera un ID único utilizando uuidv4
+    generateId(): string {
+        return uuidv4();
+    }
+
+    createIdDoc() {
         let uuidv = uuidv4();
         return uuidv
       }
-    
-}
 
+    // Método para guardar asistencia
+    guardarAsistencia(asistenciaData: any): Promise<void> {
+        const asistenciaId = asistenciaData.id_asistencia || this.generateId();
+        const documentRef = doc(this.firestore, `Asistencia/${asistenciaId}`);
+        return setDoc(documentRef, asistenciaData);
+    }
+
+    getAttendanceRecord(id_clase: string, id_sesion: string, id_alumno: string) {
+        const attendanceCollection = collection(this.firestore, 'Asistencia');
+        const q = query(
+          attendanceCollection,
+          where('id_clase', '==', id_clase),
+          where('id_sesion', '==', id_sesion),
+          where('id_alumno', '==', id_alumno)
+        );
+        return collectionData(q, { idField: 'id' }).pipe(
+          map(records => records.length > 0 ? records[0] : null)
+        ).toPromise();
+      }
+
+    getAttendanceList(id_clase: string, id_sesion: string) {
+        const attendanceCollection = collection(this.firestore, 'Asistencia');
+        const q = query(attendanceCollection, 
+            where('id_clase', '==', id_clase), 
+            where('id_sesion', '==', id_sesion,));
+        return collectionData(q, { idField: 'id' }) as Observable<any[]>;
+    }
+
+    getStudentAttendance(id_clase: string, id_sesion: string, id_alumno: string) {
+        const attendanceCollection = collection(this.firestore, 'Asistencia');
+        const q = query(attendanceCollection, where('id_clase', '==', id_clase), where('id_sesion', '==', id_sesion), where('id_alumno', '==', id_alumno));
+        return collectionData(q, { idField: 'id' }) as Observable<any[]>;
+    }
+
+    getUserById(id_usuario: string): Observable<any> {
+        const userDocRef = doc(this.firestore, `Usuarios/${id_usuario}`);
+        return docData(userDocRef, { idField: 'id' }) as Observable<any>;
+      }
+}

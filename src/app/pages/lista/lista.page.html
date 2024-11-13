@@ -25,14 +25,8 @@
                   </ion-item>
 
                     <div class="ion-padding" slot="content">
-                      <div *ngFor="let asistencia of asistencias; let i = index">
-                        <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
-                          <div style="display: flex; justify-content: space-between;">
-                            <ion-label>Nombre del alumno</ion-label>
-                            <span>{{asistencia.estado}}</span>
-                          </div>
-                          <br>
-                        </div>
+                      <div *ngFor="let record of attendanceWithNames">
+                        <p>Alumno: {{ record.alumno }} - Estado: {{ record.estado }}</p>
                       </div>
                     </div>
                     
