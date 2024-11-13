@@ -24,7 +24,7 @@ export class HomePage implements OnInit {
   // Variables para el scanner
   isSupported = false;
   barcodes: Barcode[] = [];
-  scanHistory: { date: string, data: string }[] = [];
+  scanHistory: { data: string }[] = [];
   
   // Esta funcion entreg alos datos del usuario logeado
   rol = this.sesion.getUser()?.rol;
@@ -58,15 +58,13 @@ export class HomePage implements OnInit {
     this.barcodes.push(...barcodes);
   
     // Almacenar el escaneo con la fecha actual
-    const today = new Date().toISOString().slice(0, 10); // Formato 'YYYY-MM-DD'
     for (const barcode of barcodes) {
-      this.scanHistory.push({ date: today, data: barcode.displayValue || '' });
+      this.scanHistory.push({ data: barcode.displayValue || '' });
     }
   
     // Guardar en localStorage o enviar a Firestore según prefieras
     localStorage.setItem('scanHistory', JSON.stringify(this.scanHistory));
-    this.db.guardar(this.scanHistory[0].data, this.scanHistory)
-    this.router.navigate(['/asistencia'])
+    this.router.navigate(['/asistencias'])
   }
 
   async requestPermissions(): Promise<boolean> {

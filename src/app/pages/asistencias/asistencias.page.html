@@ -23,7 +23,7 @@
 
                     <div class="ion-padding" slot="content">
                       <div *ngFor="let asistencia of asistencias; let i = index">
-                        <div *ngIf="asistencia.id_alumno === userId && asistencia.id_clase === curso.id_clase">
+                        <div *ngIf="asistencia.id_alumno === usuarioId && asistencia.id_clase === curso.id_clase">
                           <div style="display: flex; justify-content: space-between;">
                             <ion-label>Fecha : </ion-label>
                             <span>{{asistencia.estado}}</span>
@@ -45,7 +45,6 @@
   <ion-list>
     <ion-item *ngFor="let scan of scanHistory">
       <ion-label>
-        <h2>{{ scan.date }}</h2>
         <h2>{{ scan.data }}</h2>
       </ion-label>
     </ion-item>
