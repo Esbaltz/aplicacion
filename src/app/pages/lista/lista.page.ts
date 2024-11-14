@@ -214,27 +214,32 @@ export class ListaPage implements OnInit {
       this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
 
       //Aqui guardo a los alumnos que se registraran en la asistencia
-      this.usuarios.forEach(usuario => {
-        if (usuario.rol === 'Alumno') {
-          // Crear una nueva instancia para cada alumno
-          const idUnico = this.firestoreService.createIdDoc();
-          const nuevaAsistencia = {
-            id_alumno: usuario.id_usuario,
-            fecha_hora: new Date(`${year}-${month}-${day}T${hour}:${minute}:00`),
-            id_sesion: this.NuevaClase.id_sesion,
-            estado: 'Ausente',
-            id_asistencia: idUnico,
-            id_clase : this.IdClase
-          };
-      
-          // Guardar en localStorage y en Firebase
-          localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
-          console.log('Lista de Asistencia :', nuevaAsistencia);
-          this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
-        } else {
-          console.log('No se pudo realizar la asistencia');
+      this.cursos.forEach( curso => {
+        if( curso.id_clase === this.IdClase){
+        this.usuarios.forEach(usuario => {
+          if (usuario.rol === 'Alumno' && usuario.id_usuario === curso.id_alumno) {
+            // Crear una nueva instancia para cada alumno
+            const idUnico = this.firestoreService.createIdDoc();
+            const nuevaAsistencia = {
+              id_alumno: usuario.id_usuario,
+              fecha_hora: new Date(`${year}-${month}-${day}T${hour}:${minute}:00`),
+              id_sesion: this.NuevaClase.id_sesion,
+              estado: 'Ausente',
+              id_asistencia: idUnico,
+              id_clase : this.IdClase
+            };
+        
+            // Guardar en localStorage y en Firebase
+            localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
+            console.log('Lista de Asistencia :', nuevaAsistencia);
+            this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
+          } else {
+            console.log('No se pudo realizar la asistencia');
+          }
+        });
         }
-      });
+      })
+
     } else {
       console.error('Fecha o hora no válidas');
     }
