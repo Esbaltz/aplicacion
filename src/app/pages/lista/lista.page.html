@@ -17,20 +17,24 @@
               <ion-accordion-group>
                 <ion-accordion value="first">
                   <ion-item slot="header" color="light">
-                    <ion-label>Clase: Numero Clase <ion-button><ion-icon name="qr-code-outline"></ion-icon></ion-button></ion-label>
+                    <ion-label>Clase:{{ i + 1 }}  ({{ formatFechaHora(sesion.fecha_hora)}})
+                      
+                      <ion-button (click)="QrXsesion(sesion)"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
+
+                    </ion-label>
                   </ion-item>
 
-                    <div class="ion-padding" slot="content">
-                      <div *ngFor="let asistencia of asistencias; let i = index">
-                        <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
-                          <div style="display: flex; justify-content: space-between;">
-                            <ion-label>Nombre del alumno</ion-label>
-                            <span>{{asistencia.estado}}</span>
-                          </div>
-                          <br>
+                  <div class="ion-padding" slot="content">
+                    <div *ngFor="let asistencia of asistencias">
+                      <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
+                        <div style="display: flex; justify-content: space-between;">
+                          <ion-label>{{ asistencia.nombre }} {{ asistencia.apellido }} {{ formatFechaHora(asistencia.fecha_hora)}}</ion-label>
+                          <span>{{ asistencia.estado }}</span>
                         </div>
+                        <br>
                       </div>
                     </div>
+                  </div>
                     
                 </ion-accordion>
               </ion-accordion-group>
@@ -40,7 +44,6 @@
       </div>
         <ion-button expand="block" class="ion-padding" (click)="mostrarAlerta()">AGREGAR UNA CLASE</ion-button>
     </ion-list>
-
 </ion-content>
 
 <ng-template #sinSesiones>

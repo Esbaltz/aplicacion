@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Asistencia, Clases, Sesiones, Usuario } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
 import { user } from '@angular/fire/auth';
 import { LocaldbService } from 'src/app/services/localdb.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, AlertInput } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-lista',
   templateUrl: './lista.page.html',
   styleUrls: ['./lista.page.scss'],
+  providers: [DatePipe]
 })
 export class ListaPage implements OnInit {
-
-  asistencias : Asistencia[] = [];
+ 
+  asistencias: (Asistencia & { nombre?: string; apellido?: string })[] = [];
   usuarios :Usuario[] = [];
   alumnos : Usuario = {
     id_usuario : '',
@@ -74,39 +76,41 @@ export class ListaPage implements OnInit {
     }
   ];
 
-  public alertInputs = [
-    {
-      placeholder: 'Qr',
-      name: 'qr_code',
-      type: 'text' as 'text',  
-    },
-    {
-      placeholder: 'Fecha: (ejemplo: 12/08/2024)',
-      name: 'fecha',
-      type: 'text' as 'text',  
-      attributes: {
-        maxlength: 10,
+  public getAlertInputs(): AlertInput[] {
+    return [
+      {
+        placeholder: 'Fecha: (ejemplo: 12/08/2024)',
+        name: 'fecha',
+        type: 'text',  
+        attributes: {
+          maxlength: 10,
+        },
       },
-    },
-    {
-      placeholder: 'Hora: (ejemplo: 22:12)',
-      name: 'hora',
-      type: 'text' as 'text',  
-      attributes: {
-        maxlength: 5,
+      {
+        placeholder: 'Hora: (ejemplo: 22:12)',
+        name: 'hora',
+        type: 'text',  
+        attributes: {
+          maxlength: 5,
+        },
       },
-    },
-    {
-      type: 'textarea' as 'textarea',  
-      placeholder: 'Una descripción de la clase',
-      name: 'descripcion',
-    },
-  ];
+      {
+        type: 'textarea',  
+        placeholder: 'Una descripción de la clase',
+        name: 'descripcion',
+      },
+    ];
+  }
+ 
+  isModalOpen = false;
+  qrValue = '';
 
 
   constructor( private firestoreService : FireStoreService , 
                private sesion : sesionService , private route: ActivatedRoute , 
-               private db: LocaldbService , private alertController: AlertController) {
+               private db: LocaldbService , private alertController: AlertController,
+               private router: Router,
+               private datePipe: DatePipe) {
     this.userId = this.sesion.getUser()?.id_usuario; 
     this.Usuarios();
     this.loadasistencia();
@@ -120,16 +124,42 @@ export class ListaPage implements OnInit {
       this.cargarCurso(ClaseId);
     }
     this.CargarSesiones()
+
+  }
+  formatFechaHora(timestamp: any): string {
+    if (timestamp && timestamp.seconds) {
+      // Convertir el Timestamp de Firebase a un objeto Date
+      const date = new Date(timestamp.seconds * 1000); // Convertir de segundos a milisegundos
+      return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm')!;
+    }
+    return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
   }
 
-  loadasistencia(){
-    this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe( data => {
-      console.log(data);
-      if (data) {
-        this.asistencias = data
-        console.log('Todas las asistencias => ',this.asistencias)
+  loadasistencia() {
+    // Se cargan todos los usuarios
+    this.firestoreService.getCollectionChanges<Usuario>('Usuarios').subscribe((usuarios) => {
+      if (usuarios) {
+        this.usuarios = usuarios;
+        console.log('Usuarios cargados:', this.usuarios);
+        
+        // acá se cargan los asistencias
+        this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe((asistencias) => {
+          if (asistencias) {
+            // se busca al usuario con el id del usario
+            this.asistencias = asistencias.map((asistencia) => {
+              const alumno = this.usuarios.find((user) => user.id_usuario === asistencia.id_alumno);
+
+              return {
+                ...asistencia,
+                nombre: alumno ? alumno.nombre : 'Desconocido',
+                apellido: alumno ? alumno.apellido : 'Desconocido'
+              };
+            });
+            console.log('Asistencias con nombres:', this.asistencias);
+          }
+        });
       }
-    })
+    });
   }
 
   cargarUsuarios(){
@@ -188,10 +218,10 @@ export class ListaPage implements OnInit {
   async mostrarAlerta() {
     const alert = await this.alertController.create({
       header: 'Nueva Clase',
-      inputs: this.alertInputs, 
+      inputs: this.getAlertInputs(),  
       buttons: this.alertButtons
     });
-
+  
     await alert.present();
   }
 
@@ -201,7 +231,7 @@ export class ListaPage implements OnInit {
     const [hour, minute] = data.hora.split(':');
 
     if (year && month && day && hour && minute) {
-      this.NuevaClase.qr_code = data.qr_code;
+      this.NuevaClase.qr_code = this.NuevaClase.id_sesion;
       this.NuevaClase.fecha_hora = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
       this.NuevaClase.descripcion = data.descripcion;
       this.NuevaClase.id_clase = this.IdClase 
@@ -243,4 +273,15 @@ export class ListaPage implements OnInit {
       console.log('Id-User :',usuario.id_usuario)
     })
   }
+
+  QrXsesion( sesion : Sesiones){
+    console.log('Sesion=>', sesion)
+    this.router.navigate(['/codigo',sesion.id_sesion] );
+    console.log('Se a guardado la sesion con el ID =',sesion.id_sesion , 'y el QR =',sesion.qr_code)
+
+  }
+
+  
 }
+
+

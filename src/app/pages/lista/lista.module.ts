@@ -10,13 +10,16 @@ import { ListaPage } from './lista.page';
 
 import { DatePipe } from '@angular/common';
 
+import { QrCodeModule } from 'ng-qrcode';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     DatePipe,
-    ListaPageRoutingModule
+    ListaPageRoutingModule,
+    QrCodeModule 
   ],
   declarations: [ListaPage]
 })
