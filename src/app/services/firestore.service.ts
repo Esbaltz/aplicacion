@@ -55,6 +55,7 @@ export class FireStoreService {
         const document = doc(this.firestore, `${enlace}/${idDoc}`);
         return updateDoc(document, { estado: NuevoEstado, fecha_hora : FechaNueva });
       }
+
     
       deleteDocumentID(enlace: string, idDoc: string) {
         const document = doc(this.firestore, `${enlace}/${idDoc}`);
@@ -71,7 +72,7 @@ export class FireStoreService {
         return uuidv
       }
 
-      // Para scanear
+      // Para scanear bueno
       getAttendanceRecord(id_clase: string, id_sesion: string, id_alumno: string) {
         const attendanceCollection = collection(this.firestore, 'Asistencia');
         const q = query(
@@ -80,10 +81,16 @@ export class FireStoreService {
           where('id_sesion', '==', id_sesion),
           where('id_alumno', '==', id_alumno)
         );
+      
         return collectionData(q, { idField: 'id' }).pipe(
-          map(records => records.length > 0 ? records[0] : null)
+          map(records => {
+            console.log('Registros obtenidos:', records);  // Depuración para revisar los registros
+            return records.length > 0 ? records[0] : null;
+          })
         ).toPromise();
       }
+
+      
       
 
       guardarAsistencia(asistenciaData: any): Promise<void> {

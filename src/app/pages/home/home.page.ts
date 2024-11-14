@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
 import { UserService } from 'src/app/services/usuarios.service';
@@ -11,6 +11,7 @@ import { AlertController, ToastController  } from '@ionic/angular';
 import { LocaldbService } from 'src/app/services/localdb.service';
 import { Asistencia, Clases, Sesiones } from 'src/app/interfaces/iusuario';
 import { firstValueFrom } from 'rxjs';
+import { Firestore, collection, getDocs, query, where } from '@angular/fire/firestore';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class HomePage implements OnInit {
   barcodes: Barcode[] = [];
   scanHistory: { date: string ,data: string }[] = [];
   asistencias : Asistencia[] = []
+  firestore: Firestore = inject(Firestore);
   
   // Esta funcion entreg alos datos del usuario logeado
   rol = this.sesion.getUser()?.rol;
@@ -63,8 +65,9 @@ export class HomePage implements OnInit {
     const today = new Date().toISOString();  // Incluye fecha y hora
   
     for (const barcode of barcodes) {
-      const data = barcode.displayValue || '';
-      
+      const data = barcode.displayValue || '';  // Captura el valor del código QR
+      console.log('QR escaneado:', data);  // Verifica que se esté capturando el valor del QR
+  
       try {
         // Si solo tienes el id_sesion en el QR, puedes manejarlo de esta forma
         const qrData = { id_sesion: data };  // El QR solo contiene el id_sesion
@@ -93,29 +96,72 @@ export class HomePage implements OnInit {
     const alumnoId = this.sesion.getUser()?.id_usuario;
     if (!alumnoId) return;
   
-    // Aquí deberías buscar la clase asociada a la sesión (esto depende de tu estructura)
-    const clase = await this.getClaseBySesion(id_sesion);
-    if (!clase) {
-      this.presentToast('No se encontró la clase para esta sesión.');
-      return;
-    }
+    // Obtén la asistencia existente (si la hay) usando el método anterior
+    const asistenciaExistente = await this.getAsistenciaBySesionAndAlumno(id_sesion, alumnoId);
   
-    // Registra la asistencia usando solo el id_sesion
-    const asistenciaData = {
-      estado: 'Presente',
-      fecha_hora,
-      id_alumno: alumnoId,
-      id_asistencia: this.firestoreService.createIdDoc(), // genera un ID único para el registro
-      id_clase: clase.id_clase,  // Asocia la clase obtenida
-      id_sesion: id_sesion,
-    };
+    if (asistenciaExistente) {
+      // Si la asistencia existe, actualízala
+      await this.firestoreService.updateAsistenciaAlumno(
+        'Asistencia',
+        asistenciaExistente.id,
+        'Presente',
+        new Date(fecha_hora)
+      );
+      this.presentToast('Asistencia actualizada correctamente.');
+    } else {
+      // Si la asistencia no existe, crea un nuevo registro
+      const clase = await this.getClaseBySesion(id_sesion);
+      if (!clase) {
+        this.presentToast('No se encontró la clase para esta sesión.');
+        return;
+      }
   
-    try {
+      const asistenciaData = {
+        estado: 'Presente',
+        fecha_hora,
+        id_alumno: alumnoId,
+        id_asistencia: this.firestoreService.createIdDoc(),
+        id_clase: clase.id_clase,
+        id_sesion: id_sesion,
+      };
+  
       await this.firestoreService.guardarAsistencia(asistenciaData);
       this.presentToast('Asistencia registrada correctamente.');
+    }
+  }
+  
+  async getAsistenciaBySesionAndAlumno(id_sesion: string, id_alumno: string) {
+    try {
+      // Crea una referencia a la colección "Asistencia"
+      const attendanceCollection = collection(this.firestore, 'Asistencia');
+      
+      // Crea una consulta que filtre por id_sesion y id_alumno
+      const q = query(
+        attendanceCollection,
+        where('id_sesion', '==', id_sesion),
+        where('id_alumno', '==', id_alumno)
+      );
+  
+      // Ejecuta la consulta y espera los resultados
+      const querySnapshot = await getDocs(q);
+  
+      if (querySnapshot.empty) {
+        console.log('No se encontró asistencia para esta sesión y alumno.');
+        return null;  // No se encontró ningún documento
+      }
+  
+      // Si se encuentra un documento, devuelve el primer resultado
+      const asistenciaDoc = querySnapshot.docs[0];
+      console.log('Asistencia encontrada:', asistenciaDoc.data());
+      
+      // Devuelve el ID de la asistencia
+      return {
+        id: asistenciaDoc.id,
+        ...asistenciaDoc.data(),
+      };
     } catch (error) {
-      console.error('Error al registrar asistencia:', error);
-      this.presentToast('Error al registrar asistencia.');
+      console.error('Error al obtener la asistencia:', error);
+      return null;  // Si ocurre algún error, devuelve null
     }
   }
   
