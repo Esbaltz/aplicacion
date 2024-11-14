@@ -15,7 +15,7 @@ import { AlertController, AlertInput } from '@ionic/angular';
 })
 export class ListaPage implements OnInit {
  
-  asistencias : Asistencia[] = [];
+  asistencias: (Asistencia & { nombre?: string; apellido?: string })[] = [];
   usuarios :Usuario[] = [];
   alumnos : Usuario = {
     id_usuario : '',
@@ -124,14 +124,31 @@ export class ListaPage implements OnInit {
 
   }
 
-  loadasistencia(){
-    this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe( data => {
-      console.log(data);
-      if (data) {
-        this.asistencias = data
-        console.log('Todas las asistencias => ',this.asistencias)
+  loadasistencia() {
+    // Se cargan todos los usuarios
+    this.firestoreService.getCollectionChanges<Usuario>('Usuarios').subscribe((usuarios) => {
+      if (usuarios) {
+        this.usuarios = usuarios;
+        console.log('Usuarios cargados:', this.usuarios);
+        
+        // acá se cargan los asistencias
+        this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe((asistencias) => {
+          if (asistencias) {
+            // se busca al usuario con el id del usario
+            this.asistencias = asistencias.map((asistencia) => {
+              const alumno = this.usuarios.find((user) => user.id_usuario === asistencia.id_alumno);
+
+              return {
+                ...asistencia,
+                nombre: alumno ? alumno.nombre : 'Desconocido',
+                apellido: alumno ? alumno.apellido : 'Desconocido'
+              };
+            });
+            console.log('Asistencias con nombres:', this.asistencias);
+          }
+        });
       }
-    })
+    });
   }
 
   cargarUsuarios(){
@@ -214,32 +231,27 @@ export class ListaPage implements OnInit {
       this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
 
       //Aqui guardo a los alumnos que se registraran en la asistencia
-      this.cursos.forEach( curso => {
-        if( curso.id_clase === this.IdClase){
-        this.usuarios.forEach(usuario => {
-          if (usuario.rol === 'Alumno' && usuario.id_usuario === curso.id_alumno) {
-            // Crear una nueva instancia para cada alumno
-            const idUnico = this.firestoreService.createIdDoc();
-            const nuevaAsistencia = {
-              id_alumno: usuario.id_usuario,
-              fecha_hora: new Date(`${year}-${month}-${day}T${hour}:${minute}:00`),
-              id_sesion: this.NuevaClase.id_sesion,
-              estado: 'Ausente',
-              id_asistencia: idUnico,
-              id_clase : this.IdClase
-            };
-        
-            // Guardar en localStorage y en Firebase
-            localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
-            console.log('Lista de Asistencia :', nuevaAsistencia);
-            this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
-          } else {
-            console.log('No se pudo realizar la asistencia');
-          }
-        });
+      this.usuarios.forEach(usuario => {
+        if (usuario.rol === 'Alumno') {
+          // Crear una nueva instancia para cada alumno
+          const idUnico = this.firestoreService.createIdDoc();
+          const nuevaAsistencia = {
+            id_alumno: usuario.id_usuario,
+            fecha_hora: new Date(`${year}-${month}-${day}T${hour}:${minute}:00`),
+            id_sesion: this.NuevaClase.id_sesion,
+            estado: 'Ausente',
+            id_asistencia: idUnico,
+            id_clase : this.IdClase
+          };
+      
+          // Guardar en localStorage y en Firebase
+          localStorage.setItem('asistencia_' + nuevaAsistencia.id_asistencia, JSON.stringify(nuevaAsistencia));
+          console.log('Lista de Asistencia :', nuevaAsistencia);
+          this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
+        } else {
+          console.log('No se pudo realizar la asistencia');
         }
-      })
-
+      });
     } else {
       console.error('Fecha o hora no válidas');
     }
