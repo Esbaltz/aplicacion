@@ -30,6 +30,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.reloadPage();
     if (this.sesion.isLoggedIn()) {
       // this.router.navigate(['/perfil']);
     } else {
@@ -123,6 +124,13 @@ export class LoginPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  reloadPage() {
+    // Recargar la página al navegar a la misma ruta
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([decodeURI(this.router.url)]);
+    });
   }
 
 }
