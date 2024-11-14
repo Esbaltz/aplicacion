@@ -133,4 +133,9 @@ export class LoginPage implements OnInit {
     });
   }
 
+  Reload() {
+    this.router.navigate(['/login']);
+    location.reload();  // Recarga la página
+  }
+
 }

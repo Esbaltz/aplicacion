@@ -20,7 +20,7 @@
         <ion-text color="secondary">{{ sesion.getUser()?.password }}</ion-text>
       </ion-item>
       <br>
-      <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login'])">
+      <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login'])" (click)="Reload()">
         Cerrar sesión
       </ion-button>
       <ion-button expand="block" routerLink="/home">  Volver al Menu</ion-button>
