@@ -17,7 +17,7 @@
               <ion-accordion-group>
                 <ion-accordion value="first">
                   <ion-item slot="header" color="light">
-                    <ion-label>Clase: Numero Clase 
+                    <ion-label>Clase:{{ i + 1 }}  ({{ formatFechaHora(sesion.fecha_hora)}})
                       
                       <ion-button (click)="QrXsesion(sesion)"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
 

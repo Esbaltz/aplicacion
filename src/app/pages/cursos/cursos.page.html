@@ -9,17 +9,6 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-toolbar>
-    <ion-segment [(ngModel)]="selectedSegment">
-      <ion-segment-button value="inscritos">
-        <ion-label>Inscritos</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="historial">
-        <ion-label>Historial</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-
   <div *ngIf="cursos && cursos.length > 0; else sinCursos">
     <div *ngFor="let curso of cursos; let i = index">
       <ion-list [inset]="true">
