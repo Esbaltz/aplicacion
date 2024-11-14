@@ -6,12 +6,14 @@ import { sesionService } from 'src/app/services/sesion.service';
 import { user } from '@angular/fire/auth';
 import { LocaldbService } from 'src/app/services/localdb.service';
 import { AlertController, AlertInput } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-lista',
   templateUrl: './lista.page.html',
   styleUrls: ['./lista.page.scss'],
+  providers: [DatePipe]
 })
 export class ListaPage implements OnInit {
  
@@ -107,7 +109,8 @@ export class ListaPage implements OnInit {
   constructor( private firestoreService : FireStoreService , 
                private sesion : sesionService , private route: ActivatedRoute , 
                private db: LocaldbService , private alertController: AlertController,
-               private router: Router) {
+               private router: Router,
+               private datePipe: DatePipe) {
     this.userId = this.sesion.getUser()?.id_usuario; 
     this.Usuarios();
     this.loadasistencia();
@@ -122,6 +125,14 @@ export class ListaPage implements OnInit {
     }
     this.CargarSesiones()
 
+  }
+  formatFechaHora(timestamp: any): string {
+    if (timestamp && timestamp.seconds) {
+      // Convertir el Timestamp de Firebase a un objeto Date
+      const date = new Date(timestamp.seconds * 1000); // Convertir de segundos a milisegundos
+      return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm')!;
+    }
+    return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
   }
 
   loadasistencia() {

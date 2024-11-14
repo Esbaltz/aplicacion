@@ -28,7 +28,7 @@
                     <div *ngFor="let asistencia of asistencias">
                       <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
                         <div style="display: flex; justify-content: space-between;">
-                          <ion-label>{{ asistencia.nombre }} {{ asistencia.apellido }}</ion-label>
+                          <ion-label>{{ asistencia.nombre }} {{ asistencia.apellido }} {{ formatFechaHora(asistencia.fecha_hora)}}</ion-label>
                           <span>{{ asistencia.estado }}</span>
                         </div>
                         <br>
