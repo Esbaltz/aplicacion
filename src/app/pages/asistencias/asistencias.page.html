@@ -25,7 +25,7 @@
                       <div *ngFor="let asistencia of asistencias; let i = index">
                         <div *ngIf="asistencia.id_alumno === usuarioId && asistencia.id_clase === curso.id_clase">
                           <div style="display: flex; justify-content: space-between;">
-                            <ion-label>Fecha : </ion-label>
+                            <ion-label>Fecha : {{formatFechaHora(asistencia.fecha_hora) }}</ion-label>
                             <span>{{asistencia.estado}}</span>
                           </div>
                         </div>

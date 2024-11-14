@@ -4,11 +4,13 @@ import { Asistencia, Clases, Sesiones } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { LocaldbService } from 'src/app/services/localdb.service';
 import { sesionService } from 'src/app/services/sesion.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-asistencias',
   templateUrl: './asistencias.page.html',
   styleUrls: ['./asistencias.page.scss'],
+  providers: [DatePipe]
 })
 export class AsistenciasPage implements OnInit {
   cursos: Clases[] = [];
@@ -25,7 +27,7 @@ export class AsistenciasPage implements OnInit {
   }
   scanHistory: { data: string }[] = []; 
   EstadoNuevo = 'Presente'
-  constructor(private sesion : sesionService , private firestoreService : FireStoreService , private db:LocaldbService , private alertctrl:AlertController , private toastController:ToastController) { 
+  constructor(private datePipe: DatePipe,private sesion : sesionService , private firestoreService : FireStoreService , private db:LocaldbService , private alertctrl:AlertController , private toastController:ToastController) { 
 
     this.usuarioId = this.sesion.getUser()?.id_usuario;
   }
@@ -37,6 +39,15 @@ export class AsistenciasPage implements OnInit {
     this.loadasistencia()
     const storedHistory = localStorage.getItem('scanHistory');
     this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
+    
+  }
+  formatFechaHora(timestamp: any): string {
+    if (timestamp && timestamp.seconds) {
+      // Convertir el Timestamp de Firebase a un objeto Date
+      const date = new Date(timestamp.seconds * 1000); // Convertir de segundos a milisegundos
+      return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm')!;
+    }
+    return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
   }
 
   ScaneoQr() {
