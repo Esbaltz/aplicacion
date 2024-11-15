@@ -14,12 +14,6 @@
         <ion-text color="secondary">{{ sesion.getUser()?.correo}}</ion-text>
       </ion-item>
       <br>
-      <ion-item>
-        <ion-label>Contraseña</ion-label>
-
-        <ion-text color="secondary">{{ sesion.getUser()?.password }}</ion-text>
-      </ion-item>
-      <br>
       <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login'])" (click)="Reload()">
         Cerrar sesión
       </ion-button>
@@ -45,14 +39,9 @@
             <ion-button expand="full" type="submit" class="submit-button" [disabled]="inicioForm.invalid">
               Iniciar sesión
             </ion-button>
-
-            <ion-item lines="none" class="forgot-password">
-              <ion-label>
-              
-                <br>
+            <br>
+            <ion-text color="primary" class="ion-padding"> No tienes Cuenta ? <span routerLink="/registro"> Registrastrate aqui !!</span></ion-text>
                 
-              </ion-label>
-            </ion-item>
           </form>
         </ng-template>
       </ion-card-content>

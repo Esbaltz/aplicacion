@@ -71,7 +71,15 @@ const routes: Routes = [
   {
     path: 'detalle-clase/:id',
     loadChildren: () => import('./pages/detalle-clase/detalle-clase.module').then( m => m.DetalleClasePageModule)
+  },  {
+    path: 'cursos-alumno',
+    loadChildren: () => import('./pages/cursos-alumno/cursos-alumno.module').then( m => m.CursosAlumnoPageModule)
   },
+  {
+    path: 'cursos-disponibles',
+    loadChildren: () => import('./pages/cursos-disponibles/cursos-disponibles.module').then( m => m.CursosDisponiblesPageModule)
+  },
+
 
 
 

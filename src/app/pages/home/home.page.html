@@ -23,16 +23,31 @@
     <p>No se pudo determinar el rol del usuario.</p>
   </ng-container>
 
-  <ion-card routerLink="/cursos"> 
-    <ion-card-header>
-      <ion-card-title>Cursos</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Aqui se registran los cursos que tienes escrito durante este semestre
-    </ion-card-content>
-  </ion-card>
+  <ng-container *ngIf="rol === 'Docente' ">
+    <ion-card routerLink="/cursos"> 
+      <ion-card-header>
+        <ion-card-title>Cursos</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Aqui se registran los cursos que tienes escrito durante este semestre
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="rol === 'Alumno' ">
+    <ion-card routerLink="/cursos-alumno"> 
+      <ion-card-header>
+        <ion-card-title>Cursos</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Aqui se registran los cursos que tienes escrito durante este semestre
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 
   <ng-container *ngIf="rol === 'Alumno'">
   <br>
