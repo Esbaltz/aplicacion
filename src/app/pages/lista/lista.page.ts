@@ -44,7 +44,8 @@ export class ListaPage implements OnInit {
     id_clase : '',
     nomb_clase : '',
     semestre : 0,
-    estado : ''
+    estado : '',
+    descripcion : ''
 
   };
   IdClase : any

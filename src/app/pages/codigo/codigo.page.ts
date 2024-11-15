@@ -28,7 +28,7 @@ export class CodigoPage implements OnInit {
       this.cargarSesion(SesionId);
     }
   }
-
+ 
   cargarSesion(id_sesion: string) {
     this.firestoreService.getDocument<Sesiones>('Sesiones', id_sesion).subscribe(sesion => {
       if (sesion) {
