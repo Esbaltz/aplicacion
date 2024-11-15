@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
+import { sesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-detalle-clase',
@@ -20,10 +21,13 @@ export class DetalleClasePage implements OnInit {
     estado : ''
   }
   Idclase : any
-  constructor(private firestoreService : FireStoreService , private route: ActivatedRoute) { }
+
+  rol : any
+  constructor(private firestoreService : FireStoreService , private route: ActivatedRoute , private sesion : sesionService ) { }
 
   ngOnInit() {
     
+    this.rol = this.sesion.getUser()?.rol
     const ClaseId = this.route.snapshot.paramMap.get('id');
     console.log("ClaseId recibido: ", ClaseId);  
     if (ClaseId) {

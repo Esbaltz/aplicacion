@@ -39,9 +39,13 @@
 
         
       </ion-card-content>
-        
+      <div *ngIf="this.rol === 'Docente'" >
         <ion-button class="ion-padding" expand="block" routerLink="/cursos" color="secondary">Volver</ion-button>
+      </div>
 
+      <div *ngIf="this.rol === 'Alumno'" >
+        <ion-button class="ion-padding" expand="block" routerLink="/cursos-alumno" color="secondary">Volver</ion-button>
+      </div>
   </ion-card>
 </ion-content>
 
