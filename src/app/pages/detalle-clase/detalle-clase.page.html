@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="cursos"></ion-back-button>
+    </ion-buttons>
+    <ion-title> {{ this.CursoCargado.nomb_clase}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <br>
+  <ion-card class="custom-card">
+      <ion-card-header>
+        <ion-card-title class="title">Detalles Curso</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-item lines="none">
+          <ion-label>Nombre </ion-label>
+          <ion-text color="primary">
+            <strong>{{ this.CursoCargado.nomb_clase }}</strong>
+          </ion-text>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label>Semestre</ion-label>
+          <ion-text color="primary">
+            <strong>{{ this.CursoCargado.semestre }}</strong>
+          </ion-text>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label>Profesor</ion-label>
+          <ion-text>
+            <strong> Nombre profe</strong>
+          </ion-text>
+        </ion-item>
+
+        
+      </ion-card-content>
+        
+        <ion-button class="ion-padding" expand="block" routerLink="/cursos" color="secondary">Volver</ion-button>
+
+  </ion-card>
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar color="primary"></ion-toolbar>
+</ion-footer>

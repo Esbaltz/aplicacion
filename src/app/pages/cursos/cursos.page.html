@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-    <ion-title>cursos </ion-title>
+    <ion-title>Listado de Cursos </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,16 +12,18 @@
   <div *ngIf="cursos && cursos.length > 0; else sinCursos">
     <div *ngFor="let curso of cursos; let i = index">
       <ion-list [inset]="true">
-          <ion-item>
-              <ion-label>2024-{{ curso.semestre }} {{ curso.nomb_clase}} ({{curso.estado}})</ion-label>
+          <ion-item color="secondary">
+              <ion-label>2024-{{ curso.semestre }} {{ curso.nomb_clase}}</ion-label> <ion-button  size="large" (click)="DetalleCurso(curso)"> Detalles</ion-button>
           </ion-item>  
       </ion-list>
     </div>
   </div>
+  <ion-button expand="block" class="ion-padding" routerLink="/agregar-clase"> Agregar Curso </ion-button>
 </ion-content>
 
 <ng-template #sinCursos>
-  <ion-text class="ion-padding"> No hay cursos </ion-text>
+  <br>
+  <ion-text class="ion-padding"> No tienes cursos Registrados </ion-text>
 </ng-template>
 
 <ion-footer>

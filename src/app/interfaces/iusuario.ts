@@ -14,6 +14,7 @@ export interface Clases{
     id_docente : any
     id_clase : string
     id_alumno : any
+    descripcion : string
 }
 
 export interface Sesiones {

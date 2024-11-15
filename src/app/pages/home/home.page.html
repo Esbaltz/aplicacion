@@ -62,20 +62,41 @@
     </ion-card>
     </ng-container>
 
+  <ng-container *ngIf="rol === 'Docente'">
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button>
-      <ion-icon name="person-circle-outline"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button (click)="scan()" [disabled]="!isSupported">
-        <ion-icon name="qr-code-outline"></ion-icon>
+      <ion-fab-button>
+        <ion-icon name="person-circle-outline"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button routerLink="/login">
-        <ion-icon name="log-out-outline"> </ion-icon>
+
+      <ion-fab-list side="top">        
+        <ion-fab-button routerLink="/login">
+          <ion-icon name="log-out-outline"> </ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+
+    </ion-fab>
+  </ng-container>
+
+  <ng-container *ngIf="rol === 'Alumno'">
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+
+      <ion-fab-button>
+        <ion-icon name="person-circle-outline"></ion-icon>
       </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+
+      <ion-fab-list side="top">
+        <ion-fab-button (click)="scan()" [disabled]="!isSupported">
+          <ion-icon name="qr-code-outline"></ion-icon>
+        </ion-fab-button>
+        
+        <ion-fab-button routerLink="/login">
+          <ion-icon name="log-out-outline"> </ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+
+    </ion-fab>
+  </ng-container>
 </ion-content>
 
 <ion-footer>

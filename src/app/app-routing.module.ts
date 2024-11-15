@@ -64,6 +64,15 @@ const routes: Routes = [
     path: 'prueba',
     loadChildren: () => import('./pages/prueba/prueba.module').then( m => m.PruebaPageModule)
   },
+  {
+    path: 'agregar-clase',
+    loadChildren: () => import('./pages/agregar-clase/agregar-clase.module').then( m => m.AgregarClasePageModule)
+  },
+  {
+    path: 'detalle-clase/:id',
+    loadChildren: () => import('./pages/detalle-clase/detalle-clase.module').then( m => m.DetalleClasePageModule)
+  },
+
 
 
 ];
