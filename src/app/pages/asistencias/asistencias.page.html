@@ -11,45 +11,41 @@
 
   <ion-list lines="full">
     <div *ngIf="cursos && cursos.length > 0; else sinCursos">
-      <div *ngFor="let curso of cursos; let i = index">
-        <ion-item>
-          <ion-label>
-             
-            <ion-accordion-group>
-              <ion-accordion value="first">
-                <ion-item slot="header" color="light">
-                    <ion-label>{{ curso.nomb_clase}}</ion-label>
-                  </ion-item>
+        <div *ngFor="let curso of cursos; let i = index">
+          <div *ngFor="let alumno of curso.alumnos">
+            <div *ngIf=" alumno === this.usuarioId">
+              <ion-item>
+                <ion-label>
+                  <ion-accordion-group>
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="light">
+                          <ion-label>{{ curso.nomb_clase}}</ion-label>
+                        </ion-item>
 
-                    <div class="ion-padding" slot="content">
-                      <div *ngFor="let asistencia of asistencias; let i = index">
-                        <div *ngIf="asistencia.id_alumno === usuarioId && asistencia.id_clase === curso.id_clase">
-                          <div style="display: flex; justify-content: space-between;">
-                            <ion-label>Fecha : {{formatFechaHora(asistencia.fecha_hora) }}</ion-label>
-                            <span>{{asistencia.estado}}</span>
+                          <div class="ion-padding" slot="content">
+
+                            <div *ngFor="let asistencia of asistencias; let i = index">
+                              <div *ngIf="asistencia.id_alumno === usuarioId && asistencia.id_clase === curso.id_clase">
+                                <div style="display: flex; justify-content: space-between;">
+                                  <ion-label>Fecha : {{formatFechaHora(asistencia.fecha_hora) }}</ion-label>
+                                  <span>{{asistencia.estado}}</span>
+                                </div>
+                              </div>
+                            </div>
+                            
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                
-              </ion-accordion>
-            </ion-accordion-group>
-        
-          </ion-label>
-        </ion-item>
-      </div>
+                      
+                    </ion-accordion>
+                  </ion-accordion-group>
+              
+                </ion-label>
+              </ion-item>
+            </div>
+          </div>
+        </div>
     </div>
      
   </ion-list>
-
-  <ion-list>
-    <ion-item *ngFor="let scan of scanHistory">
-      <ion-label>
-        <h2>{{ scan.data }}</h2>
-      </ion-label>
-    </ion-item>
-  </ion-list>
- 
 
 </ion-content>
 

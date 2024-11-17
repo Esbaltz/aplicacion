@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, AlertInput } from '@ionic/angular';
-import { Clases } from 'src/app/interfaces/iusuario';
+import { Alumno, Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { LocaldbService } from 'src/app/services/localdb.service';
 import { sesionService } from 'src/app/services/sesion.service';
@@ -13,9 +13,9 @@ import { sesionService } from 'src/app/services/sesion.service';
 })
 export class CursosDisponiblesPage implements OnInit {
 
-  cursos : Clases[] = [];
+  cursos : Clases[] = []
+  cursosDisponibles: Clases[] = [];
   userId : any
-
 
   constructor( private sesion : sesionService , 
               private firestoreService : FireStoreService ,
@@ -28,31 +28,37 @@ export class CursosDisponiblesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.CargarDisponibles();
+    console.log('Id del usuario',this.userId)
+    this.CargarCursos();
   }
 
-  CargarDisponibles() {
-    this.firestoreService.getCollectionChanges<{ id_alumno: string, id_clase: string }>('Clases')
-      .subscribe(ClasesIns => {
-        if (ClasesIns) {
-          console.log('ClasesIns =>',ClasesIns)
+  CargarCursos() {
+    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
+      console.log(data);
+      if (data) {
+        // Filtramos los cursos que no tienen al usuario en el array 'alumnos'
+        this.cursos = data.filter(curso => !curso.alumnos.includes(this.userId));
+  
+        console.log("Cursos Cargados y Filtrados");
+      }
+    });
+  }
 
-          const ClasesUsuario = ClasesIns.filter(c => c.id_alumno !== this.userId);
-          console.log('ClasesUsuario', ClasesUsuario)
-
-          const ClasesIds = ClasesUsuario.map(c => c.id_clase);
-          console.log('ClasesIds =>',ClasesIds)
-
-          this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
-            if (data) {
-              console.log(data)
-              this.cursos = data.filter(curso => ClasesIds.includes(curso.id_clase));
-              console.log(this.cursos)
-            }
-          })
-        }
-      });
-  } 
+  agregarAlumno(claseRecibida: string) {
+    const alumno = this.userId;
+    const id_clase = claseRecibida; // ID de la clase a la que quieres agregar el alumno
+  
+    this.firestoreService.agregarAlumnoAClase(id_clase, alumno).then(() => {
+      console.log('Alumno agregado correctamente');
+      // Recargamos los cursos para actualizar la vista
+      this.CargarCursos();  // Esto actualizará la lista de cursos disponibles
+  
+      // Redirigimos al usuario
+      this.router.navigate(['/cursos-alumno']);
+    }).catch(error => {
+      console.error('Error al agregar el alumno:', error);
+    });
+  }
 
   async mostrarAlerta( curso : Clases) {
     const alert = await this.alertController.create({
@@ -89,6 +95,7 @@ export class CursosDisponiblesPage implements OnInit {
           text: 'Aceptar',
           handler: () => {
             console.log('Curso inscrito',curso.nomb_clase);
+            this.agregarAlumno(curso.id_clase)
           }
         }
       ]
