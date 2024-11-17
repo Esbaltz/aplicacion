@@ -98,13 +98,11 @@ export class FireStoreService {
     }
 
     async agregarAlumnoAClase(id_clase: string, id_alumno: string): Promise<void> {
-      // Referencia al documento de la clase en la colección 'Clases'
       const claseRef = doc(this.firestore, `Clases/${id_clase}`);
     
       try {
-        // Actualizamos el campo 'alumnos' utilizando 'arrayUnion' para agregar el id del alumno
         await updateDoc(claseRef, {
-          alumnos: arrayUnion(id_alumno)  // Solo agregamos el ID del alumno
+          alumnos: arrayUnion(id_alumno)  
         });
     
         console.log(`Alumno con ID ${id_alumno} agregado correctamente a la clase ${id_clase}`);

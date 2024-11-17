@@ -36,7 +36,6 @@ export class CursosDisponiblesPage implements OnInit {
     this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
       console.log(data);
       if (data) {
-        // Filtramos los cursos que no tienen al usuario en el array 'alumnos'
         this.cursos = data.filter(curso => !curso.alumnos.includes(this.userId));
   
         console.log("Cursos Cargados y Filtrados");
@@ -46,14 +45,12 @@ export class CursosDisponiblesPage implements OnInit {
 
   agregarAlumno(claseRecibida: string) {
     const alumno = this.userId;
-    const id_clase = claseRecibida; // ID de la clase a la que quieres agregar el alumno
+    const id_clase = claseRecibida; 
   
     this.firestoreService.agregarAlumnoAClase(id_clase, alumno).then(() => {
       console.log('Alumno agregado correctamente');
-      // Recargamos los cursos para actualizar la vista
-      this.CargarCursos();  // Esto actualizará la lista de cursos disponibles
+      this.CargarCursos();  
   
-      // Redirigimos al usuario
       this.router.navigate(['/cursos-alumno']);
     }).catch(error => {
       console.error('Error al agregar el alumno:', error);
@@ -65,22 +62,22 @@ export class CursosDisponiblesPage implements OnInit {
       header: `${curso.nomb_clase}`,
       inputs: [
         {
-          type: 'text',  // Usamos 'text' para un campo de texto simple
+          type: 'text',  
           name: 'fecha',
-          value: `Semestre : ${curso.semestre}`,  // Valor que deseas mostrar
-          disabled: true,  // Establecemos el campo como deshabilitado
+          value: `Semestre : ${curso.semestre}`, 
+          disabled: true,  
         },
         {
-          type: 'text',  // Usamos 'text' para la hora
+          type: 'text',  
           name: 'hora',
-          value: `Estado : ${curso.estado}`,  // Valor que deseas mostrar
-          disabled: true,  // Establecemos el campo como deshabilitado
+          value: `Estado : ${curso.estado}`,  
+          disabled: true,  
         },
         {
-          type: 'textarea',  // Usamos 'textarea' para la descripción
+          type: 'textarea',  
           name: 'descripcion',
-          value: `Descripcion : ${curso.descripcion}`,  // Valor de la descripción
-          disabled: true,  // Establecemos el campo como deshabilitado
+          value: `Descripcion : ${curso.descripcion}`,  
+          disabled: true,  
         },
       ],
       buttons: [

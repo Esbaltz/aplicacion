@@ -242,7 +242,7 @@ export class ListaPage implements OnInit {
       
       // Crear la asistencia para este alumno
       const nuevaAsistencia = {
-        id_alumno: alumno,  // Asegurándote que 'id' esté presente
+        id_alumno: alumno,  
         fecha_hora: new Date(),
         id_sesion: this.NuevaClase.id_sesion,
         estado: 'Ausente',
