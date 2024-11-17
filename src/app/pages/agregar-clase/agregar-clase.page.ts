@@ -17,13 +17,15 @@ export class AgregarClasePage implements OnInit {
   cursos : Clases[] = [];
   userId : any
   NuevoCurso : Clases = {
-    id_alumno : 'Campo a cambiar',
+    alumnos : [],
     id_clase : this.firestoreService.createIdDoc(),
     id_docente : this.sesion.getUser()?.id_usuario,
-    estado : 'Nuevo',
+    estado : 'Inscrito',
     semestre : 2,
     nomb_clase : '',
-    descripcion : ''
+    descripcion : '',
+    seccion_num : 1,
+    seccion_letra : 'A'
   }
   nombreCompleto : any
 

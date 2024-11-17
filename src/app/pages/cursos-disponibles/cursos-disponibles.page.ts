@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, AlertInput } from '@ionic/angular';
-import { Clases } from 'src/app/interfaces/iusuario';
+import { Alumno, Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { LocaldbService } from 'src/app/services/localdb.service';
 import { sesionService } from 'src/app/services/sesion.service';
@@ -13,9 +13,12 @@ import { sesionService } from 'src/app/services/sesion.service';
 })
 export class CursosDisponiblesPage implements OnInit {
 
-  cursos : Clases[] = [];
+  cursos : Clases[] = []
   userId : any
 
+  alumnos : Alumno = {
+    id_alumno: ''
+  }
 
   constructor( private sesion : sesionService , 
               private firestoreService : FireStoreService ,
@@ -31,16 +34,17 @@ export class CursosDisponiblesPage implements OnInit {
     this.CargarDisponibles();
   }
 
+  // Hay que arreglarlo
   CargarDisponibles() {
-    this.firestoreService.getCollectionChanges<{ id_alumno: string, id_clase: string }>('Clases')
+    this.firestoreService.getCollectionChanges<{ alumnos: [ ], id_clase: string }>('Clases')
       .subscribe(ClasesIns => {
         if (ClasesIns) {
           console.log('ClasesIns =>',ClasesIns)
 
-          const ClasesUsuario = ClasesIns.filter(c => c.id_alumno !== this.userId);
+          const ClasesUsuario = ClasesIns.filter(c => c.alumnos !== this.userId);
           console.log('ClasesUsuario', ClasesUsuario)
 
-          const ClasesIds = ClasesUsuario.map(c => c.id_clase);
+          const ClasesIds = ClasesUsuario.map(c => c.id_clase );
           console.log('ClasesIds =>',ClasesIds)
 
           this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {

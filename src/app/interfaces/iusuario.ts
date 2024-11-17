@@ -7,14 +7,20 @@ export interface Usuario{
     id_usuario :string
 }
 
+export interface Alumno {
+    id_alumno : string
+}
+
 export interface Clases{
     nomb_clase : string,
     semestre : number,
     estado : string,
     id_docente : any
     id_clase : string
-    id_alumno : any
+    alumnos : Alumno[]
     descripcion : string
+    seccion_num : number
+    seccion_letra : string
 }
 
 export interface Sesiones {
