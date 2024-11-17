@@ -11,11 +11,15 @@
 
   <div *ngIf="cursos && cursos.length > 0; else sinCursos">
     <div *ngFor="let curso of cursos; let i = index">
-      <ion-list [inset]="true">
-          <ion-item color="secondary">
-              <ion-label>{{ curso.nomb_clase}}</ion-label> <ion-button  size="large" (click)="DetalleCurso(curso)">Detalles</ion-button>
-          </ion-item>  
-      </ion-list>
+      <div *ngFor="let alumno of curso.alumnos">
+        <div *ngIf=" alumno === this.userId">
+          <ion-list [inset]="true">
+              <ion-item color="secondary">
+                  <ion-label>{{ curso.nomb_clase}}</ion-label> <ion-button  size="large" (click)="DetalleCurso(curso)">Detalles</ion-button>
+              </ion-item>  
+          </ion-list>
+        </div>
+      </div>
     </div>
   </div>
   <ion-button expand="block" class="ion-padding" routerLink="/cursos-disponibles"> Curso disponibles </ion-button>

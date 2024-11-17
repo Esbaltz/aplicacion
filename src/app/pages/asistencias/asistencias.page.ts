@@ -17,16 +17,7 @@ export class AsistenciasPage implements OnInit {
   usuarioId : any
   asistencias : Asistencia[] = [];
   sesiones : Sesiones[] = [];
-  Asistencia_Actualizada : Asistencia = {
-    id_alumno : '',
-    id_clase : '',
-    id_sesion: '',
-    id_asistencia :'',
-    estado : '',
-    fecha_hora : new Date()
-  }
-  scanHistory: { data: string }[] = []; 
-  EstadoNuevo = 'Presente'
+
   constructor(private datePipe: DatePipe,private sesion : sesionService , private firestoreService : FireStoreService , private db:LocaldbService , private alertctrl:AlertController , private toastController:ToastController) { 
 
     this.usuarioId = this.sesion.getUser()?.id_usuario;
@@ -34,11 +25,9 @@ export class AsistenciasPage implements OnInit {
 
   ngOnInit(
   ) {
-    this.CargarCursos1()
+    this.CargarCursos()
     console.log('USUARIO ID =>',this.usuarioId)
     this.loadasistencia()
-    const storedHistory = localStorage.getItem('scanHistory');
-    this.scanHistory = storedHistory ? JSON.parse(storedHistory) : [];
     
   }
   formatFechaHora(timestamp: any): string {
@@ -48,36 +37,6 @@ export class AsistenciasPage implements OnInit {
       return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm')!;
     }
     return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
-  }
-
-  ScaneoQr() {
-      this.scanHistory.forEach( scan => {
-        const now = new Date();
-        // Extrae cada componente de la fecha actual
-        const year: number = now.getFullYear();
-        const month: string = (now.getMonth() + 1).toString().padStart(2, '0'); // Mes (0-11), por eso sumamos 1
-        const day: string = now.getDate().toString().padStart(2, '0'); // Día del mes
-        const hour: string = now.getHours().toString().padStart(2, '0'); // Hora en formato 24h
-        const minute: string = now.getMinutes().toString().padStart(2, '0'); // Minuto
-
-        this.asistencias.forEach( asistencia => {
-          if ( asistencia.id_sesion === scan.data && asistencia.id_alumno === this.usuarioId) {
-              const NuevaAsistencia = {
-                id_alumno: this.usuarioId,
-                fecha_hora: new Date(`${year}-${month}-${day}T${hour}:${minute}:00`),
-                id_sesion: scan.data[0],
-                estado: 'Presente',
-                id_asistencia: asistencia.id_asistencia,
-                id_clase : asistencia.id_clase
-              };
-              console.log('Este asistencia se guardo')
-              this.db.guardar(NuevaAsistencia.id_asistencia , NuevaAsistencia)
-              localStorage.setItem('asistencia_' + NuevaAsistencia.id_asistencia, JSON.stringify(NuevaAsistencia));
-              //this.firestoreService.updateDocumentID(NuevaAsistencia,'Asistencia',NuevaAsistencia.id_asistencia)
-          } else {
-            console.log('Alumno no a escaneado el qr todavia')
-          }
-        })})
   }
 
   CargarCursos(){
@@ -107,26 +66,6 @@ export class AsistenciasPage implements OnInit {
 
       }
     })
-  }
-
-  CargarCursos1() {
-    this.firestoreService.getCollectionChanges<{ id_alumno: string, id_clase: string }>('Clases')
-      .subscribe(ClasesIns => {
-        if (ClasesIns) {
-          const ClasesUsuario = ClasesIns.filter(c => c.id_alumno === this.usuarioId);
-          console.log('ClasesUsuario', ClasesUsuario)
-
-          const ClasesIds = ClasesUsuario.map(c => c.id_clase)
-
-          this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
-            if (data) {
-              console.log(data)
-              this.cursos = data.filter(curso => ClasesIds.includes(curso.id_clase));
-              console.log(this.cursos)
-            }
-          })
-        }
-      });
   }
 
   async Alerta(position: 'top' | 'middle' | 'bottom') {

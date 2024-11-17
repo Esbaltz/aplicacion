@@ -1,7 +1,8 @@
 import { Injectable, inject } from "@angular/core";
-import { DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDoc, query, setDoc, updateDoc, where } from "@angular/fire/firestore";
+import { DocumentReference, Firestore, addDoc, arrayUnion, collection, collectionData, deleteDoc, doc, docData, getDoc, query, setDoc, updateDoc, where } from "@angular/fire/firestore";
 import {v4 as uuidv4} from 'uuid';
 import { Observable, map } from "rxjs";
+import { Alumno, Clases } from "../interfaces/iusuario";
 
 @Injectable({
     providedIn: 'root'
@@ -90,14 +91,27 @@ export class FireStoreService {
         ).toPromise();
       }
 
-      
-      
-
       guardarAsistencia(asistenciaData: any): Promise<void> {
         const asistenciaId = asistenciaData.id_asistencia || this.createIdDoc();
         const documentRef = doc(this.firestore, `Asistencia/${asistenciaId}`);
         return setDoc(documentRef, asistenciaData);
     }
+
+    async agregarAlumnoAClase(id_clase: string, id_alumno: string): Promise<void> {
+      // Referencia al documento de la clase en la colección 'Clases'
+      const claseRef = doc(this.firestore, `Clases/${id_clase}`);
+    
+      try {
+        // Actualizamos el campo 'alumnos' utilizando 'arrayUnion' para agregar el id del alumno
+        await updateDoc(claseRef, {
+          alumnos: arrayUnion(id_alumno)  // Solo agregamos el ID del alumno
+        });
+    
+        console.log(`Alumno con ID ${id_alumno} agregado correctamente a la clase ${id_clase}`);
+      } catch (error) {
+        console.error("Error al agregar alumno a la clase:", error);
+      }
+    } 
     
 }
 
