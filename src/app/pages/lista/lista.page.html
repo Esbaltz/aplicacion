@@ -11,13 +11,13 @@
 
   <ion-list lines="full">
     <div *ngIf="sesiones && sesiones.length > 0; else sinSesiones">
-      <div *ngFor="let sesion of sesiones; let i = index">
+      <div *ngFor="let sesion of sesiones">
           <ion-item>
             <ion-label>
               <ion-accordion-group>
                 <ion-accordion value="first">
                   <ion-item slot="header" color="light">
-                    <ion-label>Clase:{{ i + 1 }}  ({{ formatFechaHora(sesion.fecha_hora)}})
+                    <ion-label>Clase: ({{ formatFechaHora(sesion.fecha_hora)}})
                       
                       <ion-button (click)="QrXsesion(sesion)"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
 

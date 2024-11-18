@@ -60,7 +60,7 @@ export class ListaPage implements OnInit {
 
   NuevaClase: Sesiones = { // para crear la nueva clase o sesion
     id_clase: '',
-    id_sesion: this.firestoreService.createIdDoc(),
+    id_sesion: '',
     id_docente: this.sesion.getUser()?.id_usuario,
     qr_code: '',
     fecha_hora: new Date(),
@@ -226,7 +226,7 @@ export class ListaPage implements OnInit {
   }
 
   iniciarSesion(data: any) {
-
+    this.NuevaClase.id_sesion = this.firestoreService.createIdDoc();
     this.NuevaClase.qr_code = this.NuevaClase.id_sesion;
     this.NuevaClase.fecha_hora = new Date();
     this.NuevaClase.descripcion = data.descripcion;
@@ -254,6 +254,7 @@ export class ListaPage implements OnInit {
       this.firestoreService.createDocumentID(nuevaAsistencia, 'Asistencia', nuevaAsistencia.id_asistencia);
 
       }
+    
         
   }
 
