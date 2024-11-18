@@ -43,7 +43,7 @@ export class AgregarClasePage implements OnInit {
     if (form.valid) { 
       console.log(this.NuevoCurso)
       this.db.guardar(this.NuevoCurso.id_clase, this.NuevoCurso);
-      //this.firestoreService.createDocumentID(this.NuevoCurso, 'Clases', this.NuevoCurso.id_clase)
+      this.firestoreService.createDocumentID(this.NuevoCurso, 'Clases', this.NuevoCurso.id_clase)
       this.db.guardar(this.NuevoCurso.id_clase, this.NuevoCurso);
       console.log('Nuevo curso Creado !')
       form.resetForm(); 
