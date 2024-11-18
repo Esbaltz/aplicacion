@@ -36,10 +36,8 @@ export class AgregarClasePage implements OnInit {
     this.nombreCompleto = this.sesion.getUser()?.nombre + ' ' + this.sesion.getUser()?.apellido
   }
 
-
-
   AgregarCurso (form: NgForm) {
-  
+    
     if (form.valid) { 
       console.log(this.NuevoCurso)
       this.db.guardar(this.NuevoCurso.id_clase, this.NuevoCurso);
