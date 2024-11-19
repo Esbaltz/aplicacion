@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, AlertInput } from '@ionic/angular';
+import { AlertController, AlertInput, ToastController } from '@ionic/angular';
 import { Alumno, Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { LocaldbService } from 'src/app/services/localdb.service';
@@ -22,7 +22,8 @@ export class CursosDisponiblesPage implements OnInit {
               private db: LocaldbService , 
               private route: ActivatedRoute,  
               private router: Router,
-              private alertController: AlertController) { 
+              private alertController: AlertController,
+              private toastController: ToastController) { 
 
     this.userId = this.sesion.getUser()?.id_usuario;
   }
@@ -93,6 +94,7 @@ export class CursosDisponiblesPage implements OnInit {
           handler: () => {
             console.log('Curso inscrito',curso.nomb_clase);
             this.agregarAlumno(curso.id_clase)
+            this.NewCurso('top',curso.nomb_clase)
           }
         }
       ]
@@ -101,6 +103,19 @@ export class CursosDisponiblesPage implements OnInit {
     await alert.present();
   }
 
+
+  async NewCurso(position: 'top' | 'middle' | 'bottom', curso : string) {
+    const toast = await this.toastController.create({
+      message: `Curso inscrito correctamente a ${curso}`,
+      duration: 1500,
+      position: position,
+      color: 'success',
+      header: 'Aviso!',
+      cssClass: 'textoast',
+    });
+
+    await toast.present();
+  }
 }
 
 

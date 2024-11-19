@@ -5,7 +5,7 @@ import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
 import { user } from '@angular/fire/auth';
 import { LocaldbService } from 'src/app/services/localdb.service';
-import { AlertController, AlertInput } from '@ionic/angular';
+import { AlertController, AlertInput, ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 
 
@@ -103,7 +103,8 @@ export class ListaPage implements OnInit {
                private sesion : sesionService , private route: ActivatedRoute , 
                private db: LocaldbService , private alertController: AlertController,
                private router: Router,
-               private datePipe: DatePipe) {
+               private datePipe: DatePipe ,
+               private toastController: ToastController) {
     this.userId = this.sesion.getUser()?.id_usuario; 
 
     this.loadasistencia();
@@ -236,7 +237,7 @@ export class ListaPage implements OnInit {
       // Aqui lo almaceno en la firebase
     localStorage.setItem('sesion_' + this.NuevaClase.id_sesion, JSON.stringify(this.NuevaClase));
     this.firestoreService.createDocumentID(this.NuevaClase,'Sesiones' ,this.NuevaClase.id_sesion)
-
+    this.NuevaSesion('top')
     for ( let alumno of this.alumnosCargados) {
       const idUnico = this.firestoreService.createIdDoc();
       
@@ -258,13 +259,24 @@ export class ListaPage implements OnInit {
         
   }
 
-
-
   QrXsesion( sesion : Sesiones){
     console.log('Sesion=>', sesion)
     this.router.navigate(['/codigo',sesion.id_sesion] );
     console.log('Se a guardado la sesion con el ID =',sesion.id_sesion , 'y el QR =',sesion.qr_code)
 
+  }
+
+  async NuevaSesion(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: `Has iniciado un nueva clase `,
+      duration: 1500,
+      position: position,
+      color: 'secondary',
+      header: 'Aviso!',
+      cssClass: 'textoast',
+    });
+
+    await toast.present();
   }
 
   

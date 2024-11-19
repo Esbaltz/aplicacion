@@ -126,7 +126,7 @@ export class HomePage implements OnInit {
       };
   
       await this.firestoreService.guardarAsistencia(asistenciaData);
-      this.presentToast('Asistencia registrada correctamente.');
+      this.QRescaneado('top');
     }
   }
   
@@ -233,4 +233,18 @@ export class HomePage implements OnInit {
       }
     })
   }
+
+  async QRescaneado(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: `QR escaneado correctamente asistencia actualizada`,
+      duration: 1500,
+      position: position,
+      color: 'success',
+      header: 'Aviso!',
+      cssClass: 'textoast',
+    });
+
+    await toast.present();
+  }
+
 }

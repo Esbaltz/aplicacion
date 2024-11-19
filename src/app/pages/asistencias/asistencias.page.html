@@ -23,16 +23,16 @@
                         </ion-item>
 
                           <div class="ion-padding" slot="content">
-
-                            <div *ngFor="let asistencia of asistencias; let i = index">
-                              <div *ngIf="asistencia.id_alumno === usuarioId && asistencia.id_clase === curso.id_clase">
-                                <div style="display: flex; justify-content: space-between;">
-                                  <ion-label>Fecha : {{formatFechaHora(asistencia.fecha_hora) }}</ion-label>
-                                  <span>{{asistencia.estado}}</span>
+                            <div *ngIf=" asistencias && asistencias.length > 0; else sinAsistencias">
+                              <div *ngFor="let asistencia of asistencias; let i = index">
+                                <div *ngIf="asistencia.id_alumno === usuarioId && asistencia.id_clase === curso.id_clase">
+                                  <div style="display: flex; justify-content: space-between;">
+                                    <ion-label>Fecha : {{formatFechaHora(asistencia.fecha_hora) }}</ion-label>
+                                    <span>{{asistencia.estado}}</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            
                           </div>
                       
                     </ion-accordion>
@@ -52,6 +52,11 @@
 <ng-template #sinCursos>
   <br>
   <ion-text class="ion-padding"> No tienes cursos registrados aun </ion-text>
+</ng-template>
+
+<ng-template #sinAsistencias>
+  <br>
+  <ion-text class="ion-padding"> No hay clases dictadas aun</ion-text>
 </ng-template>
 
 <ion-footer>
