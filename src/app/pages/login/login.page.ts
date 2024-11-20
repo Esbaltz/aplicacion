@@ -24,6 +24,8 @@ export class LoginPage implements OnInit {
     id_usuario :''
   }
 
+  showPassword: boolean = false;
+
   usuario : Usuario[] = [];
   constructor(private db:LocaldbService, public router:Router, private toastController:ToastController ,
     private firestoreService : FireStoreService , public sesion : sesionService , private alertctrl:AlertController
@@ -135,7 +137,25 @@ export class LoginPage implements OnInit {
 
   Reload() {
     this.router.navigate(['/login']);
+    this.SesionCerrada('top')
     location.reload();  // Recarga la página
+  }
+
+  async SesionCerrada(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Has cerrado sesion',
+      duration: 1500,
+      position: position,
+      color: 'primary',
+      header: 'Error!',
+      cssClass: 'textoast',
+    });
+
+    await toast.present();
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
 }

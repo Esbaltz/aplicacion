@@ -8,15 +8,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+ 
   <div *ngIf="cursos && cursos.length > 0; else sinCursos">
     <div *ngFor="let curso of cursos; let i = index">
       <div *ngFor="let alumno of curso.alumnos">
         <div *ngIf=" alumno === this.userId">
           <ion-list [inset]="true">
-              <ion-item color="secondary">
-                  <ion-label>{{ curso.nomb_clase}}</ion-label> <ion-button  size="large" (click)="DetalleCurso(curso)">Detalles</ion-button>
-              </ion-item>  
+
+              <ion-item>
+                <ion-label>
+                  <ion-accordion-group>
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="light">
+                        <ion-label>{{ curso.nomb_clase}}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        <ion-button (click)="DetalleCurso(curso)" expand="block">Ver detalles <ion-icon slot="end" name="filter-outline"></ion-icon> </ion-button>
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-label>
+              </ion-item>
+
           </ion-list>
         </div>
       </div>

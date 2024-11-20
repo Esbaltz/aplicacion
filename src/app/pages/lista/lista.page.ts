@@ -119,11 +119,20 @@ export class ListaPage implements OnInit {
     this.CargarSesiones()
 
   }
-  formatFechaHora(timestamp: any): string {
+  formatFecha(timestamp: any): string {
     if (timestamp && timestamp.seconds) {
       // Convertir el Timestamp de Firebase a un objeto Date
       const date = new Date(timestamp.seconds * 1000); // Convertir de segundos a milisegundos
-      return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm')!;
+      return this.datePipe.transform(date, 'dd/MM/yyyy')!;
+    }
+    return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
+  }
+
+  formatHora(timestamp: any): string {
+    if (timestamp && timestamp.seconds) {
+      // Convertir el Timestamp de Firebase a un objeto Date
+      const date = new Date(timestamp.seconds * 1000); // Convertir de segundos a milisegundos
+      return this.datePipe.transform(date, 'HH:mm')!;
     }
     return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
   }

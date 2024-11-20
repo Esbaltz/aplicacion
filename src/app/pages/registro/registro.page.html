@@ -17,6 +17,12 @@
         <ion-item>
           <ion-input required labelPlacement="floating" label="Correo" name="text" type="text" [(ngModel)]="usr.correo" ></ion-input>
         </ion-item>
+
+        <div *ngIf="usr.correo && !obtenerRolPorCorreo(usr.correo)" class="error-message">
+          <ion-text color="primary" class="ion-padding">
+            El correo debe ser de tipo "...&commat;alumno.cl", o si eres docente  "..&commat;docente.cl".
+          </ion-text>
+        </div>
       
         <ion-item>
           <ion-input required labelPlacement="floating" label="Contraseña" name="password" type="password" [(ngModel)]="usr.password" >
