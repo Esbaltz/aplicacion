@@ -18,7 +18,20 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="floating">Nombre del Curso</ion-label>
-          <ion-input minlength="7" name="nombreCurso" required [(ngModel)]="NuevoCurso.nomb_clase" clearInput></ion-input>
+          <ion-input 
+            minlength="7" 
+            name="nombreCurso" 
+            required 
+            [(ngModel)]="NuevoCurso.nomb_clase" 
+            clearInput
+            #nombreCurso="ngModel">
+          </ion-input>
+        </ion-item>
+        
+        <ion-item *ngIf="nombreCurso.invalid && nombreCurso.touched">
+          <ion-text color="danger">
+            <p>El nombre del curso es muy corto. Debe tener al menos 7 caracteres.</p>
+          </ion-text>
         </ion-item>
 
         <ion-item>
@@ -49,14 +62,12 @@
         
       </ion-card-content>
 
-      
-        <ion-button class="ion-padding" type="submit" color="primary">Agregar Curso</ion-button>
-        <ion-button class="ion-padding" routerLink="/cursos" color="danger">Cancelar</ion-button>
+      <ion-button class="ion-padding" type="submit" color="primary" [disabled]="ClaseForm.invalid">Agregar Curso</ion-button>
+      <ion-button class="ion-padding" routerLink="/cursos" color="danger">Cancelar</ion-button>
 
     </form>
   </ion-card>
 </ion-content>
-
 
 <ion-footer>
   <ion-toolbar color="primary"></ion-toolbar>

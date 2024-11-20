@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { LocaldbService } from 'src/app/services/localdb.service';
@@ -29,7 +30,7 @@ export class AgregarClasePage implements OnInit {
   }
   nombreCompleto : any
 
-  constructor( private sesion : sesionService , private firestoreService : FireStoreService , private db: LocaldbService , private router: Router) { }
+  constructor( private sesion : sesionService , private firestoreService : FireStoreService , private db: LocaldbService , private router: Router , private toastController: ToastController) { }
 
   ngOnInit() {
     this.userId = this.sesion.getUser()?.id_usuario
@@ -43,12 +44,26 @@ export class AgregarClasePage implements OnInit {
     if (form.valid) { 
       console.log(this.NuevoCurso)
       this.db.guardar(this.NuevoCurso.id_clase, this.NuevoCurso);
-      this.firestoreService.createDocumentID(this.NuevoCurso, 'Clases', this.NuevoCurso.id_clase)
+      //this.firestoreService.createDocumentID(this.NuevoCurso, 'Clases', this.NuevoCurso.id_clase)
       this.db.guardar(this.NuevoCurso.id_clase, this.NuevoCurso);
       console.log('Nuevo curso Creado !')
       form.resetForm(); 
       this.router.navigate(['/cursos'] );
+      this.NewCurso('top')
     }
+  }
+
+  async NewCurso(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: `Nuevo curso añadido `,
+      duration: 1500,
+      position: position,
+      color: 'secondary',
+      header: 'Aviso!',
+      cssClass: 'textoast',
+    });
+
+    await toast.present();
   }
 
 }

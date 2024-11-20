@@ -89,3 +89,10 @@ ion-header {
   ion-item.ion-focused {
     --background: #e0e0e0; /* Color de fondo cuando el campo de entrada está enfocado */
   }
+
+  .error-message {
+    padding: 10px;
+    font-size: 14px;
+    color: #f53d3d; /* Rojo */
+    margin-top: 5px;
+  }
