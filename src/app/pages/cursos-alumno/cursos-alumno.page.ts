@@ -14,8 +14,6 @@ export class CursosAlumnoPage implements OnInit {
 
   cursos : Clases[] = [];
   userId : any
-  private hasPageLoaded: boolean = false; 
-
 
   constructor( private sesion : sesionService , private firestoreService : FireStoreService , private db: LocaldbService , private route: ActivatedRoute,  private router: Router) { 
 
