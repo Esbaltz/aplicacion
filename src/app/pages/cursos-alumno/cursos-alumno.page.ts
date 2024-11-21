@@ -22,6 +22,7 @@ export class CursosAlumnoPage implements OnInit {
 
   ngOnInit() {
     this.CargarCursos()
+
   }
 
   CargarCursos(){

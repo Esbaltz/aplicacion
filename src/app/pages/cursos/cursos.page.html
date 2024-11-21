@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
- 
+<ion-list [inset]="true">
   <div *ngIf="cursos && cursos.length > 0; else sinCursos">
     <div *ngFor="let curso of cursos; let i = index">
-      <ion-list [inset]="true">
+      
         <ion-item>
           <ion-label>
             <ion-accordion-group>
@@ -26,10 +26,11 @@
             </ion-accordion-group>
           </ion-label>
         </ion-item>
-      </ion-list>
+      
     </div>
   </div>
   <ion-button expand="block" class="ion-padding" routerLink="/agregar-clase"> Agregar Curso </ion-button>
+</ion-list>
 </ion-content>
 
 <ng-template #sinCursos>

@@ -45,10 +45,12 @@
 
       <ion-list>
         <ion-list-header >Lista del curso</ion-list-header>
-        <div *ngFor=" let alumno of this.AlumnosCargados">
-          <ion-item>
-            Nombre del alumno
-          </ion-item>
+        <div *ngIf="this.AlumnosCargados && this.AlumnosCargados.length > 0; else sinAlumnos">
+          <div *ngFor=" let alumno of this.AlumnosCargados"> 
+            <ion-item>
+              Nombre del alumno
+            </ion-item>
+          </div>
         </div>
       </ion-list>
     </ion-card-content>
@@ -62,6 +64,11 @@
     </div>
   </ion-card>
 </ion-content>
+
+<ng-template #sinAlumnos>
+  <br>
+  <ion-text class="ion-padding"> No hay alumnos registrados aun </ion-text>
+</ng-template>
 
 <ion-footer>
   <ion-toolbar color="primary"></ion-toolbar>

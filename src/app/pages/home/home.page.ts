@@ -1,6 +1,7 @@
 
 import { Component, OnInit, inject } from '@angular/core';
 import { FireStoreService } from 'src/app/services/firestore.service';
+import { FirebaseListenerService } from 'src/app/services/firebase-listener.service';
 import { sesionService } from 'src/app/services/sesion.service';
 import { UserService } from 'src/app/services/usuarios.service';
 import { Router } from '@angular/router';
@@ -35,12 +36,26 @@ export class HomePage implements OnInit {
   rol = this.sesion.getUser()?.rol;
   nombre = this.sesion.getUser()?.nombre;
 
+  UserId : any
+
   constructor( private toastController: ToastController, 
                private firestoreService : FireStoreService , 
                private sesion : sesionService , 
                private userService: UserService, 
                private router: Router, private alertController: AlertController ,
-               private db:LocaldbService) {
+               private db:LocaldbService,
+               private firebaseListenerService : FirebaseListenerService) {
+
+                this.firebaseListenerService.listenToNewDocuments<Clases>('Clases').subscribe(
+                  (data) => {
+                    console.log('Nuevo documento añadido a Clases:', data);
+                    // Aquí también puedes agregar lógica para actualizar la UI si lo necesitas
+                  },
+                  (error) => {
+                    console.error('Error al escuchar nuevos documentos:', error);
+                  }
+                );
+
   }
 
   ngOnInit() {
@@ -50,6 +65,10 @@ export class HomePage implements OnInit {
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
+
+    this.UserId = this.sesion.getUser()?.id_usuario
+
+    
   }
 
   async scan(): Promise<void> {
@@ -247,4 +266,5 @@ export class HomePage implements OnInit {
     await toast.present();
   }
 
+ 
 }
