@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Asistencia, Clases, Sesiones } from 'src/app/interfaces/iusuario';
+import { Alumno, Asistencia, Clases, Sesiones } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { LocaldbService } from 'src/app/services/localdb.service';
 import { sesionService } from 'src/app/services/sesion.service';
@@ -25,7 +25,7 @@ export class AsistenciasPage implements OnInit {
 
   ngOnInit(
   ) {
-    this.CargarCursos()
+    this.CargarCursosAlumno()
     console.log('USUARIO ID =>',this.usuarioId)
     this.loadasistencia()
     
@@ -39,71 +39,47 @@ export class AsistenciasPage implements OnInit {
     return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
   }
 
-  CargarCursos(){
-    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
-      console.log(data);
-      if (data) {
-        this.cursos = data
-      }
-    })
+  CargarCursosAlumno() {
+    this.firestoreService.getCollectionChanges<{ alumnos: Alumno[], id_clase: string }>('Clases')
+      .subscribe(ClasesIns => {
+        if (ClasesIns) {
+          // Filtrar clases en las que el alumno (con userId) esté presente en el array de alumnos
+          const ClasesUsuario = ClasesIns.filter(c => c.alumnos.some(alumno => alumno === this.usuarioId));
+  
+          // Obtener los ids de las clases en las que el alumno está inscrito
+          const ClasesIds = ClasesUsuario.map(c => c.id_clase);
+  
+          // Obtener las clases completas desde Firestore que coinciden con los ids
+          this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
+            if (data) {
+              // Filtrar los cursos que están en la lista de clases del alumno
+              this.cursos = data.filter(curso => ClasesIds.includes(curso.id_clase));
+              console.log("Cursos del alumno =>",this.cursos);
+              this.db.guardar(this.usuarioId, this.cursos)
+            }
+          });
+        }
+      });
   }
 
   loadasistencia(){
     this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe( data => {
-      console.log(data);
+      //console.log(data);
       if (data) {
         this.asistencias = data
-
+        console.log("Asistencias del alumno => ",this.asistencias)
       }
     })
   }
 
   loadsesiones(){
     this.firestoreService.getCollectionChanges<Sesiones>('Sesiones').subscribe( data => {
-      console.log(data);
+      //console.log(data);
       if (data) {
         this.sesiones = data
-
       }
     })
   }
 
-  async Alerta(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'El qr no tiene datos',
-      duration: 1500,
-      position: position,
-      color: 'danger',
-      header: 'Error!',
-      cssClass: 'textoast',
-    });
 
-    await toast.present();
-  }
-
-  async Alerta2(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'El qr no entro al for',
-      duration: 1500,
-      position: position,
-      color: 'danger',
-      header: 'Error!',
-      cssClass: 'textoast',
-    });
-
-    await toast.present();
-  }
-
-  async Alerta3(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'El qr entro al if',
-      duration: 1500,
-      position: position,
-      color: 'danger',
-      header: 'Error!',
-      cssClass: 'textoast',
-    });
-
-    await toast.present();
-  }
 }

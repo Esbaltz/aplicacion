@@ -26,15 +26,15 @@ export class AgregarClasePage implements OnInit {
     nomb_clase : '',
     descripcion : '',
     seccion_num : this.obtenerNumeroAleatorio(),
-    seccion_letra : this.obtenerLetraAleatoria()
+    seccion_letra : this.obtenerLetraAleatoria(),
+    nomb_docente : this.sesion.getUser()?.nombre +' '+this.sesion.getUser()?.apellido
   }
-  nombreCompleto : any
+
 
   constructor( private sesion : sesionService , private firestoreService : FireStoreService , private db: LocaldbService , private router: Router , private toastController: ToastController) { }
 
   ngOnInit() {
     this.userId = this.sesion.getUser()?.id_usuario
-    this.nombreCompleto = this.sesion.getUser()?.nombre + ' ' + this.sesion.getUser()?.apellido
   }
 
 

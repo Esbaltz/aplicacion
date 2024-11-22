@@ -21,8 +21,9 @@ export class DetalleClasePage implements OnInit {
     id_clase: '',
     id_docente :'',
     estado : '',
-    seccion_num : 1,
-    seccion_letra : 'A'
+    seccion_num : 0,
+    seccion_letra : '',
+    nomb_docente : ''
   }
 
   AlumnosCargados : Alumno[]= []

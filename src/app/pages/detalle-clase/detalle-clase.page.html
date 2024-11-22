@@ -39,12 +39,12 @@
       <ion-item lines="none">
         <ion-label>Profesor</ion-label>
         <ion-text>
-          <strong>Nombre profe</strong>
+          <strong>{{ this.CursoCargado.nomb_docente}}</strong>
         </ion-text>
       </ion-item>
 
       <ion-list>
-        <ion-list-header >Lista del curso</ion-list-header>
+        <ion-card-title class="title">Lista del curso</ion-card-title>
         <div *ngIf="this.AlumnosCargados && this.AlumnosCargados.length > 0; else sinAlumnos">
           <div *ngFor=" let alumno of this.AlumnosCargados"> 
             <ion-item>

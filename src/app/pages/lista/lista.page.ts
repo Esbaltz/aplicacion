@@ -48,7 +48,8 @@ export class ListaPage implements OnInit {
     estado : '',
     descripcion : '',
     seccion_letra: '',
-    seccion_num : 1
+    seccion_num : 1,
+    nomb_docente : ''
 
   };
 
