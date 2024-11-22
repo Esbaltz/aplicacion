@@ -1,58 +1,69 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-title class="ion-text-center">Login</ion-title>
+    <ion-title class="ion-text-center">Inicio de Sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="ion-padding content-container">
 
-  <ng-container *ngIf="sesion.isLoggedIn(); else loginForm">
-    <ion-list class="ion-padding">
-      <ion-item>
-        <ion-label>Correo</ion-label>
+  <div class="xd">
 
-        <ion-text color="primary">{{ sesion.getUser()?.correo}}</ion-text>
-      </ion-item>
-      <br>
-      <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login']) " (click)="Reload()">
-        Cerrar sesión
-      </ion-button>
-      <ion-button expand="block" routerLink="/home">  Volver al Menu</ion-button>
-    </ion-list> 
-  </ng-container>
+    <div class="logo-container">
+      <img src="assets/img/duoc_logo.png" alt="Duoc Logo" class="logo" />
+    </div>
 
-  <div class="form-wrapper">
-    <ion-card-content>
-      <ng-template #loginForm>
-        <form #inicioForm="ngForm" (ngSubmit)="Loguear2!(inicioForm)">
-          <ion-item>
-            <ion-label position="floating">Correo institucional</ion-label>
-            <ion-input type="text" [(ngModel)]="usr.correo" name="username" required></ion-input>
-          </ion-item>
-          <br>
-          <ion-item class="password-container">
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input 
-              [type]="showPassword ? 'text' : 'password'" 
-              [(ngModel)]="usr.password" 
-              name="password" 
-              required>
-            </ion-input>
-            <ion-icon 
-              [name]="showPassword ? 'eye-off' : 'eye'" 
-              slot="end" 
-              color="#000"
-              (click)="togglePasswordVisibility()">
-            </ion-icon>
-          </ion-item>
-  
-          <ion-button expand="full" type="submit" class="submit-button"  color="primary"[disabled]="inicioForm.invalid">
-            Iniciar sesión
-          </ion-button>
-          <br>
-          <ion-text color="primary" class="ion-padding"> No tienes Cuenta ? <span routerLink="/registro"> Registrate aquí !!</span></ion-text>
-        </form>
-      </ng-template>
-    </ion-card-content>
+    <ng-container *ngIf="sesion.isLoggedIn(); else loginForm">
+      <ion-list class="ion-padding">
+        <ion-item>
+          <ion-label>Correo</ion-label>
+
+          <ion-text color="primary">{{ sesion.getUser()?.correo}}</ion-text>
+        </ion-item>
+        <br>
+        <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login']) "
+          (click)="Reload()">
+          Cerrar sesión
+        </ion-button>
+        <ion-button expand="block" routerLink="/home"> Volver al Menu</ion-button>
+      </ion-list>
+    </ng-container>
+
+    <div class="form-wrapper">
+      <ion-card-content>
+        <ng-template #loginForm>
+
+          <form #inicioForm="ngForm" (ngSubmit)="Loguear2!(inicioForm)">
+
+            <ion-item>
+              <ion-icon class="icono" name="mail-outline"></ion-icon>
+              <ion-input required labelPlacement="floating" label="Correo Institucional" type="text"
+                [(ngModel)]="usr.correo" name="username"></ion-input>
+            </ion-item>
+
+            <br>
+
+            <ion-item class="password-container">
+              <ion-icon class="icono" name="lock-closed"></ion-icon>
+              <ion-input labelPlacement="floating" label="Contraseña" [type]="showPassword ? 'text' : 'password'"
+                [(ngModel)]="usr.password" name="password" required>
+              </ion-input>
+              <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="end" color="#000"
+                (click)="togglePasswordVisibility()">
+              </ion-icon>
+            </ion-item>
+
+            <div class="button-container">
+              <ion-button class="submit-button" type="submit" color="primary" [disabled]="inicioForm.invalid">
+                Iniciar sesión
+              </ion-button>
+            </div>
+            <br>
+            <ion-text color="primary" class="ion-padding center-text"><span routerLink="/registro"> <strong>Registrarse</strong> </span></ion-text>
+          </form>
+
+        </ng-template>
+      </ion-card-content>
+    </div>
   </div>
 </ion-content>
