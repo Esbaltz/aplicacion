@@ -5,6 +5,7 @@ ion-content{
 /* Estilo para el encabezado */
 ion-header {
     --background: #000; /* Fondo negro para el encabezado */
+    text-align: center;
   }
   
   /* Estilo para el título del encabezado */
@@ -34,7 +35,7 @@ ion-header {
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    background: #2a2a2a; /* Fondo blanco para la tarjeta */
+    background: white; /* Fondo blanco para la tarjeta */
   }
   
   /* Estilo para el título de la tarjeta */
@@ -71,7 +72,7 @@ ion-header {
   
   /* Estilo para los campos de entrada */
   ion-item {
-    --background: #2a2a2a; /* Color de fondo para los campos de entrada */
+    --background: white; /* Color de fondo para los campos de entrada */
     border-radius: 8px; /* Bordes redondeados para los campos de entrada */
   }
   
