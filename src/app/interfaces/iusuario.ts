@@ -8,7 +8,7 @@ export interface Usuario{
 }
 
 export interface Alumno {
-    id_alumno : string
+
 }
 
 export interface Clases{
@@ -21,6 +21,7 @@ export interface Clases{
     descripcion : string
     seccion_num : number
     seccion_letra : string
+    nomb_docente : string
 }
 
 export interface Sesiones {

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title class="ion-text-center">Login</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,7 +11,7 @@
       <ion-item>
         <ion-label>Correo</ion-label>
 
-        <ion-text color="secondary">{{ sesion.getUser()?.correo}}</ion-text>
+        <ion-text color="primary">{{ sesion.getUser()?.correo}}</ion-text>
       </ion-item>
       <br>
       <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login']) " (click)="Reload()">
@@ -29,7 +29,7 @@
             <ion-label position="floating">Correo institucional</ion-label>
             <ion-input type="text" [(ngModel)]="usr.correo" name="username" required></ion-input>
           </ion-item>
-  
+          <br>
           <ion-item class="password-container">
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input 
@@ -41,12 +41,12 @@
             <ion-icon 
               [name]="showPassword ? 'eye-off' : 'eye'" 
               slot="end" 
-              color="primary"
+              color="#000"
               (click)="togglePasswordVisibility()">
             </ion-icon>
           </ion-item>
   
-          <ion-button expand="full" type="submit" class="submit-button" [disabled]="inicioForm.invalid">
+          <ion-button expand="full" type="submit" class="submit-button"  color="primary"[disabled]="inicioForm.invalid">
             Iniciar sesión
           </ion-button>
           <br>
