@@ -58,7 +58,7 @@ export class DetalleClasePage implements OnInit {
     this.firestoreService.getDocument<Clases>('Clases', id_clase).subscribe(clase => {
       if (clase) {
         this.CursoCargado = clase;
-        //console.log('Curso cargado:', this.CursoCargado); 
+        console.log('Curso cargado:', this.CursoCargado); 
         this.Idclase = this.CursoCargado.id_clase
         this.AlumnosCargados = this.CursoCargado.alumnos
         console.log('Alumnos de esta clase -> ' , this.AlumnosCargados)

@@ -48,7 +48,11 @@
         <div *ngIf="this.AlumnosCargados && this.AlumnosCargados.length > 0; else sinAlumnos">
           <div *ngFor=" let alumno of this.AlumnosCargados"> 
             <ion-item>
-              Nombre del alumno
+              <div *ngFor=" let usr of usuario">
+                <div *ngIf=" alumno ===usr.id_usuario ">
+                  {{ usr.nombre}} {{ usr.apellido}}
+                </div>
+              </div>
             </ion-item>
           </div>
         </div>

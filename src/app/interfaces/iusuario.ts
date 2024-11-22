@@ -8,7 +8,7 @@ export interface Usuario{
 }
 
 export interface Alumno {
-    id_alumno : string
+
 }
 
 export interface Clases{

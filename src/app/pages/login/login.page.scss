@@ -1,15 +1,15 @@
 /* Fondo de la página */
 ion-content{
-    --background:#fff;
+    --background:#121212;
 }
 /* Estilo para el encabezado */
 ion-header {
-    --background: #000; /* Fondo negro para el encabezado */
+    --background: #0054e9; /* Fondo negro para el encabezado */
   }
   
   /* Estilo para el título del encabezado */
   ion-header ion-toolbar ion-title {
-    color: #ffcc00; /* Color amarillo para el texto del título */
+    color: #000; /* Color amarillo para el texto del título */
     font-weight: bold; /* Estilo negrita para el texto del título */
   }
   

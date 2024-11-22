@@ -1,6 +1,6 @@
 /* Fondo de la página */
 ion-content{
-    --background:#fff;
+    --background:#121212;
 }
 /* Estilo para el encabezado */
 ion-header {
@@ -9,7 +9,7 @@ ion-header {
   
   /* Estilo para el título del encabezado */
   ion-header ion-toolbar ion-title {
-    color: #ffcc00; /* Color amarillo para el texto del título */
+    color: #000; /* Color amarillo para el texto del título */
     font-weight: bold; /* Estilo negrita para el texto del título */
   }
   
@@ -34,7 +34,7 @@ ion-header {
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    background: #fff; /* Fondo blanco para la tarjeta */
+    background: #2a2a2a; /* Fondo blanco para la tarjeta */
   }
   
   /* Estilo para el título de la tarjeta */
@@ -42,7 +42,7 @@ ion-header {
     font-size: 1.6rem;
     font-weight: bold;
     text-align: center;
-    color: #ffcc00; /* Color amarillo para el título */
+    color: #0054e9; /* Color amarillo para el título */
     margin: 0;
   }
   
@@ -71,7 +71,7 @@ ion-header {
   
   /* Estilo para los campos de entrada */
   ion-item {
-    --background: #f9f9f9; /* Color de fondo para los campos de entrada */
+    --background: #2a2a2a; /* Color de fondo para los campos de entrada */
     border-radius: 8px; /* Bordes redondeados para los campos de entrada */
   }
   
