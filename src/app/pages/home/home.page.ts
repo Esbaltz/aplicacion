@@ -1,7 +1,6 @@
 
 import { Component, OnInit, inject } from '@angular/core';
 import { FireStoreService } from 'src/app/services/firestore.service';
-import { FirebaseListenerService } from 'src/app/services/firebase-listener.service';
 import { sesionService } from 'src/app/services/sesion.service';
 import { UserService } from 'src/app/services/usuarios.service';
 import { Router } from '@angular/router';
@@ -44,17 +43,9 @@ export class HomePage implements OnInit {
                private userService: UserService, 
                private router: Router, private alertController: AlertController ,
                private db:LocaldbService,
-               private firebaseListenerService : FirebaseListenerService) {
+               ) {
 
-                this.firebaseListenerService.listenToNewDocuments<Clases>('Clases').subscribe(
-                  (data) => {
-                    console.log('Nuevo documento añadido a Clases:', data);
-                    // Aquí también puedes agregar lógica para actualizar la UI si lo necesitas
-                  },
-                  (error) => {
-                    console.error('Error al escuchar nuevos documentos:', error);
-                  }
-                );
+                
 
   }
 

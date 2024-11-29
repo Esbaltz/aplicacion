@@ -25,4 +25,6 @@ export class LocaldbService {
     const valor = await this._storage?.get(key);
     return valor;
   }
+  
+  
 }

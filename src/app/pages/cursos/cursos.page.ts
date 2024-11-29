@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Clases } from 'src/app/interfaces/iusuario';
 import { FireStoreService } from 'src/app/services/firestore.service';
 import { sesionService } from 'src/app/services/sesion.service';
-import { Usuario } from '../../interfaces/iusuario';
-import { AlertInput } from '@ionic/angular';
 import { LocaldbService } from 'src/app/services/localdb.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-cursos',
@@ -14,65 +13,88 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CursosPage implements OnInit {
   selectedSegment: string = 'inscritos';
+  cursosProfe: Clases[] = [];
+  userId: any;
 
-  cursos : Clases[] = [];
-  userId : any
-
-  constructor( private sesion : sesionService , private firestoreService : FireStoreService , private db: LocaldbService , private route: ActivatedRoute,  private router: Router) { 
-
-    this.userId = this.sesion.getUser()?.id_usuario;
+  constructor(
+    private sesion: sesionService,
+    private firestoreService: FireStoreService,
+    private db: LocaldbService,
+    private router: Router,
+    private networkService: NetworkService
+  ) {
+    this.userId = this.sesion.getUser()?.id_usuario; 
   }
 
-  ngOnInit() {
-    this.CargarCursos1();
-  }
-
-  CargarCursos(){
-    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
-      //console.log(data);
-      if (data) {
-        this.cursos = data
-        
-       // console.log("Cursos Cargados")
-         
+  async ngOnInit() {
+    if (this.networkService.isConnected()) {
+      console.log('Tienes conexión a Internet.');
+      await this.CargarCursosDeFirestore(); // Cargar cursos desde Firebase
+      if (this.cursosProfe.length > 1) {
+        await this.GuardarCursosLocal(this.cursosProfe); // Guardar cursos si existen
+      } else {
+        console.log('No hay cursos para guardar');
       }
-    })
-  }
-
-  CargarCursos1() {
-    this.firestoreService.getCollectionChanges<{ id_docente: string, id_clase: string }>('Clases')
-      .subscribe(ClasesIns => {
-        if (ClasesIns) {
-          //console.log('ClasesIns =>',ClasesIns)
-
-          const ClasesUsuario = ClasesIns.filter(c => c.id_docente === this.userId );
-          //console.log('ClasesUsuario', ClasesUsuario)
-
-          const ClasesIds = ClasesUsuario.map(c => c.id_clase);
-          //console.log('ClasesIds =>',ClasesIds)
-
-          this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
-            if (data) {
-              //console.log(data)
-              this.cursos = data.filter(curso => ClasesIds.includes(curso.id_clase));
-              //console.log(this.cursos)
-            }
-          })
-        }
-      });
-  } 
-
-  DetalleCurso ( clases : Clases )  {
-
-    if ( clases === null) {
-      console.log('Id clase no encontrado')
-    }else {
-      //console.log('CURSO =>', clases)
-      this.router.navigate(['/detalle-clase',clases.id_clase] );
-      this.db.guardar(clases.id_clase , clases)
-      //console.log('Se a guardado el curso con el ID =',clases.id_clase)
+    } else {
+      console.log('No hay conexión a Internet.');
+      await this.CargarCursosDeLocal(); // Cargar cursos desde almacenamiento local
     }
   }
   
+  CargarCursosDeFirestore() {
+    this.firestoreService.getCollectionChanges<{ id_docente: string, id_clase: string }>('Clases')
+      .subscribe(ClasesIns => {
+        if (ClasesIns) {
+          const ClasesUsuario = ClasesIns.filter(c => c.id_docente === this.userId);
+          const ClasesIds = ClasesUsuario.map(c => c.id_clase);
+  
+          this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe(data => {
+            if (data) {
+              this.cursosProfe = data.filter(curso => ClasesIds.includes(curso.id_clase));
+            
+            }
 
+            if (this.cursosProfe.length > 1) {
+              this.GuardarCursosLocal(this.cursosProfe);
+            } else {
+              console.log('No hay cursos para guardar');
+            }
+          });
+        }
+      });
+  }
+
+  async GuardarCursosLocal(cursosProfe: Clases[]) {
+    try {
+      // Guardar los cursos en localStorage
+      localStorage.setItem('cursosProfe', JSON.stringify(cursosProfe));
+      this.db.guardar('cursosProfe',cursosProfe)
+      console.log('Cursos guardados en el local');
+    } catch (error) {
+      console.error('Error guardando los cursos en local:', error);
+    }
+  }
+
+  async CargarCursosDeLocal() {
+    // Intenta cargar los cursos de Localdb primero
+    const cursosGuardados = await this.db.obtener('cursosProfe');
+    console.log('Cursos guardados desde Localdb:', cursosGuardados);
+    if (cursosGuardados) {
+      this.cursosProfe = cursosGuardados;
+    } else {
+      // Si no se encontraron, intenta cargar desde localStorage
+      const cursosDesdeStorage = JSON.parse(localStorage.getItem('cursosProfe') || '[]');
+      console.log('Cursos guardados desde localStorage:', cursosDesdeStorage);
+      this.cursosProfe = cursosDesdeStorage;
+    }
+  }
+
+  DetalleCurso(clases: Clases) {
+    if (clases === null) {
+      console.log('Id clase no encontrado');
+    } else {
+      this.router.navigate(['/detalle-clase', clases.id_clase]);
+      
+    }
+  }
 }

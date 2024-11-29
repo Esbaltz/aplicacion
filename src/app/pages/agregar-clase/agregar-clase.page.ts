@@ -25,8 +25,8 @@ export class AgregarClasePage implements OnInit {
     semestre : 2,
     nomb_clase : '',
     descripcion : '',
-    seccion_num : this.obtenerNumeroAleatorio(),
-    seccion_letra : this.obtenerLetraAleatoria(),
+    seccion_num : 0,
+    seccion_letra : '',
     nomb_docente : this.sesion.getUser()?.nombre +' '+this.sesion.getUser()?.apellido
   }
 
@@ -65,15 +65,5 @@ export class AgregarClasePage implements OnInit {
 
     await toast.present();
   }
-
-   obtenerNumeroAleatorio(): number {
-    return Math.floor(Math.random() * 10) + 1;
-}
-
-  obtenerLetraAleatoria(): string {
-    const letras = ['A', 'B', 'C', 'D'];
-    const indiceAleatorio = Math.floor(Math.random() * letras.length);
-    return letras[indiceAleatorio];
-}
 
 }

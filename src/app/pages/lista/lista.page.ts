@@ -122,29 +122,25 @@ export class ListaPage implements OnInit {
   }
   formatFecha(timestamp: any): string {
     if (timestamp && timestamp.seconds) {
-      // Convertir el Timestamp de Firebase a un objeto Date
-      const date = new Date(timestamp.seconds * 1000); // Convertir de segundos a milisegundos
+      const date = new Date(timestamp.seconds * 1000); 
       return this.datePipe.transform(date, 'dd/MM/yyyy')!;
     }
-    return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
+    return ''; 
   }
 
   formatHora(timestamp: any): string {
     if (timestamp && timestamp.seconds) {
-      // Convertir el Timestamp de Firebase a un objeto Date
-      const date = new Date(timestamp.seconds * 1000); // Convertir de segundos a milisegundos
+      const date = new Date(timestamp.seconds * 1000); 
       return this.datePipe.transform(date, 'HH:mm')!;
     }
-    return ''; // Si no hay un Timestamp válido, devolver una cadena vacía
+    return ''; 
   }
 
    formatoFecha(fecha: Date): string {
-    // Obtener los componentes de la fecha
     const dia: number = fecha.getDate();
-    const mes: number = fecha.getMonth() + 1;  // Los meses comienzan desde 0
+    const mes: number = fecha.getMonth() + 1;  
     const año: number = fecha.getFullYear();
   
-    // Asegurarnos de que el día y el mes tengan dos dígitos
     const diaFormateado: string = String(dia).padStart(2, '0');
     const mesFormateado: string = String(mes).padStart(2, '0');
   

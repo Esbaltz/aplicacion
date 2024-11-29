@@ -19,7 +19,7 @@
         <ion-item>
           <ion-label position="floating">Nombre del Curso</ion-label>
           <ion-input 
-            minlength="7" 
+            minlength="1" 
             name="nombreCurso" 
             required 
             [(ngModel)]="NuevoCurso.nomb_clase" 
@@ -30,13 +30,13 @@
         
         <ion-item *ngIf="nombreCurso.invalid && nombreCurso.touched">
           <ion-text color="danger">
-            <p>El nombre del curso es muy corto. Debe tener al menos 7 caracteres.</p>
+            <p>El nombre del curso es muy corto.</p>
           </ion-text>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Descripción del Curso</ion-label>
-          <ion-input minlength="15" name="descripcionCurso" required [(ngModel)]="NuevoCurso.descripcion" clearInput></ion-input>
+          <ion-input minlength="1" name="descripcionCurso" required [(ngModel)]="NuevoCurso.descripcion" clearInput></ion-input>
         </ion-item>
 
         <ion-item lines="none">
@@ -47,9 +47,26 @@
         </ion-item>
 
         <ion-item lines="none">
-          <ion-label>Seccion:</ion-label>
-          <ion-text color="primary">
-            <strong>{{ this.NuevoCurso.seccion_num }}-{{this.NuevoCurso.seccion_letra}}</strong>
+          <ion-label position="floating" >Seccion numero:</ion-label>
+          <ion-input type="number" name="sessionNumeroCurso" required [(ngModel)]="NuevoCurso.seccion_num" clearInput></ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="floating">Sección letra:</ion-label>
+          <ion-input 
+            maxlength="1" 
+            name="descripcionCurso" 
+            required 
+            [(ngModel)]="NuevoCurso.seccion_letra" 
+            clearInput
+            pattern="[A-Za-z]"
+            #seccionLetra="ngModel">
+          </ion-input>
+        </ion-item>
+        
+        <ion-item *ngIf="seccionLetra.invalid && seccionLetra.touched">
+          <ion-text color="danger">
+            <p>Por favor, ingresa una letra válida.</p>
           </ion-text>
         </ion-item>
 
