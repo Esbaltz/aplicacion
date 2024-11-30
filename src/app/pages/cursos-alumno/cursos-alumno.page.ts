@@ -103,7 +103,6 @@ export class CursosAlumnoPage implements OnInit {
     }else {
       console.log('CURSO =>', clases)
       this.router.navigate(['/detalle-clase',clases.id_clase] );
-      this.db.guardar(clases.id_clase , clases)
       console.log('Se a guardado el curso con el ID =',clases.id_clase)
     }
   }

@@ -17,7 +17,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ListaPage implements OnInit {
  
-  asistencias: (Asistencia & { nombre?: string; apellido?: string })[] = [];
+  asistenciasProfe: (Asistencia & { nombre?: string; apellido?: string })[] = [];
 
   usuarios :Usuario[] = []; // para todos los usuarios
   alumnos : Usuario = { // para manipular a los alumons 
@@ -158,15 +158,24 @@ export class ListaPage implements OnInit {
         this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe((asistencias) => {
           if (asistencias) {
             // se busca al usuario con el id del usario
-            this.asistencias = asistencias.map((asistencia) => {
+            this.asistenciasProfe = asistencias.map((asistencia) => {
               const alumno = this.usuarios.find((user) => user.id_usuario === asistencia.id_alumno);
 
               return {
                 ...asistencia,
                 nombre: alumno ? alumno.nombre : 'Desconocido',
                 apellido: alumno ? alumno.apellido : 'Desconocido'
+
+                
               };
+
             });
+
+            if (this.asistenciasProfe.length > 1) {
+              this.GuardarAsistenciasDelLocal(this.asistenciasProfe);
+            } else {
+              console.log('No hay Asistencias para guardar');
+            }
             
           }
         });
@@ -221,6 +230,17 @@ export class ListaPage implements OnInit {
       // Guardar los cursos en localStorage
       localStorage.setItem('sesionesProfe', JSON.stringify(sesionesProfe));
       this.db.guardar('sesionesProfe',sesionesProfe)
+      console.log('Sesiones guardadas en el local');
+    } catch (error) {
+      console.error('Error guardando las sesiones en local:', error);
+    }
+  }
+
+  async GuardarAsistenciasDelLocal(asistenciaProfe: Asistencia[]) {
+    try {
+      // Guardar los cursos en localStorage
+      localStorage.setItem('asistenciaProfe', JSON.stringify(asistenciaProfe));
+      this.db.guardar('asistenciaProfe',asistenciaProfe)
       console.log('Sesiones guardadas en el local');
     } catch (error) {
       console.error('Error guardando las sesiones en local:', error);
