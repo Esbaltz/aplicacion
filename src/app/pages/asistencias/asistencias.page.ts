@@ -16,7 +16,7 @@ import { NetworkService } from 'src/app/services/network.service';
 export class AsistenciasPage implements OnInit {
   cursosAlumno: Clases[] = [];
   usuarioId : any
-  asistencias : Asistencia[] = [];
+  asistenciasAlumno : Asistencia[] = [];
   sesiones : Sesiones[] = [];
 
   constructor(private datePipe: DatePipe,
@@ -30,15 +30,22 @@ export class AsistenciasPage implements OnInit {
     this.usuarioId = this.sesion.getUser()?.id_usuario;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.networkService.isConnected()) { 
       this.CargarCursosAlumno()
-      console.log('USUARIO ID =>',this.usuarioId)
       this.loadasistencia()
       console.log('Tienes conexión a Internet.');
+
+      if (this.asistenciasAlumno.length > 1) {
+        await this.GuardarAsistenciasLocal(this.asistenciasAlumno); // Guardar cursos si existen
+      } else {
+        console.log('No hay asistencia para guardar');
+      }
     }
     else{
+      console.log('No tienes conexion')
       this.CargarCursosDeLocal();
+      await this.CargarAsistenciasDeLocal();
     }
   }
 
@@ -60,22 +67,63 @@ export class AsistenciasPage implements OnInit {
             if (data) {
               this.cursosAlumno = data.filter(curso => ClasesIds.includes(curso.id_clase));
               console.log("Cursos del alumno =>",this.cursosAlumno);
-              this.db.guardar(this.usuarioId, this.cursosAlumno)
             }
           });
         }
       });
   }
 
-  // Falta filtrarlas bien
-  loadasistencia(){
-    this.firestoreService.getCollectionChanges<Asistencia>('Asistencia').subscribe( data => {
-      //console.log(data);
-      if (data) {
-        this.asistencias = data
-        console.log("Asistencias del alumno => ",this.asistencias)
-      }
-    })
+  loadasistencia() {
+    this.firestoreService.getCollectionChanges<{ id_alumno: string; fecha_hora: any; id_sesion: string; id_clase: string; estado: string; id_asistencia: string }>('Asistencia')
+      .subscribe(AsistenciasIns => {
+        if (AsistenciasIns) {
+          const AsistenciaAlumno = AsistenciasIns.filter(a => a.id_alumno === this.usuarioId)
+            .map(a => {
+              return {
+                id_alumno: a.id_alumno,
+                fecha_hora: a.fecha_hora, 
+                id_sesion: a.id_sesion,
+                id_clase: a.id_clase,
+                estado: a.estado,
+                id_asistencia: a.id_asistencia,
+              };
+            });
+          
+          this.asistenciasAlumno = AsistenciaAlumno;
+          console.log('Asistencias del alumno => ', this.asistenciasAlumno);
+
+          if (this.asistenciasAlumno.length > 1) {
+            this.GuardarAsistenciasLocal(this.asistenciasAlumno);
+          } else {
+            console.log('No hay asistencias para guardar');
+          }
+        }
+      });
+  }
+
+  async GuardarAsistenciasLocal(asistenciaAlumno: Asistencia[]) {
+    try {
+      // Guardar los cursos en localStorage
+      localStorage.setItem('asistenciaAlumno', JSON.stringify(asistenciaAlumno));
+      this.db.guardar('asistenciaAlumno',asistenciaAlumno)
+      console.log('Asistencias guardadas en el local');
+    } catch (error) {
+      console.error('Error guardando las asistencias en local:', error);
+    }
+  }
+
+  async CargarAsistenciasDeLocal() {
+    // Intenta cargar los asistencias de Localdb primero
+    const asistenciaGuardadas = await this.db.obtener('asistenciaAlumno');
+    console.log('Asistencias guardadas desde Localdb:', asistenciaGuardadas);
+    if (asistenciaGuardadas) {
+      this.asistenciasAlumno = asistenciaGuardadas;
+    } else {
+      // Si no se encontraron, intenta cargar desde localStorage
+      const asistenciasDesdeStorage = JSON.parse(localStorage.getItem('asistenciaAlumno') || '[]');
+      console.log('Asistencias guardadas desde el localStorage:', asistenciasDesdeStorage);
+      this.asistenciasAlumno = asistenciasDesdeStorage;
+    }
   }
 
   async CargarCursosDeLocal() {

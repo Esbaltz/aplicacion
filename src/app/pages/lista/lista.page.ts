@@ -55,7 +55,7 @@ export class ListaPage implements OnInit {
 
   alumnosCargados : Alumno[] = []
   IdClase : any // para almacenar el Id del curso que quier ver las asistencias y sesiones
-  sesiones : Sesiones[] = []; // para cargar todas las sesiones/clases
+  sesionesProfe : Sesiones[] = []; // para cargar todas las sesiones/clases
   userId : any // Para almacenar el Id del usuario que esta logeado
   fechaActual = Date()
 
@@ -112,7 +112,6 @@ export class ListaPage implements OnInit {
   }
 
   ngOnInit( ) {
-    this.CargarCursos();
     const ClaseId = this.route.snapshot.paramMap.get('id');
     if (ClaseId) {
       this.cargarCurso(ClaseId);
@@ -168,13 +167,12 @@ export class ListaPage implements OnInit {
                 apellido: alumno ? alumno.apellido : 'Desconocido'
               };
             });
-            //console.log('Asistencias con nombres:', this.asistencias);
+            
           }
         });
       }
     });
   }
-
 
   cargarCurso(id_clase: string) {
     this.firestoreService.getDocument<Clases>('Clases', id_clase).subscribe(curso => {
@@ -188,24 +186,14 @@ export class ListaPage implements OnInit {
     });
   }
 
-  CargarCursos(){
-    this.firestoreService.getCollectionChanges<Clases>('Clases').subscribe( data => {
-      console.log(data);
-      if (data) {
-        this.cursos = data
-        console.log("Cursos Cargados")
-         
-      }
-    })
-  }
 
   CargarSesiones(){
-    this.firestoreService.getCollectionChanges<{ id_clase : string,id_sesion: string  }>('Sesiones')
+    this.firestoreService.getCollectionChanges<{ id_clase : string,id_sesion: string  , id_docente : string}>('Sesiones')
       .subscribe(SesionesIns => {
         if (SesionesIns) {
           //console.log('SesionesIns =>',SesionesIns) // Muestra todas
           //console.log('Id-clase : ',this.IdClase)
-          const SesionesCurso = SesionesIns.filter(s => s.id_clase == this.IdClase );
+          const SesionesCurso = SesionesIns.filter(s => s.id_clase == this.IdClase && s.id_docente == this.userId);
           //console.log('SesionesCurso', SesionesCurso)
 
           const SesionIds = SesionesCurso.map(s => s.id_sesion);
@@ -214,12 +202,29 @@ export class ListaPage implements OnInit {
           this.firestoreService.getCollectionChanges<Sesiones>('Sesiones').subscribe(data => {
             if (data) {
               //console.log(data)
-              this.sesiones = data.filter(sesion => SesionIds.includes(sesion.id_sesion));
+              this.sesionesProfe = data.filter(sesion => SesionIds.includes(sesion.id_sesion));
               //console.log(this.sesion)
+
+              if (this.sesionesProfe.length > 1) {
+                this.GuardarSesionesDelLocal(this.sesionesProfe);
+              } else {
+                console.log('No hay Sesiones para guardar');
+              }
             }
           })
         }
       });
+  }
+
+  async GuardarSesionesDelLocal(sesionesProfe: Sesiones[]) {
+    try {
+      // Guardar los cursos en localStorage
+      localStorage.setItem('sesionesProfe', JSON.stringify(sesionesProfe));
+      this.db.guardar('sesionesProfe',sesionesProfe)
+      console.log('Sesiones guardadas en el local');
+    } catch (error) {
+      console.error('Error guardando las sesiones en local:', error);
+    }
   }
 
   async mostrarAlerta() {

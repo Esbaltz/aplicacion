@@ -61,7 +61,7 @@ export class AsistenciaProfPage implements OnInit {
   ListaSesionXclase( clases : Clases){
     console.log('CURSO =>', clases)
     this.router.navigate(['/lista',clases.id_clase] );
-    console.log('Se a guardado el curso con el ID =',clases.id_clase)
+    console.log('Se a cargado el curso con el ID =',clases.id_clase)
 
   }
 

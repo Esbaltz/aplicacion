@@ -10,8 +10,8 @@
 <ion-content [fullscreen]="true">
   <ion-button expand="block" class="ion-padding" (click)="mostrarAlerta()">AGREGAR UNA CLASE</ion-button>
   <ion-list lines="full">
-    <div *ngIf="sesiones && sesiones.length > 0; else sinSesiones">
-      <div *ngFor="let sesion of sesiones">
+    <div *ngIf="sesionesProfe && sesionesProfe.length > 0; else sinSesiones">
+      <div *ngFor="let sesion of sesionesProfe">
           <ion-item>
             <ion-label>
               <ion-accordion-group>
