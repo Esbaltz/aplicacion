@@ -12,7 +12,6 @@ import { NetworkService } from 'src/app/services/network.service';
   styleUrls: ['./cursos.page.scss'],
 })
 export class CursosPage implements OnInit {
-  selectedSegment: string = 'inscritos';
   cursosProfe: Clases[] = [];
   userId: any;
 
@@ -30,14 +29,16 @@ export class CursosPage implements OnInit {
     if (this.networkService.isConnected()) {
       console.log('Tienes conexión a Internet.');
       await this.CargarCursosDeFirestore(); // Cargar cursos desde Firebase
-      if (this.cursosProfe.length > 1) {
+      if (this.cursosProfe.length > 1 ) {
         await this.GuardarCursosLocal(this.cursosProfe); // Guardar cursos si existen
       } else {
         console.log('No hay cursos para guardar');
+        await this.CargarCursosDeLocal();
+        console.log('Cursos que se visualizan',this.cursosProfe)
       }
     } else {
-      console.log('No hay conexión a Internet.');
-      await this.CargarCursosDeLocal(); // Cargar cursos desde almacenamiento local
+      console.log('No hay conexión a Internet.')
+      this.CargarCursosDeLocal(); // Cargar cursos desde almacenamiento local
     }
   }
   
@@ -76,18 +77,21 @@ export class CursosPage implements OnInit {
   }
 
   async CargarCursosDeLocal() {
-    // Intenta cargar los cursos de Localdb primero
-    const cursosGuardados = await this.db.obtener('cursosProfe');
+    // Intentar cargar los cursos de Localdb
+    const cursosGuardados = await this.db.getData('cursosProfe');
     console.log('Cursos guardados desde Localdb:', cursosGuardados);
-    if (cursosGuardados) {
+  
+    if (cursosGuardados && cursosGuardados.length > 0) {
+      console.log('Se cargaron los cursos desde Localdb');
       this.cursosProfe = cursosGuardados;
     } else {
-      // Si no se encontraron, intenta cargar desde localStorage
+      // Si no se encontraron, intentar cargar desde localStorage
       const cursosDesdeStorage = JSON.parse(localStorage.getItem('cursosProfe') || '[]');
-      console.log('Cursos guardados desde localStorage:', cursosDesdeStorage);
+      console.log('Cursos cargados desde localStorage:', cursosDesdeStorage);
       this.cursosProfe = cursosDesdeStorage;
     }
   }
+  
 
   DetalleCurso(clases: Clases) {
     if (clases === null) {
