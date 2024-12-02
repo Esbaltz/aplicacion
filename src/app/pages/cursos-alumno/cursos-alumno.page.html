@@ -9,8 +9,8 @@
 
 <ion-content [fullscreen]="true">
   <ion-list [inset]="true">
-    <div *ngIf="cursos && cursos.length > 0; else sinCursos">
-      <div *ngFor="let curso of cursos; let i = index">
+    <div *ngIf="cursosAlumno && cursosAlumno.length > 0; else sinCursos">
+      <div *ngFor="let curso of cursosAlumno; let i = index">
         <div *ngFor="let alumno of curso.alumnos">
           <div *ngIf=" alumno === this.userId">
            
@@ -35,6 +35,7 @@
     </div>
   </ion-list> 
   <ion-button expand="block" class="ion-padding" routerLink="/cursos-disponibles"> Curso disponibles </ion-button>
+
 </ion-content>
 
 <ng-template #sinCursos>

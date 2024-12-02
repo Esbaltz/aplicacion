@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+  <ion-button expand="block" class="ion-padding" (click)="mostrarAlerta()">AGREGAR UNA CLASE</ion-button>
   <ion-list lines="full">
-    <div *ngIf="sesiones && sesiones.length > 0; else sinSesiones">
-      <div *ngFor="let sesion of sesiones">
+    <div *ngIf="sesionesProfe && sesionesProfe.length > 0; else sinSesiones">
+      <div *ngFor="let sesion of sesionesProfe">
           <ion-item>
             <ion-label>
               <ion-accordion-group>
@@ -23,7 +23,7 @@
                   </ion-item>
 
                   <div class="ion-padding" slot="content">
-                    <div *ngFor="let asistencia of asistencias">
+                    <div *ngFor="let asistencia of asistenciasProfe">
 
                       <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
                         <div style="display: flex; justify-content: space-between;">
@@ -44,13 +44,12 @@
           </ion-item>
         </div>
       </div>
-        <ion-button expand="block" class="ion-padding" (click)="mostrarAlerta()">AGREGAR UNA CLASE</ion-button>
     </ion-list>
 </ion-content>
 
 <ng-template #sinSesiones>
   <br>
-  <ion-text class="ion-padding"> No tienes clases registrados aun </ion-text>
+  <ion-text class="ion-padding"> No tienes clases registrados aun</ion-text>
 </ng-template>
 
 <ion-footer>

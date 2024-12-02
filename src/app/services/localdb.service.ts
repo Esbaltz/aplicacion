@@ -25,4 +25,11 @@ export class LocaldbService {
     const valor = await this._storage?.get(key);
     return valor;
   }
+  
+  getData(key: string): any {
+    const data = localStorage.getItem(key);
+    console.log(`Recuperando ${key}:`, data);
+    return data ? JSON.parse(data) : null;
+  }
+  
 }

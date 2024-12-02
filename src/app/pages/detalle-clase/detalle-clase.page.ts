@@ -32,8 +32,7 @@ export class DetalleClasePage implements OnInit {
   rol : any
   constructor(private firestoreService : FireStoreService , private route: ActivatedRoute , private sesion : sesionService ) { }
 
-  ngOnInit(
-  ) { 
+  ngOnInit() { 
     
     this.rol = this.sesion.getUser()?.rol
     const ClaseId = this.route.snapshot.paramMap.get('id');

@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+ 
   <ion-list lines="full">
-    <div *ngIf="cursos && cursos.length > 0; else sinCursos">
-        <div *ngFor="let curso of cursos; let i = index">
+    <div *ngIf="cursosAlumno && cursosAlumno.length > 0; else sinCursos">
+        <div *ngFor="let curso of cursosAlumno; let i = index">
           <div *ngFor="let alumno of curso.alumnos">
             <div *ngIf=" alumno === this.usuarioId">
               <ion-item>
@@ -23,8 +23,8 @@
                         </ion-item>
 
                           <div class="ion-padding" slot="content">
-                            <div *ngIf=" asistencias && asistencias.length > 0; else sinAsistencias">
-                              <div *ngFor="let asistencia of asistencias; let i = index">
+                            <div *ngIf=" asistenciasAlumno && asistenciasAlumno.length > 0; else sinAsistencias">
+                              <div *ngFor="let asistencia of asistenciasAlumno; let i = index">
                                 <div *ngIf="asistencia.id_alumno === usuarioId && asistencia.id_clase === curso.id_clase">
                                   <div style="display: flex; justify-content: space-between;">
                                     <ion-label>Fecha : {{formatFechaHora(asistencia.fecha_hora) }}</ion-label>
