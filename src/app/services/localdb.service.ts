@@ -28,7 +28,6 @@ export class LocaldbService {
   
   getData(key: string): any {
     const data = localStorage.getItem(key);
-    console.log(`Recuperando ${key}:`, data);
     return data ? JSON.parse(data) : null;
   }
   
