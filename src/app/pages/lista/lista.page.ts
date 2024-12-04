@@ -80,7 +80,12 @@ export class ListaPage implements OnInit {
     {
       text: 'Iniciar',
       handler: (data: any) => {
-        this.iniciarSesion(data);
+        if (this.networkService.isConnected()) {
+          this.iniciarSesion(data);
+        }else{
+          this.SesionSinConexion('top')
+        }
+
       }
     }
   ];
@@ -346,6 +351,19 @@ export class ListaPage implements OnInit {
       duration: 1500,
       position: position,
       color: 'secondary',
+      header: 'Aviso!',
+      cssClass: 'textoast',
+    });
+
+    await toast.present();
+  }
+
+  async SesionSinConexion(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: `No tienes conexion para iniciar la clase `,
+      duration: 1500,
+      position: position,
+      color: 'danger',
       header: 'Aviso!',
       cssClass: 'textoast',
     });
