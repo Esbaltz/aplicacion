@@ -1,20 +1,22 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title mode="md" class="ion-text-center">AppAsistencias</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
+
+  <ng-container>
+    <div class="image-wrapper">
+      <img src="assets/img/alumno_mano.jpeg" alt="Alumno alzando la mano" class="main-img" />
+    </div>
+  </ng-container>
+  
+
   <ng-container *ngIf="rol === 'Alumno'">
     <div *ngIf="nombre">
-      <h2 class="welcome-text">Bienvenido alumno! <strong>{{nombre}} </strong></h2>
+      <h2 class="welcome-text">Bienvenido, <strong>{{nombre}}</strong>!</h2>
       <br>
     </div>
   </ng-container>
 
   <ng-container *ngIf="rol === 'Docente'">
     <div *ngIf="nombre">
-      <h2 class="welcome-text">Bienvenido docente! <strong>{{nombre}}</strong></h2>
+      <h2 class="welcome-text">Bienvenido, <strong>{{nombre}}</strong>!</h2>
       <br>
     </div>
   </ng-container>
@@ -23,55 +25,46 @@
     <p>No se pudo determinar el rol del usuario.</p>
   </ng-container>
 
-  <ng-container *ngIf="rol === 'Docente'">
-    <ion-card routerLink="/cursos"> 
-      <ion-card-header>
-        <ion-card-title>Cursos</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        Aqui se registran los cursos que tienes escrito durante este semestre
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
+  <div class="cards-container">
+    <ng-container *ngIf="rol === 'Docente'">
+      <ion-card routerLink="/cursos">
+        <ion-card-header>
+          <ion-card-title>Cursos</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Crea tus cursos.
+        </ion-card-content>
+      </ion-card>
+      <ion-card routerLink="/asistencia-prof">
+        <ion-card-header>
+          <ion-card-title>Asistencias</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Supervisa la asistencia.
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
 
-  <ng-container *ngIf="rol === 'Alumno'">
-    <ion-card routerLink="/cursos-alumno"> 
-      <ion-card-header>
-        <ion-card-title>Cursos</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        Aqui se registran los cursos que tienes escrito durante este semestre
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
-
-  <ng-container *ngIf="rol === 'Alumno'">
-  <br>
-    <ion-card routerLink="/asistencias">
-      <ion-card-header>
-        <ion-card-title>Asistencias</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        Aqui esta tu los porcentajes de asistencias de los cursos inscritos
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
-
-  <ng-container *ngIf="rol === 'Docente'">
-  <br>
-    <ion-card routerLink="/asistencia-prof">
-      <ion-card-header>
-        <ion-card-title>Asistencias</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        Aqui podrás manejar la asistencia de tus clases
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
+    <ng-container *ngIf="rol === 'Alumno'">
+      <ion-card routerLink="/cursos-alumno">
+        <ion-card-header>
+          <ion-card-title><strong>Cursos</strong></ion-card-title>
+          <ion-card-subtitle></ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Inscribite a un curso.
+        </ion-card-content>
+      </ion-card>
+      <ion-card routerLink="/asistencias">
+        <ion-card-header>
+          <ion-card-title><strong>Asistencia</strong></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Ve tu asistencia.
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </div>
 
   <div class="bottom-buttons">
     <ng-container *ngIf="rol === 'Docente'">
