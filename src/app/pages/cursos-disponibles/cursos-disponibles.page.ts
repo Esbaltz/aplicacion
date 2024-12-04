@@ -71,7 +71,7 @@ export class CursosDisponiblesPage implements OnInit {
         {
           type: 'text',  
           name: 'hora',
-          value: `Estado : ${curso.estado}`,  
+          value: `Seccion : ${curso.seccion_letra}-${curso.seccion_num}`,  
           disabled: true,  
         },
         {
@@ -90,7 +90,7 @@ export class CursosDisponiblesPage implements OnInit {
           }
         },
         {
-          text: 'Aceptar',
+          text: 'Confirmar',
           handler: () => {
             console.log('Curso inscrito',curso.nomb_clase);
             this.agregarAlumno(curso.id_clase)

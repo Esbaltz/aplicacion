@@ -1,6 +1,6 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary" slot="center">
-    <ion-title>Registro</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,15 +20,31 @@
 
         <div *ngIf="usr.correo && !obtenerRolPorCorreo(usr.correo)" class="error-message">
           <ion-text color="primary" class="ion-padding">
-            El correo debe ser de tipo "...&commat;alumno.cl", o si eres docente  "..&commat;docente.cl".
+            La correo institucional debe ser:
+            <ul>
+              <li>Alumno : usuario&commat;alumno.cl</li>
+              <li>Docente : usuario&commat;docente.cl</li>
+            </ul>
           </ion-text>
         </div>
       
         <ion-item>
-          <ion-input required labelPlacement="floating" label="Contraseña" name="password" type="password" [(ngModel)]="usr.password" >
-            <!-- <ion-input-password-toggle slot="end"></ion-input-password-toggle> -->
+          <ion-input required labelPlacement="floating" label="Contraseña" name="password" type="password" [(ngModel)]="usr.password" 
+                     [pattern]="passwordPattern" minlength="6">
           </ion-input>
         </ion-item>
+
+        <div *ngIf="usr.password && !passwordValid" class="error-message">
+          <ion-text color="primary" class="ion-padding">
+            La contraseña debe tener al menos:
+            <ul>
+              <li>6 caracteres.</li>
+              <li>Una letra mayúscula.</li>
+              <li>Un número.</li>
+              <li>Un carácter especial (por ejemplo: !, #, $ , _ , etc.).</li>
+            </ul> 
+          </ion-text>
+        </div>
       
         <ion-item>
           <ion-input required labelPlacement="floating" label="Nombre" name="password" type="text" [(ngModel)]="usr.nombre" >

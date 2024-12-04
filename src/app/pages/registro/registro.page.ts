@@ -21,6 +21,9 @@ export class RegistroPage implements OnInit {
     rol: '',
     id_usuario: this.firestoreService.createIdDoc()
   }
+
+  passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_(),.?":{}|<>]).{8,}$/;
+
   
   cargando : boolean = false
 
@@ -57,6 +60,10 @@ export class RegistroPage implements OnInit {
     }
   }
 
+  get passwordValid(): boolean {
+    return this.passwordPattern.test(this.usr.password);
+  }
+
   registrar() {
     const rol = this.obtenerRolPorCorreo(this.usr.correo);
   
@@ -72,15 +79,20 @@ export class RegistroPage implements OnInit {
     let buscado = this.db.obtener(this.usr.correo);
   
     buscado.then(async datos => {
-      if (datos === null) {
-        this.db.guardar(this.usr.correo, this.usr);
-        this.firestoreService.createDocumentID(this.usr, 'Usuarios', this.usr.id_usuario);
-  
-        // Guarda el rol en LocalStorage después de asignarlo al usuario
-        localStorage.setItem('userRole', this.usr.rol);
-        this.presentAlert();
-      } else {
-        this.presentToast('top');
+      if (this.passwordValid) {
+        if (datos === null) {
+          this.db.guardar(this.usr.correo, this.usr);
+          this.firestoreService.createDocumentID(this.usr, 'Usuarios', this.usr.id_usuario);
+    
+          // Guarda el rol en LocalStorage después de asignarlo al usuario
+          localStorage.setItem('userRole', this.usr.rol);
+          this.presentAlert();
+        } else {
+          this.presentToast('top');
+        }
+      }
+      else {
+        this.ContraseñaInvalida('top')
       }
     });
   }
@@ -107,6 +119,19 @@ export class RegistroPage implements OnInit {
   async CorreoInvalido(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
       message: 'Correo institucinal invalido',
+      duration: 1500,
+      position: position,
+      color: 'danger',
+      header: 'Error!',
+      cssClass: 'textoast',
+    });
+
+    await toast.present();
+  }
+
+  async ContraseñaInvalida(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Cotraseña invalida',
       duration: 1500,
       position: position,
       color: 'danger',

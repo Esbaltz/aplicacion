@@ -10,8 +10,8 @@
 /* Contenedor que ocupa todo el espacio disponible */
 .image-wrapper {
   position: relative;
-  width: 100vw; /* Ocupa todo el ancho de la ventana */
-  height: 50vh; /* Ocupa el 50% de la altura de la ventana */
+  width: 90vw; /* Ocupa todo el ancho de la ventana */
+  height: 38vh; /* Ocupa el 50% de la altura de la ventana */
   overflow: hidden; /* Asegura que los bordes redondeados del contenedor no muestren contenido fuera de ellos */
   margin-bottom: 20px; /* Espaciado entre la imagen y el contenido siguiente */
   border-bottom-left-radius: 20px; /* Bordes redondeados inferiores */
