@@ -7,6 +7,7 @@ import { user } from '@angular/fire/auth';
 import { LocaldbService } from 'src/app/services/localdb.service';
 import { AlertController, AlertInput, ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { NetworkService } from 'src/app/services/network.service';
 
 
 @Component({
@@ -105,20 +106,30 @@ export class ListaPage implements OnInit {
                private db: LocaldbService , private alertController: AlertController,
                private router: Router,
                private datePipe: DatePipe ,
-               private toastController: ToastController) {
+               private toastController: ToastController,
+               private networkService: NetworkService) {
     this.userId = this.sesion.getUser()?.id_usuario; 
 
     this.loadasistencia();
   }
 
-  ngOnInit( ) {
+  async ngOnInit( ) {
     const ClaseId = this.route.snapshot.paramMap.get('id');
     if (ClaseId) {
       this.cargarCurso(ClaseId);
     }
     this.CargarSesiones()
 
+    if (this.networkService.isConnected()) {
+    }
+    else {
+      console.log('No tienes conexion')
+      await this.CargarSesionesDeLocal()
+      await this.CargarAsistenciasDeLocal()
+    }
   }
+
+
   formatFecha(timestamp: any): string {
     if (timestamp && timestamp.seconds) {
       const date = new Date(timestamp.seconds * 1000); 
@@ -212,7 +223,7 @@ export class ListaPage implements OnInit {
             if (data) {
               //console.log(data)
               this.sesionesProfe = data.filter(sesion => SesionIds.includes(sesion.id_sesion));
-              //console.log(this.sesion)
+              console.log('Sesiones de esta clase =>',this.sesionesProfe)
 
               if (this.sesionesProfe.length > 1) {
                 this.GuardarSesionesDelLocal(this.sesionesProfe);
@@ -228,11 +239,27 @@ export class ListaPage implements OnInit {
   async GuardarSesionesDelLocal(sesionesProfe: Sesiones[]) {
     try {
       // Guardar los cursos en localStorage
-      localStorage.setItem('sesionesProfe', JSON.stringify(sesionesProfe));
-      this.db.guardar('sesionesProfe',sesionesProfe)
+      localStorage.setItem('sesionesProfe'+this.IdClase, JSON.stringify(sesionesProfe));
+      this.db.guardar('sesionesProfe'+this.IdClase,sesionesProfe)
       console.log('Sesiones guardadas en el local');
     } catch (error) {
       console.error('Error guardando las sesiones en local:', error);
+    }
+  }
+
+  async CargarSesionesDeLocal() {
+    // Intentar cargar las sesiones de Localdb
+    const sesionesGuardadas = await this.db.getData('sesionesProfe'+this.IdClase);
+    console.log('Sesiones cargadas desde Localdb:', sesionesGuardadas);
+  
+    if (sesionesGuardadas && sesionesGuardadas.length > 0) {
+      console.log('Se cargaron las sesiones desde Localdb');
+      this.sesionesProfe = sesionesGuardadas;
+    } else {
+      // Si no se encontraron, intentar cargar desde localStorage
+      const sesionesDesdeStorage = JSON.parse(localStorage.getItem('sesionesProfe'+this.IdClase) || '[]');
+      console.log('Sesione cargadas desde localStorage:', sesionesDesdeStorage);
+      this.sesionesProfe = sesionesDesdeStorage;
     }
   }
 
@@ -244,6 +271,22 @@ export class ListaPage implements OnInit {
       console.log('Sesiones guardadas en el local');
     } catch (error) {
       console.error('Error guardando las sesiones en local:', error);
+    }
+  }
+
+  async CargarAsistenciasDeLocal() {
+    // Intentar cargar las asistencias de Localdb
+    const asistenciasGuardadas = await this.db.getData('asistenciaProfe');
+    console.log('Asistencias cargadas desde Localdb:', asistenciasGuardadas);
+  
+    if (asistenciasGuardadas && asistenciasGuardadas.length > 0) {
+      console.log('Se cargaron las asistencias desde Localdb');
+      this.asistenciasProfe = asistenciasGuardadas;
+    } else {
+      // Si no se encontraron, intentar cargar desde localStorage
+      const asistenciasDesdeStorage = JSON.parse(localStorage.getItem('asistenciaProfe') || '[]');
+      console.log('asistencias cargadas desde localStorage:', asistenciasDesdeStorage);
+      this.asistenciasProfe = asistenciasDesdeStorage;
     }
   }
 

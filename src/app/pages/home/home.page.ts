@@ -122,7 +122,7 @@ export class HomePage implements OnInit {
       // Si la asistencia no existe, crea un nuevo registro
       const clase = await this.getClaseBySesion(id_sesion);
       if (!clase) {
-        this.presentToast('No se encontró la clase para esta sesión.');
+        this.presentToast('No se encontró la clase para esta sesión. o no tienes conexion');
         return;
       }
   
@@ -229,7 +229,8 @@ export class HomePage implements OnInit {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
-      position: 'bottom',
+      position: 'top',
+      color : 'success'
     });
     await toast.present();
   }
