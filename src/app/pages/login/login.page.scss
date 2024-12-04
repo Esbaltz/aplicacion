@@ -1,92 +1,53 @@
-/* Fondo de la página */
-ion-content{
-    --background:#121212;
+.xd{
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+  height: 100%; /* Asegura que el contenedor ocupe toda la altura disponible */
+  padding: 0; /* Elimina cualquier padding predeterminado */
 }
-/* Estilo para el encabezado */
-ion-header {
-    --background: #0054e9; /* Fondo negro para el encabezado */
-  }
-  
-  /* Estilo para el título del encabezado */
-  ion-header ion-toolbar ion-title {
-    color: #000; /* Color amarillo para el texto del título */
-    font-weight: bold; /* Estilo negrita para el texto del título */
-  }
-  
-  /* Fondo de la página */
-  .content-container {
-    background: white; /* Fondo blanco para el contenido */
-  }
-  
-  /* Contenedor del formulario centrado */
-  .form-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 16px;
-  }
-  
-  /* Estilos para la tarjeta de login */
-  .login-card {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    background: #fff; /* Fondo blanco para la tarjeta */
-  }
-  
-  /* Estilo para el título de la tarjeta */
-  .card-title {
-    font-size: 1.6rem;
-    font-weight: bold;
-    text-align: center;
-    color: #ffcc00; /* Color amarillo para el título */
-    margin: 0;
-  }
-  
-  /* Estilo para el botón de envío */
-  .submit-button {
-    margin-top: 16px;
-    --background: #000; 
-    --color: white; 
-  }
-  
-  /* Estilo para el enlace de contraseña olvidada */
-  .forgot-password {
-    margin-top: 16px;
-    text-align: center;
-  }
-  
-  .forgot-password a {
-    color: #ffcc00; /* Color amarillo para el enlace */
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-  
-  .forgot-password a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Estilo para los campos de entrada */
-  ion-item {
-    --background: #f9f9f9; /* Color de fondo para los campos de entrada */
-    border-radius: 8px; /* Bordes redondeados para los campos de entrada */
-  }
-  
-  ion-input {
-    --padding-start: 16px; /* Padding interno en el lado izquierdo del campo de entrada */
-    color: #000; /* Color negro para el texto dentro del campo de entrada */
-  }
-  
-  /* Color negro para el texto de las etiquetas dentro de ion-item */
-  ion-item ion-label {
-    color: #000 !important; /* Color negro para las etiquetas de los campos de entrada */
-  }
-  
-  /* Estilo para el campo de entrada activo */
-  ion-item.ion-focused {
-    --background: #e0e0e0; /* Color de fondo cuando el campo de entrada está enfocado */
-  }
-  
+
+.logo-container{
+  display: flex;
+  justify-content: center; 
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente, opcional */
+}
+
+.submit-button {
+  margin-top: 16px;
+  --background: #000;
+  --color: white;
+  --border-radius: 14px; 
+  --padding-start: 12px; 
+  --padding-end: 12px; 
+  --height: 40px; 
+  font-size: 14px; 
+}
+
+.icono{
+  color: #000;
+}
+
+/* Estilo para los campos de entrada */
+ion-item {
+  --background: #f9f9f9; /* Color de fondo para los campos de entrada */
+  border-radius: 8px; /* Bordes redondeados para los campos de entrada */
+}
+
+ion-input {
+  --padding-start: 16px; /* Padding interno en el lado izquierdo del campo de entrada */
+  color: #000; /* Color negro para el texto dentro del campo de entrada */
+}
+
+.center-text {
+  display: flex;
+  justify-content: center; 
+  text-align: center; 
+  width: 100%; 
+}
