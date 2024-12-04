@@ -17,7 +17,7 @@
               <ion-accordion-group>
                 <ion-accordion value="first">
                   <ion-item slot="header" color="light">
-                    <ion-label>Clase 1 :  Fecha : {{ formatFecha(sesion.fecha_hora)}}
+                    <ion-label>Fecha : {{ formatFecha(sesion.fecha_hora)}}
                       
                     </ion-label>
                   </ion-item>
@@ -28,7 +28,7 @@
                       <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
                         <div style="display: flex; justify-content: space-between;">
                           <ion-label>{{ asistencia.nombre }} {{ asistencia.apellido }}</ion-label>
-                          <span [ngClass]="{ 'estado-ausente': asistencia.estado === 'Ausente' }">
+                          <span >
                             {{ asistencia.estado }}
                           </span>
                         </div>
