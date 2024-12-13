@@ -16,9 +16,15 @@
     <ng-container *ngIf="sesion.isLoggedIn(); else loginForm">
       <ion-list class="ion-padding">
         <ion-item>
+<<<<<<< HEAD
           <ion-label class="ion-padding">Correo:</ion-label>
 
           <ion-text color="primary" class="ion-padding">{{ sesion.getUser()?.correo}}</ion-text>
+=======
+          <ion-label>Correo</ion-label>
+
+          <ion-text color="primary">{{ sesion.getUser()?.correo}}</ion-text>
+>>>>>>> 918728de5729edf3b79f18ab4aa0e32cd46f130f
         </ion-item>
         <br>
         <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/login']) "
@@ -57,11 +63,17 @@
               <ion-button class="submit-button" type="submit" color="primary" [disabled]="inicioForm.invalid">
                 Iniciar sesión
               </ion-button>
+<<<<<<< HEAD
               <ion-button class="submit-button" type="submit" color="secondary"  routerLink="/registro">
                 Registrarse
               </ion-button>
             </div>
             
+=======
+            </div>
+            <br>
+            <ion-text color="primary" class="ion-padding center-text"><span routerLink="/registro"> <strong>Registrarse</strong> </span></ion-text>
+>>>>>>> 918728de5729edf3b79f18ab4aa0e32cd46f130f
           </form>
 
         </ng-template>
