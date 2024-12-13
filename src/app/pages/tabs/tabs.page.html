@@ -1,0 +1,39 @@
+<ion-tabs>
+  <ion-router-outlet></ion-router-outlet>
+
+  <ion-tab-bar slot="bottom">
+    <ng-container *ngIf="rol === 'Alumno'">
+      <ion-tab-button tab="cursos-alumno" href="/pages/cursos-alumno">
+        <ion-icon aria-hidden="true" name="book-outline"></ion-icon>
+        <ion-label>Cursos</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
+    <ng-container *ngIf="rol === 'Docente'">
+      <ion-tab-button tab="cursos" href="/pages/cursos">
+        <ion-icon aria-hidden="true" name="book-outline"></ion-icon>
+        <ion-label>Cursos</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
+    <ng-container *ngIf="rol === 'Alumno'">
+      <ion-tab-button tab="asistencias" href="/pages/asistencias">
+        <ion-icon aria-hidden="true" name="people-outline"></ion-icon>
+        <ion-label>Asistencias</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
+    <ng-container *ngIf="rol === 'Docente'">
+      <ion-tab-button tab="asistencia-prof" href="/pages/asistencia-prof">
+        <ion-icon aria-hidden="true" name="people-outline"></ion-icon>
+        <ion-label>Asistencias</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
+    <ion-tab-button tab="cuenta" href="/pages/cuenta">
+      <ion-icon aria-hidden="true" name="person-circle-outline"></ion-icon>
+      <ion-label>Cuenta</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

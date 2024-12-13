@@ -14,6 +14,7 @@ import { NetworkService } from 'src/app/services/network.service';
 export class CursosPage implements OnInit {
   cursosProfe: Clases[] = [];
   userId: any;
+  rol = this.sesion.getUser()?.rol;
 
   constructor(
     private sesion: sesionService,
@@ -26,6 +27,12 @@ export class CursosPage implements OnInit {
   }
 
   async ngOnInit() {
+    
+    if (this.rol === 'Alumno') {
+      // Si el rol es 'Alumno', redirige a cursos-alumno
+      this.router.navigate(['/tabs/cursos-alumno']);
+    }
+
     if (this.networkService.isConnected()) {
       console.log('Tienes conexión a Internet.');
       await this.CargarCursosDeFirestore(); // Cargar cursos desde Firebase

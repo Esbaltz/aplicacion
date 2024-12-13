@@ -79,6 +79,14 @@ const routes: Routes = [
     path: 'cursos-disponibles',
     loadChildren: () => import('./pages/cursos-disponibles/cursos-disponibles.module').then( m => m.CursosDisponiblesPageModule)
   },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
+  },
+  {
+    path: 'cuenta',
+    loadChildren: () => import('./pages/cuenta/cuenta.module').then( m => m.CuentaPageModule)
+  },
 
 
 

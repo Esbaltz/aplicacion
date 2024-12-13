@@ -23,6 +23,7 @@ export class LoginPage implements OnInit {
     rol : '',
     id_usuario :''
   }
+  rol = this.sesion.getUser()?.rol;
 
   showPassword: boolean = false;
 
@@ -64,7 +65,13 @@ export class LoginPage implements OnInit {
         // Guardar los datos del nuevo usuario
         localStorage.setItem('userRole', datos.rol);
         localStorage.setItem('userName', datos.nombre);
-        this.router.navigate(['/home'])
+
+        console.log('El rol del usuario es: ' + this.usr.rol);
+        if (this.rol==='Alumno'){
+          this.router.navigate(['/tabs/cursos-alumno']);
+        } else {
+          this.router.navigate(['/tabs/cursos']);
+        }
        }
 
       } else {
@@ -88,7 +95,13 @@ export class LoginPage implements OnInit {
         if (usuarioEncontrado) {
           this.sesion.login(usuarioEncontrado);
           //this.router.navigate(['/perfil']);
-          this.router.navigate(['/home']);
+
+          console.log('El rol del usuario es: ' + this.usr.rol);
+          if (this.rol==='Alumno'){
+            this.router.navigate(['/tabs/cursos-alumno']);
+          } else {
+            this.router.navigate(['/tabs/cursos']);
+          }
         } else {
           this.mensaje = "Acceso denegado";
           this.alerta();
