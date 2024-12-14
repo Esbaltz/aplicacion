@@ -1,0 +1,4 @@
+ion-router-outlet {
+    position: relative; /* Asegura que no esté cubriendo otros elementos */
+    z-index: 0; /* Asegúrate de que no tenga un valor de z-index alto */
+  }

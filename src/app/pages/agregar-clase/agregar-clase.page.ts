@@ -46,7 +46,7 @@ export class AgregarClasePage implements OnInit {
       this.firestoreService.createDocumentID(this.NuevoCurso, 'Clases', this.NuevoCurso.id_clase)
       console.log('Nuevo curso Creado !')
       form.resetForm(); 
-      this.router.navigate(['/cursos'] );
+      this.router.navigate(['/tabs/cursos'] );
       this.NewCurso('bottom')
     }
   }

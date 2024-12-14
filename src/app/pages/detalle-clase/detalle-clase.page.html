@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="cursos"></ion-back-button>
+      <ion-back-button defaultHref="tabs/cursos"></ion-back-button>
     </ion-buttons>
     <ion-title> {{ this.CursoCargado.nomb_clase}}</ion-title>
   </ion-toolbar>
@@ -60,11 +60,11 @@
     </ion-card-content>
 
     <div *ngIf="this.rol === 'Docente'">
-      <ion-button class="ion-padding" expand="block" routerLink="/cursos" color="secondary">Volver</ion-button>
+      <ion-button class="ion-padding" expand="block" routerLink="/tabs/cursos" color="secondary">Volver</ion-button>
     </div>
 
     <div *ngIf="this.rol === 'Alumno'">
-      <ion-button class="ion-padding" expand="block" routerLink="/cursos-alumno" color="secondary">Volver</ion-button>
+      <ion-button class="ion-padding" expand="block" routerLink="/tabs/cursos-alumno" color="secondary">Volver</ion-button>
     </div>
   </ion-card>
 </ion-content>

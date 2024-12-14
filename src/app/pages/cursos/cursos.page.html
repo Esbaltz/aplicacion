@@ -1,33 +1,39 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title>Listado de Cursos </ion-title>
+    <ion-title class="ion-text-center">CURSOS </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<ion-list [inset]="true">
-  <div *ngIf="cursosProfe && cursosProfe.length > 0; else sinCursos">
-    <div *ngFor="let curso of cursosProfe; let i = index">
-      
-        <ion-item>
-          <ion-label>
-            <ion-accordion-group>
-              <ion-accordion value="first">
-                <ion-item slot="header" color="light">
-                  <ion-label>{{ curso.nomb_clase}}</ion-label>
-                </ion-item>
-                <div class="ion-padding" slot="content">
-                  <ion-button (click)="DetalleCurso(curso)" expand="block">Ver detalles <ion-icon slot="end" name="filter-outline"></ion-icon> </ion-button>
-                </div>
-              </ion-accordion>
-            </ion-accordion-group>
-          </ion-label>
+
+  <!-- Botón para agregar curso -->
+  <ion-button expand="block" class="boton ion-padding" routerLink="/agregar-clase">
+    Agregar Curso
+  </ion-button>
+
+  <ion-list [inset]="true">
+    <ion-title mode="md" class="ion-text-center">Listado de Cursos</ion-title>
+    <div *ngIf="cursosProfe && cursosProfe.length > 0; else sinCursos">
+      <div *ngFor="let curso of cursosProfe; let i = index">
+        
+        <ion-item class="item-boton">
+          <!-- Nombre de la clase -->
+          <ion-label>{{ curso.nomb_clase }}</ion-label>
+  
+          <!-- Botón con ícono de información al lado derecho -->
+          <ion-button fill="clear" slot="end" (click)="DetalleCurso(curso)" class="icono-info">
+            <ion-icon name="information-circle"></ion-icon>
+          </ion-button>
         </ion-item>
-      
+        
+      </div>
     </div>
-  </div>
-  <ion-button expand="block" class="ion-padding" routerLink="/agregar-clase"> Agregar Curso </ion-button>
-</ion-list>
+  
+  </ion-list>
+  
+  
+  
+  
 </ion-content>
 
 <ng-template #sinCursos>
