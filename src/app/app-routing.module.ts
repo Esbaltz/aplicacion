@@ -48,10 +48,7 @@ const routes: Routes = [
     path: 'cambiar-ps',
     loadChildren: () => import('./pages/cambiar-ps/cambiar-ps.module').then( m => m.CambiarPsPageModule)
   },
-  {
-    path: 'camera',
-    loadChildren: () => import('./pages/camera/camera.module').then( m => m.CameraPageModule)
-  },
+
   {
     path: 'registro',
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
