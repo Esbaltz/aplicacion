@@ -27,10 +27,6 @@ const routes: Routes = [
     path: 'asistencias',
     loadChildren: () => import('./pages/asistencias/asistencias.module').then( m => m.AsistenciasPageModule)
   },
-  {
-    path: 'ayuda',
-    loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
-  },
 
   {
     path: 'asistencia-prof',
@@ -61,17 +57,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
-    path: 'prueba',
-    loadChildren: () => import('./pages/prueba/prueba.module').then( m => m.PruebaPageModule)
-  },
-  {
     path: 'agregar-clase',
     loadChildren: () => import('./pages/agregar-clase/agregar-clase.module').then( m => m.AgregarClasePageModule)
   },
   {
     path: 'detalle-clase/:id',
     loadChildren: () => import('./pages/detalle-clase/detalle-clase.module').then( m => m.DetalleClasePageModule)
-  },  {
+  },
+  {
     path: 'cursos-alumno',
     loadChildren: () => import('./pages/cursos-alumno/cursos-alumno.module').then( m => m.CursosAlumnoPageModule)
   },

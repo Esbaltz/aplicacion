@@ -22,7 +22,7 @@ export class RegistroPage implements OnInit {
     id_usuario: this.firestoreService.createIdDoc()
   }
 
-  passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_(),.?":{}|<>]).{8,}$/;
+  passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_(),.?":{}|<>°]).{8,}$/;
 
   
   cargando : boolean = false

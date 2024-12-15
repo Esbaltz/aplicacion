@@ -3,48 +3,46 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/asistencia-prof"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ CursoCargado.nomb_clase}}</ion-title>
+    <ion-title>{{ CursoCargado.nomb_clase }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button expand="block" class="ion-padding" (click)="mostrarAlerta()">AGREGAR UNA CLASE</ion-button>
+  <!-- Condicional para mostrar el botón solo si no hay clase hoy -->
+  <ion-button *ngIf="mostrarBoton" expand="block" class="ion-padding" (click)="mostrarAlerta()">AGREGAR UNA CLASE</ion-button>
+  
   <ion-list lines="full">
     <div *ngIf="sesionesProfe && sesionesProfe.length > 0; else sinSesiones">
       <div *ngFor="let sesion of sesionesProfe">
-          <ion-item>
-            <ion-label>
-              <ion-accordion-group>
-                <ion-accordion value="first">
-                  <ion-item slot="header" color="light">
-                    <ion-label>Fecha : {{ formatFecha(sesion.fecha_hora)}}
-                      
-                    </ion-label>
-                  </ion-item>
+        <ion-item>
+          <ion-label>
+            <ion-accordion-group>
+              <ion-accordion value="first">
+                <ion-item slot="header" color="light">
+                  <ion-label>Fecha : {{ formatFecha(sesion.fecha_hora) }}</ion-label>
+                </ion-item>
 
-                  <div class="ion-padding" slot="content">
-                    <div *ngFor="let asistencia of asistenciasProfe">
-
-                      <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
-                        <div style="display: flex; justify-content: space-between;">
-                          <ion-label>{{ asistencia.nombre }} {{ asistencia.apellido }}</ion-label>
-                          <span >
-                            {{ asistencia.estado }}
-                          </span>
-                        </div>
-                        <br>
+                <div class="ion-padding" slot="content">
+                  <div *ngFor="let asistencia of asistenciasProfe">
+                    <div *ngIf="asistencia.id_sesion === sesion.id_sesion">
+                      <div style="display: flex; justify-content: space-between;">
+                        <ion-label>{{ asistencia.nombre }} {{ asistencia.apellido }}</ion-label>
+                        <span>{{ asistencia.estado }}</span>
                       </div>
-
+                      <br>
                     </div>
                   </div>
-                </ion-accordion>
-                <ion-button (click)="QrXsesion(sesion)" size="full"> Codigo de la clase -> <ion-icon name="qr-code-outline"></ion-icon></ion-button> 
-              </ion-accordion-group>
-            </ion-label>
-          </ion-item>
-        </div>
+                </div>
+              </ion-accordion>
+              <ion-button (click)="QrXsesion(sesion)" size="full">
+                Codigo de la clase -> <ion-icon name="qr-code-outline"></ion-icon>
+              </ion-button>
+            </ion-accordion-group>
+          </ion-label>
+        </ion-item>
       </div>
-    </ion-list>
+    </div>
+  </ion-list>
 </ion-content>
 
 <ng-template #sinSesiones>
@@ -53,7 +51,5 @@
 </ng-template>
 
 <ion-footer>
-  <ion-toolbar color="primary">
-
-  </ion-toolbar>
+  <ion-toolbar color="primary"></ion-toolbar>
 </ion-footer>

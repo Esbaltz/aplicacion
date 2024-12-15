@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <br>
   <ion-card class="custom-card">
     <form #ClaseForm="ngForm" (ngSubmit)="AgregarCurso(ClaseForm)">
       <ion-card-header>
@@ -16,6 +15,7 @@
       </ion-card-header>
 
       <ion-card-content>
+        <!-- Nombre del Curso -->
         <ion-item>
           <ion-label position="floating">Nombre del Curso</ion-label>
           <ion-input 
@@ -34,28 +34,44 @@
           </ion-text>
         </ion-item>
 
+        <!-- Descripción del Curso -->
         <ion-item>
           <ion-label position="floating">Descripción del Curso</ion-label>
-          <ion-input minlength="1" name="descripcionCurso" required [(ngModel)]="NuevoCurso.descripcion" clearInput></ion-input>
+          <ion-input 
+            minlength="1" 
+            name="descripcionCurso" 
+            required 
+            [(ngModel)]="NuevoCurso.descripcion" 
+            clearInput>
+          </ion-input>
         </ion-item>
 
+        <!-- Semestre -->
         <ion-item lines="none">
           <ion-label>Semestre:</ion-label>
           <ion-text color="primary">
-            <strong>{{ this.NuevoCurso.semestre }}</strong>
+            <strong>{{ NuevoCurso.semestre }}</strong>
           </ion-text>
         </ion-item>
 
-        <ion-item lines="none">
-          <ion-label position="floating" >Seccion numero:</ion-label>
-          <ion-input type="number" name="sessionNumeroCurso" required [(ngModel)]="NuevoCurso.seccion_num" clearInput></ion-input>
+        <!-- Sección Número -->
+        <ion-item>
+          <ion-label position="floating">Sección Número:</ion-label>
+          <ion-input 
+            type="number" 
+            name="sessionNumeroCurso" 
+            required 
+            [(ngModel)]="NuevoCurso.seccion_num" 
+            clearInput>
+          </ion-input>
         </ion-item>
 
-        <ion-item lines="none">
-          <ion-label position="floating">Sección letra:</ion-label>
+        <!-- Sección Letra -->
+        <ion-item>
+          <ion-label position="floating">Sección Letra:</ion-label>
           <ion-input 
             maxlength="1" 
-            name="descripcionCurso" 
+            name="seccionLetra" 
             required 
             [(ngModel)]="NuevoCurso.seccion_letra" 
             clearInput
@@ -70,22 +86,32 @@
           </ion-text>
         </ion-item>
 
+        <!-- Profesor -->
         <ion-item lines="none">
           <ion-label>Profesor:</ion-label>
           <ion-text>
-            <strong>{{ this.NuevoCurso.nomb_docente }}</strong>
+            <strong>{{ NuevoCurso.nomb_docente }}</strong>
           </ion-text>
         </ion-item>
-        
       </ion-card-content>
 
-      <ion-button class="ion-padding" type="submit" color="primary" [disabled]="ClaseForm.invalid">Agregar Curso</ion-button>
-      <ion-button class="ion-padding" routerLink="/tabs/cursos" color="danger">Cancelar</ion-button>
-
+      <!-- Botones -->
+      <ion-footer>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <!-- Botón de Agregar Curso con fondo visible -->
+            <ion-button class="ion-padding" type="submit" color="secondary" fill="solid" [disabled]="ClaseForm.invalid">
+              Agregar Curso
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <!-- Botón de Cancelar con fondo visible -->
+            <ion-button class="ion-padding" routerLink="/tabs/cursos" color="danger" fill="solid">
+              Cancelar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
     </form>
   </ion-card>
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar color="primary"></ion-toolbar>
-</ion-footer>
