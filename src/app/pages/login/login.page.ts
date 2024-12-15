@@ -28,8 +28,12 @@ export class LoginPage implements OnInit {
   showPassword: boolean = false;
 
   usuario : Usuario[] = [];
-  constructor(private db:LocaldbService, public router:Router, private toastController:ToastController ,
-    private firestoreService : FireStoreService , public sesion : sesionService , private alertctrl:AlertController
+  constructor(private db:LocaldbService, 
+              public router:Router, 
+              private toastController:ToastController ,
+              private firestoreService : FireStoreService , 
+              public sesion : sesionService , 
+              private alertctrl:AlertController
   ) { }
 
   ngOnInit() {

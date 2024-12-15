@@ -24,11 +24,50 @@
   --background: #000;
   --color: white;
   --border-radius: 14px; 
-  --padding-start: 12px; 
-  --padding-end: 12px; 
-  --height: 40px; 
-  font-size: 14px; 
+  --padding-start: 20px;  /* Padding lateral más flexible */
+  --padding-end: 20px;    /* Padding lateral más flexible */
+  --height: 48px;         /* Altura más adecuada */
+  font-size: 1.1rem;      /* Usar rem para la fuente */
+  width: 100%;            /* Hace que el botón ocupe todo el ancho disponible */
 }
+
+.submit-button ion-button {
+  height: 48px;           /* Asegura que el botón sea consistente */
+  font-size: 1.1rem;      /* Asegura que el texto sea más grande y flexible */
+  width: 100%;            /* Asegura que el botón ocupe todo el espacio disponible */
+}
+
+/* Media Query para dispositivos más pequeños */
+@media (max-width: 480px) {
+  .submit-button {
+    --padding-start: 16px;  /* Ajusta el padding para pantallas más pequeñas */
+    --padding-end: 16px;    /* Ajusta el padding para pantallas más pequeñas */
+    --height: 45px;         /* Reducir un poco la altura */
+    font-size: 1rem;        /* Disminuye el tamaño de la fuente */
+  }
+
+  .submit-button ion-button {
+    height: 45px;           /* Ajuste consistente */
+    font-size: 1rem;        /* Ajuste consistente */
+  }
+}
+
+/* Media Query para pantallas más grandes */
+@media (min-width: 768px) {
+  .submit-button {
+    --padding-start: 30px;  /* Más padding para pantallas más grandes */
+    --padding-end: 30px;    /* Más padding para pantallas más grandes */
+    --height: 60px;         /* Botones más altos en pantallas grandes */
+    font-size: 1.2rem;      /* Mayor tamaño de fuente en pantallas grandes */
+  }
+
+  .submit-button ion-button {
+    height: 60px;           /* Ajuste consistente */
+    font-size: 1.2rem;      /* Ajuste consistente */
+  }
+}
+
+
 
 .icono{
   color: #000;

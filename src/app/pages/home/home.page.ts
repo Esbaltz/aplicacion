@@ -62,6 +62,13 @@ export class HomePage implements OnInit {
     
   }
 
+  checkNetworkConnection() {
+    // Cada vez que la red se restablezca, verificamos si hay escaneos pendientes
+    window.addEventListener('online', () => {
+      this.syncLocalDataWithFirebase();  // Sincronizamos cuando se reconecte
+    });
+  }
+
   async scan(): Promise<void> {
     const granted = await this.requestPermissions();
     if (!granted) {
@@ -137,6 +144,32 @@ export class HomePage implements OnInit {
   
       await this.firestoreService.guardarAsistencia(asistenciaData);
       this.QRescaneado('top');
+    }
+  }
+
+  async saveOfflineData(id_sesion: string, fecha_hora: string) {
+    // Guardamos la asistencia escaneada de forma local para cuando haya conexión
+    const offlineData = await this.db.obtener('offlineAsistencias') || [];
+    offlineData.push({ id_sesion, fecha_hora });
+    await this.db.guardar('offlineAsistencias', offlineData);
+    this.presentToast('No hay conexión. Los datos se guardaron localmente.');
+  }
+
+  async syncLocalDataWithFirebase() {
+    // Comprobamos si hay datos guardados localmente que necesitan sincronizarse
+    const offlineData = await this.db.obtener('offlineAsistencias');
+    if (offlineData && offlineData.length > 0) {
+      for (let data of offlineData) {
+        const { id_sesion, fecha_hora } = data;
+        try {
+          await this.registerAttendance(id_sesion, fecha_hora);
+        } catch (error) {
+          console.error('Error al sincronizar la asistencia:', error);
+        }
+      }
+      // Una vez sincronizados, limpiamos los datos locales
+      await this.db.guardar('offlineAsistencias', []);
+      this.presentToast('Datos sincronizados con éxito.');
     }
   }
   

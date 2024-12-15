@@ -8,6 +8,7 @@ import { LocaldbService } from 'src/app/services/localdb.service';
 import { AlertController, AlertInput, ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { NetworkService } from 'src/app/services/network.service';
+import { Timestamp } from '@angular/fire/firestore';
 
 
 @Component({
@@ -103,6 +104,9 @@ export class ListaPage implements OnInit {
       },
     ];
   }
+
+  today: string = new Date().toISOString().split('T')[0];  // Fecha de hoy en formato 'yyyy-MM-dd'
+  mostrarBoton: boolean = true;
  
   isModalOpen = false;
 
@@ -115,25 +119,57 @@ export class ListaPage implements OnInit {
                private networkService: NetworkService) {
     this.userId = this.sesion.getUser()?.id_usuario; 
 
-    this.loadasistencia();
   }
 
-  async ngOnInit( ) {
+  async ngOnInit() {
     const ClaseId = this.route.snapshot.paramMap.get('id');
     if (ClaseId) {
       this.cargarCurso(ClaseId);
+      this.CargarSesiones(); // Cargar sesiones
+      this.loadasistencia();
     }
-    this.CargarSesiones()
-
+  
     if (this.networkService.isConnected()) {
+      console.log('Conectado a Internet');
+    } else {
+      console.log('No tienes conexion');
+      await this.CargarSesionesDeLocal();
+      await this.CargarAsistenciasDeLocal();
     }
-    else {
-      console.log('No tienes conexion')
-      await this.CargarSesionesDeLocal()
-      await this.CargarAsistenciasDeLocal()
-    }
+    
+    // Asegúrate de que las sesiones estén cargadas antes de verificar la clase de hoy
+    await this.checkClaseHoy();
   }
+  
 
+  checkClaseHoy() {
+    const today = new Date().toISOString().split('T')[0]; // Fecha de hoy en formato 'yyyy-MM-dd'
+  
+    console.log("Fecha actual (today):", today);  // Verifica la fecha de hoy
+  
+    const claseHoy = this.sesionesProfe.some(sesion => {
+      let fechaSesion: string;
+  
+      if (sesion.fecha_hora instanceof Date) {
+        fechaSesion = new Date(sesion.fecha_hora).toISOString().split('T')[0];
+      } else if (sesion.fecha_hora instanceof Timestamp) {
+        fechaSesion = new Date(sesion.fecha_hora.seconds * 1000).toISOString().split('T')[0];
+      } else {
+        fechaSesion = '';
+      }
+  
+      console.log("Fecha de sesión:", fechaSesion);  // Verifica la fecha de la sesión
+  
+      return fechaSesion === today;  // Compara solo la fecha sin la hora
+    });
+  
+    console.log("Clase hoy:", claseHoy);  // Verifica si se encontró una clase hoy
+  
+    this.mostrarBoton = !claseHoy;  // Si hay clase hoy, ocultar el botón
+    console.log("Estado de mostrarBoton después de la verificación:", this.mostrarBoton);  // Verifica el valor de mostrarBoton
+  }
+  
+  
 
   formatFecha(timestamp: any): string {
     if (timestamp && timestamp.seconds) {
@@ -143,25 +179,7 @@ export class ListaPage implements OnInit {
     return ''; 
   }
 
-  formatHora(timestamp: any): string {
-    if (timestamp && timestamp.seconds) {
-      const date = new Date(timestamp.seconds * 1000); 
-      return this.datePipe.transform(date, 'HH:mm')!;
-    }
-    return ''; 
-  }
 
-   formatoFecha(fecha: Date): string {
-    const dia: number = fecha.getDate();
-    const mes: number = fecha.getMonth() + 1;  
-    const año: number = fecha.getFullYear();
-  
-    const diaFormateado: string = String(dia).padStart(2, '0');
-    const mesFormateado: string = String(mes).padStart(2, '0');
-  
-    // Retornar la fecha en el formato 'DD/MM/YYYY'
-    return `${diaFormateado}/${mesFormateado}/${año}`;
-  }
 
   loadasistencia() {
     // Se cargan todos los usuarios
@@ -229,6 +247,8 @@ export class ListaPage implements OnInit {
               //console.log(data)
               this.sesionesProfe = data.filter(sesion => SesionIds.includes(sesion.id_sesion));
               console.log('Sesiones de esta clase =>',this.sesionesProfe)
+
+              this.checkClaseHoy();
 
               if (this.sesionesProfe.length > 1) {
                 this.GuardarSesionesDelLocal(this.sesionesProfe);

@@ -47,7 +47,7 @@ export class AgregarClasePage implements OnInit {
       console.log('Nuevo curso Creado !')
       form.resetForm(); 
       this.router.navigate(['/tabs/cursos'] );
-      this.NewCurso('bottom')
+      this.NewCurso('top')
     }
   }
 

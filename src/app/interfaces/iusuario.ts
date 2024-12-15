@@ -1,3 +1,5 @@
+import { Timestamp } from "@angular/fire/firestore"
+
 export interface Usuario{
     correo:string
     password:string
@@ -25,7 +27,7 @@ export interface Clases{
 }
 
 export interface Sesiones {
-    fecha_hora : Date
+    fecha_hora : Date | Timestamp
     id_clase : any
     qr_code : string
     id_sesion : string

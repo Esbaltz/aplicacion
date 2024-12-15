@@ -15,11 +15,13 @@ export class CuentaPage implements OnInit {
   constructor(private router: Router, private sesion : sesionService , ) { }
 
   ngOnInit() {
+    
   }
 
   cerrarSesion() {
     // Lógica de cierre de sesión (por ejemplo, eliminar token de sesión)
     this.router.navigate(['/login']); // Redirigir a la página de login
+    this.sesion.logout()
   }
 
 
