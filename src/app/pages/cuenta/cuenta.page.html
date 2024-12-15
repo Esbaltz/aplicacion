@@ -1,13 +1,34 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>cuenta</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">CUENTA</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cuenta</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <div class="header-content">
+        <!-- Ícono al lado del nombre del usuario -->
+        <ion-card-title>{{ user?.nombre }} {{ user?.apellido }}</ion-card-title>
+      </div>
+      <ng-container>
+        <ion-card-subtitle>{{ user?.rol }}</ion-card-subtitle>
+      </ng-container>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label><strong>Correo:</strong></ion-label>
+          <ion-note slot="end">{{ user?.correo }}</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+    <!-- Botón de Cerrar Sesión -->
+    <div class="cerrar-sesion">
+      <ion-button expand="full" color="danger" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
+    </div>
+  </ion-card>
 </ion-content>
+

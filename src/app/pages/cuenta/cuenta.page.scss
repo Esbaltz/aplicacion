@@ -1,0 +1,24 @@
+.cerrar-sesion {
+    margin-top: 16px; /* Margen superior para separar el botón del contenido */
+    padding: 0 16px 16px 16px; /* Margen inferior para darle espacio al pie de la tarjeta */
+  }
+
+  ion-card{
+    margin-top: 20px;
+  }
+
+  /* Asegurando que el contenedor tenga un comportamiento de flexbox */
+.header-content {
+    display: flex;
+    align-items: center;  /* Alinea verticalmente el ícono con el texto */
+    gap: 10px;            /* Espacio entre el ícono y el nombre */
+  }
+  
+  ion-card-title {
+    margin: 0;            /* Evita márgenes extra que puedan afectar la alineación */
+  }
+  
+  ion-icon {
+    color: #ffffff;       /* Opcional, cambia el color del ícono */
+  }
+  

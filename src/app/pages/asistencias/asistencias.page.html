@@ -55,3 +55,11 @@
   <br>
   <ion-text class="ion-padding"> No hay clases dictadas </ion-text>
 </ng-template>
+
+<div class="bottom-buttons">
+  <ng-container>
+    <ion-button (click)="scan()" [disabled]="!isSupported">
+      <ion-icon name="qr-code-outline"></ion-icon>
+    </ion-button>
+  </ng-container>
+  </div>
