@@ -21,8 +21,9 @@ export class CuentaPage implements OnInit {
   cerrarSesion() {
     // Lógica de cierre de sesión (por ejemplo, eliminar token de sesión)
     this.router.navigate(['/login']); // Redirigir a la página de login
+    //location.reload(); 
     this.sesion.logout()
-  }
 
+  }
 
 }

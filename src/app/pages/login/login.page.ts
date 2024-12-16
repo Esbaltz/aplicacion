@@ -37,7 +37,6 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.reloadPage();
     if (this.sesion.isLoggedIn()) {
       // this.router.navigate(['/perfil']);
     } else {
